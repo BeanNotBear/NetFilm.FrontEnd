@@ -1,0 +1,44 @@
+div h1  {
+  cursor: pointer;
+}
+
+h1 span {
+  color: var(--red);
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0;
+}
+
+/* Change background color of dropdown items on hover */
+.dropdown-item:hover {
+  background-color: var(--red);
+  color: var(--white); /* Optional: ensures text is readable on red background */
+}
+
+/* Optional: change the color of the nav-link on hover for consistency */
+.nav-link:hover {
+  color: #e53637;
+}
+
+.nav-item {
+  margin: 0 30px;
+}
+
+.nav-item:hover {
+  background-color: var(--red);
+}
+
+.action i {
+  font-size: 1.5rem; /* Increase icon size */
+  margin: 0 10px; /* Add space between icons */
+  transition: color 0.3s ease; /* Smooth color transition */
+  cursor: pointer;
+}
+
+/* Optional: Add a hover effect */
+.action i:hover {
+  color: var(--red); /* Change color on hover */
+}
+
