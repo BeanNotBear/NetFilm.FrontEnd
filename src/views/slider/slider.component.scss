@@ -52,8 +52,15 @@
 button {
   background-color: unset;
   border: unset;
+  width: 40px;
 }
 
 button i {
-  font-size: 50px;
+  font-size: 30px;
+  transition: 0.2s;
+}
+
+button i:hover {
+  color: red;
+  transform: scale(1.2);
 }

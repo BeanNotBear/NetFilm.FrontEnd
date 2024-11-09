@@ -6,6 +6,14 @@ h1 span {
   color: var(--red);
 }
 
+.dropdown-menu {
+  background-color: var(--black);
+}
+
+.dropdown-item:focus {
+  background-color: var(--red);
+}
+
 .nav-item.dropdown:hover .dropdown-menu {
   display: block;
   margin-top: 0;

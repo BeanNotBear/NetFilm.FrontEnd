@@ -1,0 +1,22 @@
+.movie-area {
+  margin: 50px 0;
+}
+
+.action {
+  display: flex;
+  justify-content: space-between;
+}
+
+.action p {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.action p:hover {
+  color: var(--red);
+  transform: scale(1.1);
+}
+
+i {
+  color: inherit;
+}
