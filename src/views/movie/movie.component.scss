@@ -1,0 +1,15 @@
+.movie {
+  width: 100%;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.movie img {
+  width: 100%;
+  border-radius: inherit;
+}
+
+.movie:hover {
+  transform: scale(1.1);
+}

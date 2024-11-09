@@ -1,5 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SlideItem } from "../../models/slider.interfaces";
+import {Component, AfterViewInit} from '@angular/core';
 
 @Component({
   selector: 'app-slider',
@@ -8,55 +7,69 @@ import { SlideItem } from "../../models/slider.interfaces";
   templateUrl: './slider.component.html',
   styleUrl: './slider.component.scss'
 })
-export class SliderComponent implements OnInit, OnDestroy {
-  slides: SlideItem[] = [
-    { image: 'https://d2iq2ti9djrztg.cloudfront.net/lighthouse-night-3840x2160-9466.jpg', name: 'Switzsdfrsdfsdfsdfsdfsdfsdfsfs sdfhsdfhjshdf sdhfjsderland', description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!' },
-    { image: 'https://orangecubeproject.com/wp-content/uploads/2021/01/210109_HORIZONTAL_NAMES.jpg', name: 'Finland', description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!' },
-    { image: 'https://wallpapers.com/images/hd/fantastic-beasts-and-where-to-find-them-horizontal-poster-86utad5c6nr65k54.jpg', name: 'Iceland', description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!' },
-    { image: 'https://i.ebayimg.com/images/g/IUsAAOSwppBlLU6E/s-l1200.jpg', name: 'Australia', description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!' },
-    { image: 'https://pursuitofitall.com/wp-content/uploads/2016/02/the-revenant-movie-poster-horizontal.jpg', name: 'Netherland', description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!' },
-    { image: 'https://pbs.twimg.com/media/D2jvOdmUgAALnnx.jpg', name: 'Ireland', description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!' }
+
+export class SliderComponent implements AfterViewInit{
+  slides = [
+    {title: 'Slide 1', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
+    { title: 'Slide 2', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
+    { title: 'Slide 3', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
+    { title: 'Slide 4', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
+    { title: 'Slide 5', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
+    { title: 'Slide 6', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
+    { title: 'Slide 7', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
+    { title: 'Slide 7', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
+    { title: 'Slide 7', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
+    { title: 'Slide 7', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'}
   ];
 
-  buttonPause = "fa-solid fa-pause";
+  active = 3;
 
-  private intervalId: any = null;
-
-  ngOnInit(): void {
-    // Start interval to call onNext every 3 seconds
-    this.intervalId = setInterval(() => this.onNext(), 5000);
+  ngAfterViewInit(): void {
+    this.loadShow();
   }
 
-  ngOnDestroy(): void {
-    // Clear interval when component is destroyed
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
+  loadShow() {
+    const items = document.querySelectorAll('.slider .item') as NodeListOf<HTMLElement>;
+    let stt = 0;
+    items[this.active].style.transform = `none`;
+    items[this.active].style.zIndex = '1';
+    items[this.active].style.filter = 'none';
+    items[this.active].style.opacity = '1';
+    items[this.active].style.transform = 'scale(1.2)';
+
+    for (let i = this.active + 1; i < items.length; i++) {
+      stt++;
+      items[i].style.transform = `translateX(${120 * stt}px) scale(${1 - 0.2 * stt}) perspective(16px) rotateY(-1deg)`;
+      items[i].style.zIndex = `-${stt}`;
+      items[i].style.filter = 'blur(5px)';
+      items[i].style.opacity = stt > 3 ? '0' : '0.6';
+    }
+
+    stt = 0;
+    for (let i = this.active - 1; i >= 0; i--) {
+      stt++;
+      items[i].style.transform = `translateX(${-120 * stt}px) scale(${1 - 0.2 * stt}) perspective(16px) rotateY(1deg)`;
+      items[i].style.zIndex = `-${stt}`;
+      items[i].style.filter = 'blur(5px)';
+      items[i].style.opacity = stt > 3 ? '0' : '0.6';
     }
   }
 
-  onNext(): void {
-    const [firstSlide, ...rest] = this.slides;
-    this.slides = [...rest, firstSlide];
-  }
-
-  onPrev(): void {
-    const lastSlide = this.slides[this.slides.length - 1];
-    const rest = this.slides.slice(0, -1);
-    this.slides = [lastSlide, ...rest];
-  }
-
-  getItemClass(index: number): string {
-    return index === 0 || index === 1 ? 'full-width' : '';
-  }
-
-  onSlider() {
-    if(this.intervalId !== null) {
-      clearInterval(this.intervalId);
-      this.intervalId = null;
-      this.buttonPause = "fa-solid fa-play"
-    } else {
-      this.intervalId = setInterval(() => this.onNext(), 5000);
-      this.buttonPause = "fa-solid fa-pause"
+  nextSlide() {
+    if (this.active < this.slides.length - 1) {
+      this.active++;
+      this.loadShow();
     }
+  }
+
+  prevSlide() {
+    if (this.active > 0) {
+      this.active--;
+      this.loadShow();
+    }
+  }
+
+  onClick() {
+    alert('Clicked');
   }
 }
