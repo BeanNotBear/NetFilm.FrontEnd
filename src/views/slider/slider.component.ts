@@ -10,7 +10,7 @@ import { SlideItem } from "../../models/slider.interfaces";
 })
 export class SliderComponent implements OnInit, OnDestroy {
   slides: SlideItem[] = [
-    { image: 'https://m.media-amazon.com/images/I/816A4jWNyRL._AC_UF894,1000_QL80_.jpg', name: 'Switzsdfrsdfsdfsdfsdfsdfsdfsfs sdfhsdfhjshdf sdhfjsderland', description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!' },
+    { image: 'https://d2iq2ti9djrztg.cloudfront.net/lighthouse-night-3840x2160-9466.jpg', name: 'Switzsdfrsdfsdfsdfsdfsdfsdfsfs sdfhsdfhjshdf sdhfjsderland', description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!' },
     { image: 'https://orangecubeproject.com/wp-content/uploads/2021/01/210109_HORIZONTAL_NAMES.jpg', name: 'Finland', description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!' },
     { image: 'https://wallpapers.com/images/hd/fantastic-beasts-and-where-to-find-them-horizontal-poster-86utad5c6nr65k54.jpg', name: 'Iceland', description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!' },
     { image: 'https://i.ebayimg.com/images/g/IUsAAOSwppBlLU6E/s-l1200.jpg', name: 'Australia', description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!' },
