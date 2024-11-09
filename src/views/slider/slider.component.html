@@ -20,6 +20,9 @@
     <button class="prev" (click)="onPrev()">
       <i class="fa-solid fa-arrow-left"></i>
     </button>
+    <button class="prev" (click)="onSlider()">
+      <i [class]="buttonPause"></i>
+    </button>
     <button class="next" (click)="onNext()">
       <i class="fa-solid fa-arrow-right"></i>
     </button>
