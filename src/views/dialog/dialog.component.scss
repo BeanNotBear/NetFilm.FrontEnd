@@ -1,0 +1,30 @@
+dialog {
+  width: 675px;
+  height: 580px;
+  border-radius: 10px;
+  background-color: var(--red);
+  opacity: 1;
+  background-size: cover;
+  border: unset;
+
+}
+
+.x-mark {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  left: 100%;
+  transform: translateX(-100%);
+}
+
+.x-mark i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.x-mark:hover {
+  background-color: #6c757d;
+}
