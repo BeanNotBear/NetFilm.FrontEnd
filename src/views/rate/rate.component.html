@@ -1,0 +1,9 @@
+<div class="rate">
+  <nz-rate
+    [nzDisabled]="disable"
+    [nzAllowHalf]="allowHalf"
+    [(ngModel)]="rate"></nz-rate>
+  @if (disable) {
+    <span>({{totalRate}}/5)</span>
+  }
+</div>

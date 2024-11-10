@@ -1,6 +1,19 @@
-<dialog open="true">
-  <div class="x-mark"><i class="fa-solid fa-x"></i></div>
-  <div class="dialog-image">
-    <img src="https://phimmoiday.net/wp-content/uploads/2024/11/ngay-em-dep-nhat-98264-1-300x450.jpg" alt="">
+<dialog [open]="isOpen">
+  <div class="x-mark" (click)="onClose()"><i class="fa-solid fa-x"></i></div>
+  <div class="movie-info">
+    <div class="dialog-image">
+      <img src="https://phimmoiday.net/wp-content/uploads/2024/11/ngay-em-dep-nhat-98264-1-300x450.jpg" alt="">
+    </div>
+    <div>
+      <h3>Name</h3>
+      <app-rate [rate]="rate"
+        [allowHalf]="allowHalf"
+      ></app-rate>
+      <p>Description</p>
+    </div>
+  </div>
+  <div class="movie-action">
+    <button>Watch Now</button>
+    <button>View Detail</button>
   </div>
 </dialog>

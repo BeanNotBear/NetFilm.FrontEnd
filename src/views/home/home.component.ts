@@ -17,5 +17,12 @@ import {DialogComponent} from "../dialog/dialog.component";
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
+  isOpen = false;
+  onCloseDialog(isOpen: boolean) {
+    this.isOpen = isOpen;
+  }
 
+  onOpenDialog(isOpen: boolean) {
+    this.isOpen  = isOpen;
+  }
 }
