@@ -1,10 +1,12 @@
 <div class="container">
   <div class="slider">
-    <app-slider></app-slider>
+    <app-slider (openDialog)="onOpenDialog($event)"></app-slider>
   </div>
   <app-movie-area areaName="Most Views"></app-movie-area>
   <app-movie-area areaName="Most Rates"></app-movie-area>
   <app-movie-area areaName="New Release"></app-movie-area>
-  <app-dialog></app-dialog>
 </div>
+@if(isOpen) {
+  <app-dialog (closeDialog)="onCloseDialog($event)" [class.app-dialog-backdrop]="isOpen" [isOpen]="isOpen"></app-dialog>
+}
 

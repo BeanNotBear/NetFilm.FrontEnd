@@ -29,9 +29,15 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
               }
             ],
             "styles": [
+              "src/theme.less",
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/boxicons/css/boxicons.css",
               "src/styles.scss"

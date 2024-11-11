@@ -1,4 +1,4 @@
-import {Component, AfterViewInit} from '@angular/core';
+import {Component, AfterViewInit, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-slider',
@@ -21,6 +21,8 @@ export class SliderComponent implements AfterViewInit{
     { title: 'Slide 7', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
     { title: 'Slide 7', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'}
   ];
+
+  @Output() openDialog = new EventEmitter<boolean>();
 
   active = 3;
 
@@ -70,6 +72,6 @@ export class SliderComponent implements AfterViewInit{
   }
 
   onClick() {
-    alert('Clicked');
+    this.openDialog.emit(true);
   }
 }
