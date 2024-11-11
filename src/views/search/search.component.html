@@ -1,9 +1,8 @@
-<!--@if(isSearchVisible) {-->
-<!--  <div class="search-overlay">-->
-<!--    <div class="search-content">-->
-<!--      <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchQuery" (input)="onSearch()">-->
-<!--      <button (click)="closeSearch()" class="close-btn">X</button>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--}-->
-
+@if(isSearchVisible) {
+  <div class="search-overlay">
+    <div class="search-content">
+      <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchQuery" (input)="onSearch()">
+      <button (click)="closeSearch()" class="close-btn">X</button>
+    </div>
+  </div>
+}
