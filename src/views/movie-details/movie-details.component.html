@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="movie-details">
+    <div class="movie row">
+      <div class="movie-image col-lg">
+        <img src="https://image.tmdb.org/t/p/w185/gtmkmtldZhLZU2HrKok1L1VW73F.jpg" alt="">
+      </div>
+      <div class="movie-infor col-lg-9">
+        <div class="basic-infor">
+          <h3>Nam Lai Bắc Vãng</h3>
+          <div>
+            <p class="date-release">{{ formatReleaseDate() }}</p>
+            <p class="duration">118 min</p>
+            <p class="country">Vietnam</p>
+          </div>
+        </div>
+        <div class="rating">
+          <div class="rate-star">
+            <div class="rate">
+              <app-rate [allowHalf]="true"
+                        [disable]="true"
+                        [rate]="1.2"
+                        [totalRate]="1.2"></app-rate>
+              <div class="your-rate">Your rate: 5</div>
+            </div>
+            <div class="total-vote">
+              <i class="fa-solid fa-users"></i>
+              <span>123 Votes</span>
+            </div>
+          </div>
+        </div>
+        <div class="cate-action">
+          <div class="category">
+            <div><a href="">Adult</a></div>
+            <div class="vertical"></div>
+            <div><a href="">Action</a></div>
+            <div class="vertical"></div>
+            <div><a href="">Anime</a></div>
+          </div>
+          <div>
+            <button class="watch-now">Watch Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-tab></app-tab>
+    <hr>
+  </div>
+  <app-movie-sider></app-movie-sider>
+</div>
