@@ -8,6 +8,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import {FormsModule} from "@angular/forms";
 import {NzIconDirective} from "ng-zorro-antd/icon";
+import {NzButtonComponent, NzButtonSize} from "ng-zorro-antd/button";
 
 @Component({
   selector: 'app-table',
@@ -26,7 +27,8 @@ import {NzIconDirective} from "ng-zorro-antd/icon";
     NzTableModule,
     NzInputModule,
     FormsModule,
-    NzIconDirective
+    NzIconDirective,
+    NzButtonComponent
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
@@ -41,7 +43,7 @@ export class TableComponent {
   @Input() page = 1;
   @Input() pageSize = 10;
   @Input() totalRows = 0;
-
+  @Input() pageSizeOption: number[] = [10, 20, 30, 40, 50];
   @Output() pageIndexChange = new EventEmitter<number>();
   @Output() pageSizeChange = new EventEmitter<number>();
   @Output() searchChange = new EventEmitter<string>();

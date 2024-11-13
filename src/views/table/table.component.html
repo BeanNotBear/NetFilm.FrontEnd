@@ -1,59 +1,102 @@
 <nz-input-group [nzSuffix]="suffixIconSearch">
-  <input type="text" nz-input placeholder="input search text" [(ngModel)]="searchText" (ngModelChange)="onSearchTextChange($event)" />
+    <input type="text" nz-input placeholder="input search text" [(ngModel)]="searchText"
+           (ngModelChange)="onSearchTextChange($event)"/>
 </nz-input-group>
 
 <ng-template #suffixIconSearch>
-  <i nz-icon nzType="search"></i>
+    <i nz-icon nzType="search"></i>
 </ng-template>
 <br/>
 <br/>
 <nz-table
-  #table
-  nzShowSizeChanger
-  [nzLoading]="loading"
-  [nzData]="rows"
-  [nzPageIndex]="page"
-  [nzPageSize]="pageSize"
-  [nzTotal]="totalRows"
-  [nzFrontPagination]="clientPagination"
-  (nzPageIndexChange)="pageIndexChange.emit($event)"
-  (nzPageSizeChange)="pageSizeChange.emit($event)"
+    #table
+    nzShowSizeChanger
+    [nzLoading]="loading"
+    [nzData]="rows"
+    [nzPageIndex]="page"
+    [nzPageSize]="pageSize"
+    [nzTotal]="totalRows"
+    [nzFrontPagination]="clientPagination"
+    [nzScroll]="{ x: '1800px' }"
+    [nzPageSizeOptions]="pageSizeOption"
+    (nzPageIndexChange)="pageIndexChange.emit($event)"
+    (nzPageSizeChange)="pageSizeChange.emit($event)"
 >
-  <thead>
-  <tr>
-    <th *ngFor="let column of columns"
-        [nzShowSort]="column.sortable"
-        [nzSortOrder]="column.sortOrder"
-        [nzSortFn]="column.sortFn"
-        (nzSortOrderChange)="column.sortChange.emit({key: column.key, order: $event})"
+    <thead>
+    <tr>
+        @for (column of columns; track column) {
+            @if (column.header == 'Action') {
+                <th [nzShowSort]="column.sortable"
+                    [nzSortOrder]="column.sortOrder"
+                    [nzSortFn]="column.sortFn"
+                    (nzSortOrderChange)="column.sortChange.emit({key: column.key, order: $event})"
+                    [nzRight]="true"
+                >
+                    <ng-container *ngIf="column.tplHeader">
+                        <ng-container *ngTemplateOutlet="column.tplHeader.template"></ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="!column.tplHeader">
+                        {{ column.header }}
+                    </ng-container>
+                </th>
+            } @else {
+                <th [nzShowSort]="column.sortable"
+                    [nzSortOrder]="column.sortOrder"
+                    [nzSortFn]="column.sortFn"
+                    (nzSortOrderChange)="column.sortChange.emit({key: column.key, order: $event})"
+                    [nzRight]="false"
+                >
+                    <ng-container *ngIf="column.tplHeader">
+                        <ng-container *ngTemplateOutlet="column.tplHeader.template"></ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="!column.tplHeader">
+                        {{ column.header }}
+                    </ng-container>
+                </th>
+            }
+        }
 
-    >
-      <ng-container *ngIf="column.tplHeader">
-        <ng-container *ngTemplateOutlet="column.tplHeader.template"></ng-container>
-      </ng-container>
-      <ng-container *ngIf="!column.tplHeader">
-        {{ column.header }}
-      </ng-container>
-    </th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let data of table.data">
-    <td *ngFor="let column of columns">
-      <ng-container *ngIf="column.tplCell">
-        <ng-container *ngTemplateOutlet="column.tplCell.template; context: {$implicit: data}"></ng-container>
-      </ng-container>
-      <ng-container *ngIf="!column.tplCell">
-        <ng-container [ngSwitch]="column.dataType">
-          <ng-container *ngSwitchCase="COL_DATA_TYPE.DATE">
-            {{ data[column.key] | date }}
-          </ng-container>
-          <ng-container *ngSwitchDefault>
-            {{ data[column.key] }}
-          </ng-container>
-        </ng-container>
-      </ng-container>
-    </td>
-  </tr>
-  </tbody>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of table.data">
+        @for (column of columns; track column) {
+            @if (column.header == 'Action') {
+                <td [nzRight]="true">
+                    <ng-container *ngIf="column.tplCell">
+                        <ng-container
+                                *ngTemplateOutlet="column.tplCell.template; context: {$implicit: data}"></ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="!column.tplCell">
+                        <ng-container [ngSwitch]="column.dataType">
+                            <ng-container *ngSwitchCase="COL_DATA_TYPE.DATE">
+                                {{ data[column.key] | date }}
+                            </ng-container>
+                            <ng-container *ngSwitchDefault>
+                                {{ data[column.key] }}
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </td>
+            } @else {
+                <td [nzRight]="false">
+                    <ng-container *ngIf="column.tplCell">
+                        <ng-container
+                                *ngTemplateOutlet="column.tplCell.template; context: {$implicit: data}"></ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="!column.tplCell">
+                        <ng-container [ngSwitch]="column.dataType">
+                            <ng-container *ngSwitchCase="COL_DATA_TYPE.DATE">
+                                {{ data[column.key] | date }}
+                            </ng-container>
+                            <ng-container *ngSwitchDefault>
+                                {{ data[column.key] }}
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </td>
+            }
+        }
+    </tr>
+    </tbody>
 </nz-table>
