@@ -1,0 +1,11 @@
+<nz-tabset nzType="card">
+  @for(tab of tabs; track tab) {
+    <nz-tab [nzTitle]="tab.tabName">
+      @if (tab.templateContent) {
+        <ng-container *ngTemplateOutlet="tab.templateContent.template;"></ng-container>
+      } @else {
+        {{tab.tabName}}
+      }
+    </nz-tab>
+  }
+</nz-tabset>

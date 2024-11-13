@@ -1,6 +1,8 @@
 import {Routes} from '@angular/router';
 import {HomeComponent} from "../views/home/home.component";
 import {UserAdminComponent} from "../views/user-admin/user-admin.component";
+import {MovieDetailsComponent} from "../views/movie-details/movie-details.component";
+import {MovieWatchingComponent} from "../views/movie-watching/movie-watching.component";
 
 export const routes: Routes = [
   {
@@ -16,5 +18,15 @@ export const routes: Routes = [
     path: 'user-admin',
     title: ' User Admin',
     component: UserAdminComponent,
+  },
+  {
+    path: 'movie/details',
+    title: 'Movie Details',
+    component: MovieDetailsComponent
+  },
+  {
+    path: 'movie/watch',
+    title: 'Watch',
+    component: MovieWatchingComponent
   }
 ];
