@@ -4,6 +4,7 @@ import {UserAdminComponent} from "../views/user-admin/user-admin.component";
 import {MovieDetailsComponent} from "../views/movie-details/movie-details.component";
 import {MovieWatchingComponent} from "../views/movie-watching/movie-watching.component";
 import {MovieListComponent} from "../views/movie-list/movie-list.component";
+import {MovieAdminComponent} from "../views/movie-admin/movie-admin.component";
 
 export const routes: Routes = [
   {
@@ -32,8 +33,12 @@ export const routes: Routes = [
   },
   {
     path: 'user-admin',
-    title: ' User Admin',
+    title: 'User Admin',
     component: UserAdminComponent,
   },
-
+  {
+    path: 'movie-admin',
+    title: 'Movie Management',
+    component: MovieAdminComponent
+  }
 ];
