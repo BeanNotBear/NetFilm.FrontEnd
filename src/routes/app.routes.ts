@@ -6,7 +6,7 @@ import {MovieWatchingComponent} from "../views/movie-watching/movie-watching.com
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     title: 'Home',
     component: HomeComponent,
     // canActivate: [AuthGuard, RoleGuard],
