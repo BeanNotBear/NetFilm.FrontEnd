@@ -18,5 +18,20 @@
     <ngvn-column header="Email" key="email" [sortable]="true" (sortChange)="onSortChange($event)"></ngvn-column>
     <ngvn-column header="Phone Number" key="phoneNumber"></ngvn-column>
     <ngvn-column header="Role" key="roles"></ngvn-column>
+    <ngvn-column header="Action">
+      <ng-template appCell>
+        <td>
+          <button nz-button nzType="primary" [nzSize]="size" nzShape="round">
+            <i class="fa-regular fa-pen-to-square"></i>
+            Update
+          </button>
+          <nz-divider nzType="vertical"></nz-divider>
+          <button nz-button nzType="primary" [nzSize]="size" nzShape="round">
+            <i class="fa-regular fa-pen-to-square"></i>
+            Delete
+          </button>
+        </td>
+      </ng-template>
+    </ngvn-column>
   </app-table>
 }

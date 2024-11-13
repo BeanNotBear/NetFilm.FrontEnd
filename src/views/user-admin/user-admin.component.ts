@@ -5,14 +5,24 @@ import {TableComponent} from "../table/table.component";
 import {ApiService} from "../../api/api.service";
 import {PageResult} from "../../models/common/pageResult.model";
 import {UserDto} from "../../models/userDtos/userDto.model";
+import {CellDirective} from "../table/components/cell.directive";
+import {NzButtonComponent, NzButtonSize} from "ng-zorro-antd/button";
+import {NzTableCellDirective} from "ng-zorro-antd/table";
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import {HeaderDirective} from "../table/components/header.directive";
 
 @Component({
   selector: 'app-user-admin',
   standalone: true,
-    imports: [
-        ColumnDirective,
-        TableComponent
-    ],
+  imports: [
+    ColumnDirective,
+    TableComponent,
+    CellDirective,
+    NzButtonComponent,
+    NzTableCellDirective,
+    NzDividerModule,
+    HeaderDirective
+  ],
   templateUrl: './user-admin.component.html',
   styleUrl: './user-admin.component.scss'
 })
@@ -24,6 +34,7 @@ export class UserAdminComponent {
   COL_DATA_TYPE = COL_DATA_TYPE;
 
   loading = false;
+  size: NzButtonSize = 'small';
 
   pageIndex: number = 1;
   pageSize: number = 10;
