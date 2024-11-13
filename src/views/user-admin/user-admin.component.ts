@@ -34,7 +34,6 @@ export class UserAdminComponent {
   COL_DATA_TYPE = COL_DATA_TYPE;
 
   loading = false;
-  size: NzButtonSize = 'small';
 
   pageIndex: number = 1;
   pageSize: number = 10;

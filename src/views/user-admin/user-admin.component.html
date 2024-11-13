@@ -1,37 +1,45 @@
-@if (pageResult.totalItems > 0) {
-  <app-table
-    [rows]="pageResult.items"
-    [page]="pageResult.pageIndex"
-    [pageSize]="pageResult.pageSize"
-    [totalRows]="pageResult.totalItems"
-    [clientPagination]="false"
-    (pageIndexChange)="onPageIndexChange($event)"
-    (pageSizeChange)="onPageSizeChange($event)"
-    (searchChange)="onSearchChange($event)"
-    [loading]="loading"
-  >
+<div class="header-table">
+    <h3>User Manager</h3>
+    <button nz-button nzType="primary" nzSize="large" nzShape="round">
+        <i class="fa-regular fa-square-plus"></i>
+        Create
+    </button>
+</div>
+<br/>
+<app-table
+        [rows]="pageResult.items"
+        [page]="pageResult.pageIndex"
+        [pageSize]="pageResult.pageSize"
+        [totalRows]="pageResult.totalItems"
+        [clientPagination]="false"
+        (pageIndexChange)="onPageIndexChange($event)"
+        (pageSizeChange)="onPageSizeChange($event)"
+        (searchChange)="onSearchChange($event)"
+        [loading]="loading"
+>
     <ngvn-column header="ID" key="id"></ngvn-column>
-    <ngvn-column header="First Name" key="firstName" [sortable]="true" (sortChange)="onSortChange($event)"></ngvn-column>
+    <ngvn-column header="First Name" key="firstName" [sortable]="true"
+                 (sortChange)="onSortChange($event)"></ngvn-column>
     <ngvn-column header="Last Name" key="lastName" [sortable]="true" (sortChange)="onSortChange($event)"></ngvn-column>
-    <ngvn-column header="Date Of Birth" key="dateOfBirth" [dataType]="COL_DATA_TYPE.DATE" [sortable]="true" (sortChange)="onSortChange($event)"></ngvn-column>
+    <ngvn-column header="Date Of Birth" key="dateOfBirth" [dataType]="COL_DATA_TYPE.DATE" [sortable]="true"
+                 (sortChange)="onSortChange($event)"></ngvn-column>
     <ngvn-column header="User Name" key="userName" [sortable]="true" (sortChange)="onSortChange($event)"></ngvn-column>
     <ngvn-column header="Email" key="email" [sortable]="true" (sortChange)="onSortChange($event)"></ngvn-column>
     <ngvn-column header="Phone Number" key="phoneNumber"></ngvn-column>
     <ngvn-column header="Role" key="roles"></ngvn-column>
     <ngvn-column header="Action">
-      <ng-template appCell>
-        <td>
-          <button nz-button nzType="primary" [nzSize]="size" nzShape="round">
-            <i class="fa-regular fa-pen-to-square"></i>
-            Update
-          </button>
-          <nz-divider nzType="vertical"></nz-divider>
-          <button nz-button nzType="primary" [nzSize]="size" nzShape="round">
-            <i class="fa-regular fa-pen-to-square"></i>
-            Delete
-          </button>
-        </td>
-      </ng-template>
+        <ng-template appCell>
+            <td>
+                <button nz-button nzType="primary" nzSize="small" nzShape="round">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    Update
+                </button>
+<!--                <nz-divider nzType="vertical"></nz-divider>-->
+<!--                <button nz-button nzType="primary" nzSize="small" nzShape="round" nzDanger>-->
+<!--                    <i class="fa-regular fa-trash-can"></i>-->
+<!--                    Delete-->
+<!--                </button>-->
+            </td>
+        </ng-template>
     </ngvn-column>
-  </app-table>
-}
+</app-table>
