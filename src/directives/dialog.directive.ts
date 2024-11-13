@@ -1,4 +1,4 @@
-import {ContentChild, Directive, Input} from '@angular/core';
+import {ContentChild, Directive, EventEmitter, Input, Output} from '@angular/core';
 import {DialogTitleDirective} from "./dialog-title.directive";
 import {DialogContentDirective} from "./dialog-content.directive";
 import {Dialog} from "@angular/cdk/dialog";
@@ -12,7 +12,7 @@ export class DialogDirective {
   @Input() key = '';
   @ContentChild(DialogTitleDirective, {static: true}) templateHeader!: DialogTitleDirective;
   @ContentChild(DialogContentDirective, {static: true}) templateContent!: DialogContentDirective;
-
+  @Output() onSubmit = new EventEmitter();
   constructor() {
   }
 
