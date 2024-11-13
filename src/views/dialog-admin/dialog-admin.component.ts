@@ -1,16 +1,20 @@
-import {Component} from '@angular/core';
+import {Component, ContentChild, ContentChildren, Input, QueryList} from '@angular/core';
 import {NzModalModule} from 'ng-zorro-antd/modal';
+import {DialogDirective} from "../../directives/dialog.directive";
+import {NgTemplateOutlet} from "@angular/common";
 
 @Component({
   selector: 'app-dialog-admin',
   standalone: true,
-  imports: [NzModalModule],
+  imports: [NzModalModule, NgTemplateOutlet],
   templateUrl: './dialog-admin.component.html',
   styleUrl: './dialog-admin.component.scss'
 })
 export class DialogAdminComponent {
-  isVisible = false;
-  isOkLoading = false;
+  @ContentChild(DialogDirective) dialog!: DialogDirective;
+
+  @Input() isVisible = true;
+  @Input() isOkLoading = false;
 
   showModal(): void {
     this.isVisible = true;

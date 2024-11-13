@@ -34,4 +34,14 @@
       </ng-template>
     </ngvn-column>
   </app-table>
+  <app-dialog-admin
+    [isVisible]="true"
+    [isOkLoading]="true"
+  >
+    <ngvn-dialog dialogName="Add User" >
+      <ng-template appDialogContent>
+        <h1>OK</h1>
+      </ng-template>
+    </ngvn-dialog>
+  </app-dialog-admin>
 }

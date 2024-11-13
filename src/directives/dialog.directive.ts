@@ -1,5 +1,5 @@
 import {ContentChild, Directive, Input} from '@angular/core';
-import {DialogTitleDirective} from "../app/dialog-title.directive";
+import {DialogTitleDirective} from "./dialog-title.directive";
 import {DialogContentDirective} from "./dialog-content.directive";
 import {Dialog} from "@angular/cdk/dialog";
 
@@ -10,8 +10,8 @@ import {Dialog} from "@angular/cdk/dialog";
 export class DialogDirective {
   @Input() dialogName = '';
   @Input() key = '';
-  @ContentChild(DialogTitleDirective, {static: true}) templateHeader?: DialogTitleDirective;
-  @ContentChild(DialogContentDirective, {static: true}) templateContent?: DialogContentDirective;
+  @ContentChild(DialogTitleDirective, {static: true}) templateHeader!: DialogTitleDirective;
+  @ContentChild(DialogContentDirective, {static: true}) templateContent!: DialogContentDirective;
 
   constructor() {
   }

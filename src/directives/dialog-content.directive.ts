@@ -1,4 +1,4 @@
-import { Directive } from '@angular/core';
+import {Directive, TemplateRef} from '@angular/core';
 
 @Directive({
   selector: '[appDialogContent]',
@@ -6,6 +6,6 @@ import { Directive } from '@angular/core';
 })
 export class DialogContentDirective {
 
-  constructor() { }
+  constructor(public template: TemplateRef<any>) { }
 
 }
