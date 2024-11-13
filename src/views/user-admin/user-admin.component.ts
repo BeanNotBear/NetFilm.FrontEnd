@@ -10,6 +10,9 @@ import {NzButtonComponent, NzButtonSize} from "ng-zorro-antd/button";
 import {NzTableCellDirective} from "ng-zorro-antd/table";
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import {HeaderDirective} from "../table/components/header.directive";
+import {DialogAdminComponent} from "../dialog-admin/dialog-admin.component";
+import {DialogDirective} from "../../directives/dialog.directive";
+import {DialogContentDirective} from "../../directives/dialog-content.directive";
 
 @Component({
   selector: 'app-user-admin',
@@ -21,7 +24,10 @@ import {HeaderDirective} from "../table/components/header.directive";
     NzButtonComponent,
     NzTableCellDirective,
     NzDividerModule,
-    HeaderDirective
+    HeaderDirective,
+    DialogAdminComponent,
+    DialogDirective,
+    DialogContentDirective
   ],
   templateUrl: './user-admin.component.html',
   styleUrl: './user-admin.component.scss'

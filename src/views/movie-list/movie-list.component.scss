@@ -1,0 +1,20 @@
+.container {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.filter {
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.filter select {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  margin-left: 10px;
+  background-color: var(--black);
+
+}
