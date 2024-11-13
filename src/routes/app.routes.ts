@@ -1,5 +1,6 @@
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
 import {HomeComponent} from "../views/home/home.component";
+import {UserAdminComponent} from "../views/user-admin/user-admin.component";
 
 export const routes: Routes = [
   {
@@ -11,4 +12,9 @@ export const routes: Routes = [
     //   roles: ['customer', 'admin']
     // }
   },
+  {
+    path: 'user-admin',
+    title: ' User Admin',
+    component: UserAdminComponent,
+  }
 ];
