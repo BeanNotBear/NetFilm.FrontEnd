@@ -7,7 +7,23 @@
   </ngvn-tab>
   <ngvn-tab tabName="Add Movie">
     <ng-template appContent>
-      <app-process></app-process>
+      <app-process>
+        <ngvn-process stepName="Upload Movie">
+          <ng-template appProcessContent>
+            <app-upload
+              [fileType]="alowUploadFileTypes"
+              [limitFile]="1"
+              [multipleUpload]="false"
+            ></app-upload>
+          </ng-template>
+        </ngvn-process>
+        <ngvn-process stepName="Details">
+
+        </ngvn-process>
+        <ngvn-process stepName="Subtitles">
+
+        </ngvn-process>
+      </app-process>
     </ng-template>
   </ngvn-tab>
 </app-tab>

@@ -1,4 +1,4 @@
-import {ContentChild, Directive, Input} from '@angular/core';
+import {ContentChild, Directive, Input, TemplateRef} from '@angular/core';
 import {ProcessContentDirective} from "./process-content.directive";
 
 @Directive({
@@ -7,12 +7,9 @@ import {ProcessContentDirective} from "./process-content.directive";
 })
 export class ProcessTitleDirective {
 
-  @Input() tabName = '';
-  @Input() key = '';
-  @ContentChild(ProcessTitleDirective, {static: true}) templateHeader?: ProcessTitleDirective;
-  @ContentChild(ProcessContentDirective, {static: true}) templateContent?: ProcessContentDirective;
 
-  constructor() {
+
+  constructor(public template: TemplateRef<any>) {
   }
 
 }

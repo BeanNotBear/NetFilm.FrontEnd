@@ -2,11 +2,12 @@ import {Component, ContentChildren, QueryList} from '@angular/core';
 import {ProcessDirective} from "../../directives/process.directive";
 import {NzButtonModule} from 'ng-zorro-antd/button';
 import {NzStepsModule} from 'ng-zorro-antd/steps';
+import {NgTemplateOutlet} from "@angular/common";
 
 @Component({
   selector: 'app-process',
   standalone: true,
-  imports: [NzButtonModule, NzStepsModule],
+  imports: [NzButtonModule, NzStepsModule, NgTemplateOutlet],
   templateUrl: './process.component.html',
   styleUrl: './process.component.scss'
 })
