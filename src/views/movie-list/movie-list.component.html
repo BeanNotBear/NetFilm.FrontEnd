@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="filter-area">
+    <h3>Filter</h3>
+    <div class="filter">
+      <label for="category">Category:</label>
+      <select name="category" id="category">
+        <option value="">1</option>
+        <option value="">2</option>
+        <option value="">3</option>
+      </select>
+      <label for="country">Country:</label>
+      <select name="country" id="country">
+        <option value="">1</option>
+        <option value="">2</option>
+        <option value="">3</option>
+      </select>
+      <label for="quality">Quality:</label>
+      <select name="quality" id="quality">
+        <option value="">1</option>
+        <option value="">2</option>
+        <option value="">3</option>
+      </select>
+      <label for="sort">Sort:</label>
+      <select name="sort" id="sort">
+        <option value="">1</option>
+        <option value="">2</option>
+        <option value="">3</option>
+      </select>
+    </div>
+  </div>
+  <app-movie-area areaName="Movies" [visibleViewAll]="false"></app-movie-area>
+</div>

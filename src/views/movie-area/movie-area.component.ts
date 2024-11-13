@@ -12,4 +12,6 @@ import {MoviesComponent} from "../movies/movies.component";
 })
 export class MovieAreaComponent {
   @Input({required: true}) areaName!: string;
+  @Input() visibleViewAll: boolean = true;
+  // @Input()
 }
