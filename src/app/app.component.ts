@@ -10,11 +10,12 @@ import {TableComponent} from "../views/table/table.component";
 import {ColumnDirective} from "../views/table/components/column.directive";
 import {CellDirective} from "../views/table/components/cell.directive";
 import {HeaderDirective} from "../views/table/components/header.directive";
+import {DashboardComponent} from "../views/dashboard/dashboard.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet, NzIconModule, NzLayoutModule, NzMenuModule, HeaderComponent, FooterComponent, TableComponent, ColumnDirective, CellDirective, HeaderDirective],
+  imports: [CommonModule, RouterLink, RouterOutlet, NzIconModule, NzLayoutModule, NzMenuModule, HeaderComponent, FooterComponent, TableComponent, ColumnDirective, CellDirective, HeaderDirective, DashboardComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

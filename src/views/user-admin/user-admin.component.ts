@@ -50,6 +50,8 @@ export class UserAdminComponent {
   sort: { key: string, order: SortOrder } = {key: '', order: null};
   search: string = '';
 
+  name?: string; // role name
+
   pageResult: PageResult<UserDto> = new class implements PageResult<UserDto> {
     hasNext: boolean = false;
     hasPrevious: boolean = false;
@@ -112,6 +114,6 @@ export class UserAdminComponent {
 
 
   onSubmit() {
-    alert("ok")
+    this.apiService.addRole({name: this.name})
   }
 }
