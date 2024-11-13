@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { formatDistance } from 'date-fns';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -7,7 +7,10 @@ import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzListModule } from 'ng-zorro-antd/list';
-import {NgTemplateOutlet} from "@angular/common";
+import { NgTemplateOutlet } from '@angular/common';
+import { ApiService } from '../../api/api.service';
+import { CommentDto } from '../../models/commentDtos/commentDto.model';
+import { AddReplyDto } from '../../models/commentDtos/addReplyDto.model';
 
 interface User {
   author: string;
@@ -18,55 +21,69 @@ interface Data extends User {
   id: number;
   author: string;
   content: string;
-  datetime: Date;  // Add this field for storing the actual Date object
-  displayTime: string;  // Change to string since formatDistance returns string
+  datetime: Date; // Add this field for storing the actual Date object
+  displayTime: string; // Change to string since formatDistance returns string
   children?: Data[];
 }
 
 @Component({
   selector: 'app-comment',
   standalone: true,
-  imports: [FormsModule, NzAvatarModule, NzButtonModule, NzCommentModule, NzFormModule, NzInputModule, NzListModule, NgTemplateOutlet],
+  imports: [
+    FormsModule,
+    NzAvatarModule,
+    NzButtonModule,
+    NzCommentModule,
+    NzFormModule,
+    NzInputModule,
+    NzListModule,
+    NgTemplateOutlet,
+  ],
   templateUrl: './comment.component.html',
-  styleUrl: './comment.component.scss'
+  styleUrl: './comment.component.scss',
 })
-export class CommentComponent {
+export class CommentComponent implements OnInit {
   @ViewChild('commentInput') commentInput!: ElementRef;
 
-  data: Data[] = [];
+  data: CommentDto[] = [];
   submitting = false;
   user: User = {
     author: 'Han Solo',
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
+    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
   };
   inputValue = '';
   replyValue = '';
   activeReplyId: number | null = null;
 
+  constructor(private apiService: ApiService) {}
+
+  ngOnInit(): void {
+    this.apiService
+      .getCommentByMovieId('DE000F7E-9E13-4D7F-A775-C8020CD0BC7A')
+      .subscribe((reponse) => {
+        this.data = reponse;
+      });
+  }
+
   handleSubmit(): void {
-    this.submitting = true;
-    const content = this.inputValue;
-    this.inputValue = '';
-    const now = new Date();
-
-    setTimeout(() => {
-      this.submitting = false;
-      const newComment: Data = {
-        ...this.user,
-        id: Date.now(),
-        content,
-        datetime: now,
-        displayTime: formatDistance(now, now)
-      };
-
-      this.data = [
-        ...this.data,
-        newComment
-      ].map(e => ({
-        ...e,
-        displayTime: formatDistance(new Date(), e.datetime) // Use datetime instead of displayTime
-      }));
-    }, 800);
+    // this.submitting = true;
+    // const content = this.inputValue;
+    // this.inputValue = '';
+    // const now = new Date();
+    // setTimeout(() => {
+    //   this.submitting = false;
+    //   const newComment: Data = {
+    //     ...this.user,
+    //     id: Date.now(),
+    //     content,
+    //     datetime: now,
+    //     displayTime: formatDistance(now, now),
+    //   };
+    //   this.data = [...this.data, newComment].map((e) => ({
+    //     ...e,
+    //     displayTime: formatDistance(new Date(), e.datetime), // Use datetime instead of displayTime
+    //   }));
+    // }, 800);
   }
 
   focusTextArea() {
@@ -89,25 +106,38 @@ export class CommentComponent {
     this.replyValue = '';
   }
 
-  submitReply(parentComment: Data) {
+  submitReply(parentComment: CommentDto) {
     if (!this.replyValue.trim()) return;
 
     this.submitting = true;
-    const now = new Date();
-
-    const newReply: Data = {
-      ...this.user,
-      id: Date.now(),
+    var newReply: AddReplyDto = {
+      commentId: parentComment.id,
       content: this.replyValue,
-      datetime: now,
-      displayTime: formatDistance(now, now)
+      userId: '919C241A-E503-4133-BB71-3AE9F5A19ECD',
     };
+    this.apiService.reply(newReply).subscribe((reponse) => {
+      this.apiService
+        .getReplyByCommentId(parentComment.id)
+        .subscribe((reponse) => {
+          parentComment.children = reponse;
+        });
+    });
+
+    // const now = new Date();
+
+    // const newReply: Data = {
+    //   ...this.user,
+    //   id: Date.now(),
+    //   content: this.replyValue,
+    //   datetime: now,
+    //   displayTime: formatDistance(now, now),
+    // };
 
     // Add reply to parent's children
-    if (!parentComment.children) {
-      parentComment.children = [];
-    }
-    parentComment.children.push(newReply);
+    // if (!parentComment.children) {
+    //   parentComment.children = [];
+    // }
+    // parentComment.children.push(newReply);
 
     // Reset form
     this.submitting = false;
@@ -115,15 +145,25 @@ export class CommentComponent {
     this.activeReplyId = null;
   }
 
+  showReply(comment: CommentDto) {
+    this.apiService.getReplyByCommentId(comment.id).subscribe((reponse) => {
+      comment.children = reponse;
+    });
+  }
+
+  hiddenReply(comment: CommentDto) {
+    comment.children = [];
+  }
+
   // Optional: Helper method to update display times
   updateDisplayTimes(): void {
-    this.data = this.data.map(comment => ({
-      ...comment,
-      displayTime: formatDistance(new Date(), comment.datetime),
-      children: comment.children?.map(child => ({
-        ...child,
-        displayTime: formatDistance(new Date(), child.datetime)
-      }))
-    }));
+    // this.data = this.data.map((comment) => ({
+    //   ...comment,
+    //   displayTime: formatDistance(new Date(), comment.datetime),
+    //   children: comment.children?.map((child) => ({
+    //     ...child,
+    //     displayTime: formatDistance(new Date(), child.datetime),
+    //   })),
+    // }));
   }
 }

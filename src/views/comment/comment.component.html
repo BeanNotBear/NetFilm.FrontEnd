@@ -1,57 +1,85 @@
 @if (data.length) {
-  <nz-list [nzDataSource]="data" [nzRenderItem]="commentTemplateRef" nzItemLayout="horizontal">
-    <ng-template #commentTemplateRef let-item>
-      <nz-comment [nzAuthor]="item.author" [nzDatetime]="item.displayTime">
+<nz-list
+  [nzDataSource]="data"
+  [nzRenderItem]="commentTemplateRef"
+  nzItemLayout="horizontal"
+>
+  <ng-template #commentTemplateRef let-item>
+    <nz-comment [nzAuthor]="item.userName" [nzDatetime]="item.date">
+      <nz-comment-content>
+        <p>{{ item.content }}</p>
+      </nz-comment-content>
+      <nz-comment-action>
+        <a (click)="handleReply(item)">Reply to</a>
+      </nz-comment-action>
+      <nz-comment-action>
+        <a (click)="showReply(item)">View More Reply</a>
+      </nz-comment-action>
+      <nz-comment-action>
+        <a (click)="hiddenReply(item)">Hidden Reply</a>
+      </nz-comment-action>
+
+      <!-- Reply Form -->
+      @if (activeReplyId === item.id) {
+      <nz-comment>
         <nz-comment-content>
-          <p>{{ item.content }}</p>
+          <nz-form-item>
+            <textarea
+              #commentInput
+              [(ngModel)]="replyValue"
+              nz-input
+              rows="4"
+              placeholder="Write your reply..."
+            ></textarea>
+          </nz-form-item>
+          <nz-form-item>
+            <button
+              nz-button
+              nzType="primary"
+              [nzLoading]="submitting"
+              [disabled]="!replyValue"
+              (click)="submitReply(item)"
+              class="mr-2"
+            >
+              Reply
+            </button>
+            <button nz-button (click)="cancelReply()">Cancel</button>
+          </nz-form-item>
         </nz-comment-content>
-        <nz-comment-action>
-          <a (click)="handleReply(item)">Reply to</a>
-        </nz-comment-action>
-        <nz-comment-action>View More</nz-comment-action>
-
-        <!-- Reply Form -->
-        @if (activeReplyId === item.id) {
-          <nz-comment>
-            <nz-comment-content>
-              <nz-form-item>
-                <textarea #commentInput [(ngModel)]="replyValue" nz-input rows="4" placeholder="Write your reply..."></textarea>
-              </nz-form-item>
-              <nz-form-item>
-                <button nz-button nzType="primary" [nzLoading]="submitting" [disabled]="!replyValue"
-                        (click)="submitReply(item)" class="mr-2">
-                  Reply
-                </button>
-                <button nz-button (click)="cancelReply()">
-                  Cancel
-                </button>
-              </nz-form-item>
-            </nz-comment-content>
-          </nz-comment>
-        }
-
-        <!-- Child Comments -->
-        @if (item.children?.length) {
-          @for (child of item.children; track child) {
-            <ng-container
-              [ngTemplateOutlet]="commentTemplateRef"
-              [ngTemplateOutletContext]="{ $implicit: child }"
-            />
-          }
-        }
       </nz-comment>
-    </ng-template>
-  </nz-list>
+      }
+
+      <!-- Child Comments -->
+      @if (item.children?.length) { @for (child of item.children; track child) {
+      <ng-container
+        [ngTemplateOutlet]="commentTemplateRef"
+        [ngTemplateOutletContext]="{ $implicit: child }"
+      />
+      } }
+    </nz-comment>
+  </ng-template>
+</nz-list>
 }
 
 <!-- Main Comment Form -->
 <nz-comment>
   <nz-comment-content>
     <nz-form-item>
-      <textarea [(ngModel)]="inputValue" nz-input rows="4" placeholder="Write a comment..."></textarea>
+      <textarea
+        [(ngModel)]="inputValue"
+        nz-input
+        rows="4"
+        placeholder="Write a comment..."
+      ></textarea>
     </nz-form-item>
     <nz-form-item>
-      <button nz-button nzType="primary" [nzLoading]="submitting" [disabled]="!inputValue" (click)="handleSubmit()">
+      <button
+        nz-button
+        nzType="primary"
+        [nzLoading]="submitting"
+        [disabled]="!inputValue"
+        (click)="handleSubmit()"
+      >
         Add Comment
       </button>
     </nz-form-item>
