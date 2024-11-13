@@ -46,10 +46,17 @@
 <app-dialog-admin
         [isVisible]="isVisibleDialog"
         [isOkLoading]="isLoandingDialod"
+        (close)="onClose()"
+        (submit)="onSubmit()"
 >
     <ngvn-dialog dialogName="Add User">
         <ng-template appDialogContent>
-            <h1>OK</h1>
+            <form>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter walk name" required />
+                </div>
+            </form>
         </ng-template>
     </ngvn-dialog>
 </app-dialog-admin>

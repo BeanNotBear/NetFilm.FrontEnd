@@ -13,6 +13,7 @@ import {HeaderDirective} from "../table/components/header.directive";
 import {DialogAdminComponent} from "../dialog-admin/dialog-admin.component";
 import {DialogDirective} from "../../directives/dialog.directive";
 import {DialogContentDirective} from "../../directives/dialog-content.directive";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-user-admin',
@@ -27,7 +28,8 @@ import {DialogContentDirective} from "../../directives/dialog-content.directive"
     HeaderDirective,
     DialogAdminComponent,
     DialogDirective,
-    DialogContentDirective
+    DialogContentDirective,
+    FormsModule
   ],
   templateUrl: './user-admin.component.html',
   styleUrl: './user-admin.component.scss'
@@ -102,5 +104,14 @@ export class UserAdminComponent {
 
   onOpenAdd() {
     this.isVisibleDialog = true;
+  }
+
+  onClose() {
+    this.isVisibleDialog = false;
+  }
+
+
+  onSubmit() {
+    alert("ok")
   }
 }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {PageResult} from "../models/common/pageResult.model";
-import {delay} from "rxjs";
+import {delay, Observable} from "rxjs";
 import {UserDto} from "../models/userDtos/userDto.model";
 
 @Injectable({
