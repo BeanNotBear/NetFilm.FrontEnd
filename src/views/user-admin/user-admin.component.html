@@ -1,6 +1,6 @@
 <div class="header-table">
     <h3>User Manager</h3>
-    <button nz-button nzType="primary" nzSize="large" nzShape="round">
+    <button nz-button nzType="primary" nzSize="large" nzShape="round" (click)="onOpenAdd()">
         <i class="fa-regular fa-square-plus"></i>
         Create
     </button>
@@ -44,8 +44,8 @@
     </ngvn-column>
 </app-table>
 <app-dialog-admin
-        [isVisible]="true"
-        [isOkLoading]="true"
+        [isVisible]="isVisibleDialog"
+        [isOkLoading]="isLoandingDialod"
 >
     <ngvn-dialog dialogName="Add User">
         <ng-template appDialogContent>

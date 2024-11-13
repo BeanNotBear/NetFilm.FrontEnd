@@ -40,6 +40,8 @@ export class UserAdminComponent {
   COL_DATA_TYPE = COL_DATA_TYPE;
 
   loading = false;
+  isVisibleDialog = false;
+  isLoandingDialod = false;
 
   pageIndex: number = 1;
   pageSize: number = 10;
@@ -96,5 +98,9 @@ export class UserAdminComponent {
   onSearchChange(search: string) {
     this.search = search;
     this.ngAfterViewInit();
+  }
+
+  onOpenAdd() {
+    this.isVisibleDialog = true;
   }
 }
