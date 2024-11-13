@@ -7,7 +7,7 @@
   }
 
   .app-layout {
-    height: 100vh;
+    height: 100%;
   }
 
   .menu-sidebar {
@@ -79,6 +79,7 @@
     background: #fff;
     height: 100%;
   }
+
 } @else {
 
 }
