@@ -14,6 +14,12 @@ import {DialogContentDirective} from "../../directives/dialog-content.directive"
 import {FormsModule} from "@angular/forms";
 import {NzInputDirective} from "ng-zorro-antd/input";
 import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import {CountryDto} from "../../models/countryDtos/country.dto";
+import {NzDatePickerComponent} from "ng-zorro-antd/date-picker";
+import {NzTooltipDirective} from "ng-zorro-antd/tooltip";
+import {NzUploadComponent, NzUploadFile} from "ng-zorro-antd/upload";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-movie-admin',
@@ -33,7 +39,11 @@ import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
     DialogContentDirective,
     FormsModule,
     NzInputDirective,
-    EditorComponent
+    EditorComponent,
+    NzSelectModule,
+    NzDatePickerComponent,
+    NzTooltipDirective,
+    NzUploadComponent,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }
@@ -46,6 +56,20 @@ export class MovieAdminComponent {
   isVisibleDialog  = true;
   isVisibleLoading = false;
   value = '';
+  selectedCountry = null;
+  selectedQuality = null;
+  releaseDate = null;
+  countries: CountryDto[] = [];
+  qualities: {value: number; name: string}[] = [
+    {value: 0, name: 'HD'},
+    {value: 1, name: 'Full HD'}
+  ];
+
+  previewFile = (file: NzUploadFile): NzUploadFile => {
+    console.log('Your upload file:', file);
+    return file
+  };
+
   apiKey = '0vuhsazgiv5rjydoflr0l0zbhd3khd54mgka0cgti58u6pld';
   init: EditorComponent['init'] = {
     base_url: '/tinymce', // Root for resources
@@ -53,4 +77,5 @@ export class MovieAdminComponent {
     menubar: true,
     automatic_uploads: true
   };
+  protected readonly self = self;
 }

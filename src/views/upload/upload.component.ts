@@ -2,9 +2,7 @@ import {Component, Input} from '@angular/core';
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzUploadModule, NzUploadFile} from "ng-zorro-antd/upload";
-import {HttpClient, HttpRequest, HttpResponse} from "@angular/common/http";
 import {NzMessageService} from "ng-zorro-antd/message";
-import {filter} from "rxjs";
 import {MovieService} from "../../service/movie.service";
 
 @Component({

@@ -29,6 +29,45 @@
                   <input class="input" nz-input placeholder="Movie Name" [(ngModel)]="value" type="text"/>
                 </div>
                 <div class="form">
+                  <div class="form">
+                    <label>Country: </label>
+                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a country" [(ngModel)]="selectedCountry">
+                      @for (country of countries; track country) {
+                        <nz-option [nzLabel]="country.name" [nzValue]="country.id"></nz-option>
+                      }
+                      <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
+                      <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+                    </nz-select>
+                  </div>
+                  <div class="form">
+                    <label>Quality: </label>
+                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a country" [(ngModel)]="selectedQuality">
+                      @for (quality of qualities; track quality) {
+                        <nz-option [nzLabel]="quality.name" [nzValue]="quality.value"></nz-option>
+                      }
+                    </nz-select>
+                  </div>
+                </div>
+                <div class="form">
+                  <div class="form">
+                    <label>Release Date: </label>
+                    <nz-date-picker [(ngModel)]="releaseDate"></nz-date-picker>
+                  </div>
+                  <div class="form">
+                    <label>Allowing Date: </label>
+                    <input
+                      style="width: 120px"
+                      nz-input
+                      type="number"
+                      [ngModel]="value"
+                    />
+                  </div>
+                </div>
+                <div class="form">
+                  <label>Poster: </label>
+
+                </div>
+                <div class="form">
                   <label>Description: </label>
                   <editor [apiKey]="apiKey" class="input" [init]="init"></editor>
                 </div>

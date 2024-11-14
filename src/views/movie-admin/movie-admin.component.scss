@@ -9,13 +9,27 @@
 
 .form {
   display: flex;
-  justify-content: space-around;
   align-items: center;
   margin: 10px 0;
+  text-align: center;
+}
+
+.form label {
+  width: 100px;
+  text-align: left;
+  margin-left: 40px;
 }
 
 .form .input {
   width: 80%;
+}
+
+.form app-upload {
+  display: flex;
+}
+
+nz-select {
+  width: 200px;
 }
 
 
