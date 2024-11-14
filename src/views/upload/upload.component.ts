@@ -5,6 +5,7 @@ import {NzUploadModule, NzUploadFile} from "ng-zorro-antd/upload";
 import {HttpClient, HttpRequest, HttpResponse} from "@angular/common/http";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {filter} from "rxjs";
+import {MovieService} from "../../service/movie.service";
 
 @Component({
   selector: 'app-upload',
@@ -27,16 +28,16 @@ export class UploadComponent {
   fileList: NzUploadFile[] = [];
 
   constructor(
-    private http: HttpClient,
+    private movieService: MovieService,
     private messageService: NzMessageService
   ) {
   }
 
   onRemove() {
     if (this.limitFile !== null && this.limitFile > 0) {
-      const lastIndex = this.fileList.length  - 1;
-      if(lastIndex > this.limitFile - 1) {
-        this.fileList = this.fileList.slice(1, lastIndex+1);
+      const lastIndex = this.fileList.length - 1;
+      if (lastIndex > this.limitFile - 1) {
+        this.fileList = this.fileList.slice(1, lastIndex + 1);
       }
     }
   }
@@ -47,19 +48,9 @@ export class UploadComponent {
   };
 
   handleUpload(): void {
-    const formData = new FormData();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.fileList.forEach((file: any) => {
-      formData.append('files[]', file);
-    });
     this.uploading = true;
     // You can use any AJAX library you like
-    const req = new HttpRequest('POST', 'https://www.mocky.io/v2/5cc8019d300000980a055e76', formData, {
-      // reportProgress: true
-    });
-    this.http
-      .request(req)
-      .pipe(filter(e => e instanceof HttpResponse))
+    this.movieService.uploadMovie(this.fileList[0])
       .subscribe({
         next: () => {
           this.uploading = false;

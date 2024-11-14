@@ -5,25 +5,41 @@
       <app-table></app-table>
     </ng-template>
   </ngvn-tab>
-  <ngvn-tab tabName="Add Movie">
+  <ngvn-tab tabName="Upload Movie">
     <ng-template appContent>
-      <app-process>
-        <ngvn-process stepName="Upload Movie">
-          <ng-template appProcessContent>
-            <app-upload
-              [fileType]="alowUploadFileTypes"
-              [limitFile]="1"
-              [multipleUpload]="false"
-            ></app-upload>
-          </ng-template>
-        </ngvn-process>
-        <ngvn-process stepName="Details">
-
-        </ngvn-process>
-        <ngvn-process stepName="Subtitles">
-
-        </ngvn-process>
-      </app-process>
+      <app-upload
+        [fileType]="alowUploadFileTypes"
+        [limitFile]="1"
+        [multipleUpload]="false"
+      ></app-upload>
     </ng-template>
   </ngvn-tab>
+  <app-dialog-admin
+    [isVisible]="isVisibleDialog"
+    [isOkLoading]="isVisibleLoading"
+    [width]="1000">
+    <ngvn-dialog dialogName="Add Movie">
+      <ng-template appDialogContent>
+        <app-process>
+          <ngvn-process stepName="Details">
+            <ng-template appProcessContent>
+              <div>
+                <div class="form">
+                  <label>Movie Name: </label>
+                  <input class="input" nz-input placeholder="Movie Name" [(ngModel)]="value" type="text"/>
+                </div>
+                <div class="form">
+                  <label>Description: </label>
+                  <editor [apiKey]="apiKey" class="input" [init]="init"></editor>
+                </div>
+              </div>
+            </ng-template>
+          </ngvn-process>
+          <ngvn-process stepName="Subtitle">
+
+          </ngvn-process>
+        </app-process>
+      </ng-template>
+    </ngvn-dialog>
+  </app-dialog-admin>
 </app-tab>

@@ -4,6 +4,7 @@
         (nzOnCancel)="handleCancel()"
         (nzOnOk)="handleOk()"
         [nzOkLoading]="isOkLoading"
+        [nzWidth]="width"
 >
     <div *nzModalContent>
         @if (dialog.templateContent.template) {

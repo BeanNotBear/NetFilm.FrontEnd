@@ -15,6 +15,7 @@ export class DialogAdminComponent {
 
   @Input() isVisible = true;
   @Input() isOkLoading = false;
+  @Input() width: number |  string = 600;
 
   @Output() close = new EventEmitter<void>();
   @Output() submit = new EventEmitter<void>();

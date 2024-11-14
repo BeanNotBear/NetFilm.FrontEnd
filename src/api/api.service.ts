@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpParams, HttpRequest, HttpResponse} from "@angular/common/http";
 import {PageResult} from "../models/common/pageResult.model";
-import {delay, Observable} from "rxjs";
+import {delay, filter, Observable} from "rxjs";
 import {UserDto} from "../models/userDtos/userDto.model";
 import {Role, RoleResponse} from "../models/roleDtos/role";
 
@@ -38,5 +38,12 @@ export class ApiService {
         }
       }
     );
+  }
+
+  uploadFile(formData: FormData, method: string) {
+    const req = new HttpRequest(method, `${this.baseUrl}/Movies/Upload`, formData, {
+      // reportProgress: true
+    });
+    return this.http.request(req).pipe(filter(e => e instanceof HttpResponse));
   }
 }

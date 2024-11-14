@@ -1,3 +1,21 @@
 * {
   color: var(--deepBlack);
 }
+
+.ant-modal-content {
+  width: 50%;
+
+}
+
+.form {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.form .input {
+  width: 80%;
+}
+
+
