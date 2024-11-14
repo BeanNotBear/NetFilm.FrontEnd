@@ -1,9 +1,10 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzUploadModule, NzUploadFile} from "ng-zorro-antd/upload";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {MovieService} from "../../service/movie.service";
+import {MovieResponseDto} from "../../models/movieDtos/movie.response.dto";
 
 @Component({
   selector: 'app-upload',
@@ -21,6 +22,7 @@ export class UploadComponent {
   @Input() fileType!: string;
   @Input() multipleUpload = true;
   @Input() limitFile: number | null = null;
+  @Output() onUploadMovieDone = new EventEmitter<MovieResponseDto>();
 
   uploading = false;
   fileList: NzUploadFile[] = [];
@@ -50,10 +52,11 @@ export class UploadComponent {
     // You can use any AJAX library you like
     this.movieService.uploadMovie(this.fileList[0])
       .subscribe({
-        next: () => {
+        next: (movie) => {
           this.uploading = false;
           this.fileList = [];
           this.messageService.success('upload successfully.');
+          this.onUploadMovieDone.emit(movie);
         },
         error: () => {
           this.uploading = false;

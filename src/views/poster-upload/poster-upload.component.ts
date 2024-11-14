@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 
 import {NzIconDirective, NzIconModule} from 'ng-zorro-antd/icon';
@@ -18,12 +18,23 @@ import {NzUploadComponent, NzUploadFile, NzUploadModule} from 'ng-zorro-antd/upl
 export class PosterUploadComponent {
   loading = false;
   avatarUrl?: string;
+  @Output() onUploadFilePoster = new EventEmitter<NzUploadFile>();
 
   constructor(private messageService: NzMessageService) {}
 
   beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]): Observable<boolean> =>
     new Observable((observer: Observer<boolean>) => {
-      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+      const imageMimeTypes: string[] = [
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/bmp",
+        "image/tiff",
+        "image/webp",
+        "image/svg+xml",
+        "image/x-icon"
+      ];
+      const isJpgOrPng = imageMimeTypes.includes(file.type!);
       if (!isJpgOrPng) {
         this.messageService.error('You can only upload JPG file!');
         observer.complete();
@@ -46,21 +57,11 @@ export class PosterUploadComponent {
   }
 
   handleChange(info: { file: NzUploadFile }): void {
-    switch (info.file.status) {
-      case 'uploading':
-        this.loading = true;
-        break;
-      case 'done':
-        // Get this url from response in real world.
-        this.getBase64(info.file!.originFileObj!, (img: string) => {
-          this.loading = false;
-          this.avatarUrl = img;
-        });
-        break;
-      case 'error':
-        this.messageService.error('Network error');
-        this.loading = false;
-        break;
-    }
+    this.getBase64(info.file!.originFileObj!, (img: string) => {
+      this.loading = false;
+      this.avatarUrl = img;
+      this.onUploadFilePoster.emit(info.file!);
+    });
+
   }
 }

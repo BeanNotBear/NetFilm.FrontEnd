@@ -21,6 +21,7 @@ import {NzTooltipDirective} from "ng-zorro-antd/tooltip";
 import {NzUploadComponent, NzUploadFile} from "ng-zorro-antd/upload";
 import {Observable} from "rxjs";
 import {PosterUploadComponent} from "../poster-upload/poster-upload.component";
+import {MovieResponseDto} from "../../models/movieDtos/movie.response.dto";
 
 @Component({
   selector: 'app-movie-admin',
@@ -55,12 +56,14 @@ import {PosterUploadComponent} from "../poster-upload/poster-upload.component";
 })
 export class MovieAdminComponent {
   alowUploadFileTypes = 'video/mp4,video/webm,video/ogg,video/quicktime,video/x-msvideo,video/x-flv,video/3gpp,video/x-matroska';
-  isVisibleDialog  = true;
+  isVisibleDialog  = false;
   isVisibleLoading = false;
   value = '';
   selectedCountry = null;
   selectedQuality = null;
   releaseDate = null;
+  movie: MovieResponseDto = new MovieResponseDto();
+  posterFile!: NzUploadFile;
   countries: CountryDto[] = [];
   qualities: {value: number; name: string}[] = [
     {value: 0, name: 'HD'},
@@ -79,5 +82,14 @@ export class MovieAdminComponent {
     menubar: true,
     automatic_uploads: true
   };
-  protected readonly self = self;
+
+  onUploadMovieDone(movie: MovieResponseDto) {
+    console.log(movie);
+    this.isVisibleDialog = true;
+  }
+
+  onUploadPoster(file: NzUploadFile) {
+    console.log(file);
+    this.posterFile = file;
+  }
 }
