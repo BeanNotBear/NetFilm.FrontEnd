@@ -21,7 +21,7 @@
     <ngvn-dialog dialogName="Add Movie">
       <ng-template appDialogContent>
         <app-process>
-          <ngvn-process stepName="Details">
+          <ngvn-process [currentStep]="0" stepName="Details">
             <ng-template appProcessContent>
               <div>
                 <div class="form">
@@ -65,7 +65,7 @@
                 </div>
                 <div class="form">
                   <label>Poster: </label>
-
+                  <app-poster-upload></app-poster-upload>
                 </div>
                 <div class="form">
                   <label>Description: </label>
@@ -74,8 +74,10 @@
               </div>
             </ng-template>
           </ngvn-process>
-          <ngvn-process stepName="Subtitle">
-
+          <ngvn-process [currentStep]="1" stepName="Subtitle">
+            <ng-template appProcessContent>
+              <app-upload></app-upload>
+            </ng-template>
           </ngvn-process>
         </app-process>
       </ng-template>

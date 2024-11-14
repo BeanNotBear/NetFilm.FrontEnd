@@ -20,6 +20,7 @@ import {NzDatePickerComponent} from "ng-zorro-antd/date-picker";
 import {NzTooltipDirective} from "ng-zorro-antd/tooltip";
 import {NzUploadComponent, NzUploadFile} from "ng-zorro-antd/upload";
 import {Observable} from "rxjs";
+import {PosterUploadComponent} from "../poster-upload/poster-upload.component";
 
 @Component({
   selector: 'app-movie-admin',
@@ -44,6 +45,7 @@ import {Observable} from "rxjs";
     NzDatePickerComponent,
     NzTooltipDirective,
     NzUploadComponent,
+    PosterUploadComponent,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }
