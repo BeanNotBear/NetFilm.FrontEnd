@@ -5,7 +5,10 @@
   nzItemLayout="horizontal"
 >
   <ng-template #commentTemplateRef let-item>
-    <nz-comment [nzAuthor]="item.userName" [nzDatetime]="item.date">
+    <nz-comment
+      [nzAuthor]="item.userName"
+      [nzDatetime]="formatDistanceToNow(item.date)"
+    >
       <nz-comment-content>
         <p>{{ item.content }}</p>
       </nz-comment-content>

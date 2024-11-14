@@ -11,6 +11,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { ApiService } from '../../api/api.service';
 import { CommentDto } from '../../models/commentDtos/commentDto.model';
 import { AddReplyDto } from '../../models/commentDtos/addReplyDto.model';
+import { AddCommentDto } from '../../models/commentDtos/addCommentDto.model';
 
 interface User {
   author: string;
@@ -54,10 +55,15 @@ export class CommentComponent implements OnInit {
   inputValue = '';
   replyValue = '';
   activeReplyId: number | null = null;
+  now = Date.now();
 
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
+    this.LoadComment();
+  }
+
+  LoadComment() {
     this.apiService
       .getCommentByMovieId('DE000F7E-9E13-4D7F-A775-C8020CD0BC7A')
       .subscribe((reponse) => {
@@ -66,24 +72,18 @@ export class CommentComponent implements OnInit {
   }
 
   handleSubmit(): void {
-    // this.submitting = true;
-    // const content = this.inputValue;
-    // this.inputValue = '';
-    // const now = new Date();
-    // setTimeout(() => {
-    //   this.submitting = false;
-    //   const newComment: Data = {
-    //     ...this.user,
-    //     id: Date.now(),
-    //     content,
-    //     datetime: now,
-    //     displayTime: formatDistance(now, now),
-    //   };
-    //   this.data = [...this.data, newComment].map((e) => ({
-    //     ...e,
-    //     displayTime: formatDistance(new Date(), e.datetime), // Use datetime instead of displayTime
-    //   }));
-    // }, 800);
+    this.submitting = true;
+    const newComment: AddCommentDto = {
+      content: this.inputValue,
+      userId: '919C241A-E503-4133-BB71-3AE9F5A19ECD',
+      movieId: 'DE000F7E-9E13-4D7F-A775-C8020CD0BC7A',
+    };
+    setTimeout(() => {
+      this.apiService.addComment(newComment).subscribe((reponse) => {
+        this.submitting = false;
+        this.LoadComment();
+      });
+    }, 500);
   }
 
   focusTextArea() {
@@ -123,22 +123,6 @@ export class CommentComponent implements OnInit {
         });
     });
 
-    // const now = new Date();
-
-    // const newReply: Data = {
-    //   ...this.user,
-    //   id: Date.now(),
-    //   content: this.replyValue,
-    //   datetime: now,
-    //   displayTime: formatDistance(now, now),
-    // };
-
-    // Add reply to parent's children
-    // if (!parentComment.children) {
-    //   parentComment.children = [];
-    // }
-    // parentComment.children.push(newReply);
-
     // Reset form
     this.submitting = false;
     this.replyValue = '';
@@ -165,5 +149,9 @@ export class CommentComponent implements OnInit {
     //     displayTime: formatDistance(new Date(), child.datetime),
     //   })),
     // }));
+  }
+
+  formatDistanceToNow(date: string): string {
+    return formatDistance(Date.parse(date), this.now, { addSuffix: true });
   }
 }

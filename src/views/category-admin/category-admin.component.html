@@ -1,0 +1,73 @@
+<div class="header-table">
+  <h3>Category Manager</h3>
+  <button
+    nz-button
+    nzType="primary"
+    nzSize="large"
+    nzShape="round"
+    (click)="onOpenAdd()"
+  >
+    <i class="fa-regular fa-square-plus"></i>
+    Create
+  </button>
+</div>
+<br />
+<app-table
+  [rows]="pageResult.items"
+  [page]="pageResult.pageIndex"
+  [pageSize]="pageResult.pageSize"
+  [totalRows]="pageResult.totalItems"
+  [clientPagination]="false"
+  (pageIndexChange)="onPageIndexChange($event)"
+  (pageSizeChange)="onPageSizeChange($event)"
+  (searchChange)="onSearchChange($event)"
+  [loading]="loading"
+>
+  <ngvn-column header="ID" key="id"></ngvn-column>
+  <ngvn-column
+    header="Name"
+    key="name"
+    [sortable]="true"
+    (sortChange)="onSortChange($event)"
+  ></ngvn-column>
+
+  <ngvn-column header="Action">
+    <ng-template appCell>
+      <td>
+        <button nz-button nzType="primary" nzSize="small" nzShape="round">
+          <i class="fa-regular fa-pen-to-square"></i>
+          Update
+        </button>
+        <!--                <nz-divider nzType="vertical"></nz-divider>-->
+        <!--                <button nz-button nzType="primary" nzSize="small" nzShape="round" nzDanger>-->
+        <!--                    <i class="fa-regular fa-trash-can"></i>-->
+        <!--                    Delete-->
+        <!--                </button>-->
+      </td>
+    </ng-template>
+  </ngvn-column>
+</app-table>
+<app-dialog-admin
+  [isVisible]="isVisibleDialog"
+  [isOkLoading]="isLoandingDialod"
+  (close)="onClose()"
+  (submit)="onSubmit()"
+>
+  <ngvn-dialog dialogName="Add User">
+    <ng-template appDialogContent>
+      <form>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Enter walk name"
+            required
+            [(ngModel)]="nameCategory"
+          />
+        </div>
+      </form>
+    </ng-template>
+  </ngvn-dialog>
+</app-dialog-admin>

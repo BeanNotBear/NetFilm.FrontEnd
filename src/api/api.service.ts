@@ -4,6 +4,7 @@ import { PageResult } from '../models/common/pageResult.model';
 import { delay } from 'rxjs';
 import { UserDto } from '../models/userDtos/userDto.model';
 import { Role, RoleResponse } from '../models/roleDtos/role';
+import { CategoryDto } from '../models/categoryDtos/categoryDto.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,29 @@ export class ApiService {
     ascending: boolean
   ) {
     return this.http
-      .get<PageResult<UserDto>>('https://localhost:7027/api/Users/PageResult', {
+      .get<PageResult<UserDto>>(
+        'https://localhost:44348/api/Users/PageResult',
+        {
+          params: new HttpParams()
+            .set('pageIndex', pageIndex)
+            .set('pageSize', pageSize)
+            .set('searchTerm', searchTerm)
+            .set('sortBy', sortBy)
+            .set('ascending', ascending),
+        }
+      )
+      .pipe(delay(0));
+  }
+
+  getCategoriesPagination(
+    pageIndex: number,
+    pageSize: number,
+    searchTerm: string,
+    sortBy: string,
+    ascending: boolean
+  ) {
+    return this.http
+      .get<PageResult<CategoryDto>>(this.baseUrl + '/Category/PageResult', {
         params: new HttpParams()
           .set('pageIndex', pageIndex)
           .set('pageSize', pageSize)
@@ -30,6 +53,13 @@ export class ApiService {
           .set('ascending', ascending),
       })
       .pipe(delay(0));
+  }
+
+  addCategory(data: any) {
+    return this.http.post<any>(this.baseUrl + '/Category', data);
+  }
+  addComment(data: any) {
+    return this.http.post<any>(this.baseUrl + '/Comment', data);
   }
 
   getCommentByMovieId(movieId: string) {
