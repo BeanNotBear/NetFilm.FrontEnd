@@ -3,6 +3,7 @@ export interface CommentDto {
   userName: string;
   content: string;
   date: Date;
+  movie: string;
   userId: string;
   children: CommentDto[];
 }

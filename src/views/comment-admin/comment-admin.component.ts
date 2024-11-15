@@ -1,12 +1,107 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { COL_DATA_TYPE, SortOrder } from '../table/models/types';
+import { ColumnDirective } from '../table/components/column.directive';
+import { TableComponent } from '../table/table.component';
+import { ApiService } from '../../api/api.service';
+import { PageResult } from '../../models/common/pageResult.model';
+import { CellDirective } from '../table/components/cell.directive';
+import { NzButtonComponent, NzButtonSize } from 'ng-zorro-antd/button';
+import { NzTableCellDirective } from 'ng-zorro-antd/table';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { FormsModule } from '@angular/forms';
+import { CommentDto } from '../../models/commentDtos/commentDto.model';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-comment-admin',
   standalone: true,
-  imports: [],
+  imports: [
+    ColumnDirective,
+    TableComponent,
+    CellDirective,
+    NzButtonComponent,
+    NzTableCellDirective,
+    NzDividerModule,
+    NzModalModule,
+    FormsModule,
+  ],
   templateUrl: './comment-admin.component.html',
-  styleUrl: './comment-admin.component.scss'
+  styleUrl: './comment-admin.component.scss',
 })
 export class CommentAdminComponent {
+  constructor(private apiService: ApiService, private modal: NzModalService) {}
 
+  @ViewChild('idColumn') idColumn: any;
+  COL_DATA_TYPE = COL_DATA_TYPE;
+
+  loading = false;
+  isVisibleDialog = false;
+  isLoandingDialod = false;
+
+  pageIndex: number = 1;
+  pageSize: number = 10;
+  sort: { key: string; order: SortOrder } = { key: '', order: null };
+  search: string = '';
+
+  nameCategory!: string;
+
+  pageResult: PageResult<CommentDto> = new (class
+    implements PageResult<CommentDto>
+  {
+    hasNext: boolean = false;
+    hasPrevious: boolean = false;
+    items: CommentDto[] = [];
+    pageIndex: number = 0;
+    pageSize: number = 0;
+    totalItems: number = 0;
+    totalPages: number = 0;
+  })();
+
+  loadCategory(): void {
+    this.loading = true;
+    this.apiService
+      .getCommentsPagination(
+        this.pageIndex,
+        this.pageSize,
+        this.search,
+        this.sort.key,
+        this.sort.order == 'ascend'
+      )
+      .subscribe((reponse) => {
+        this.pageResult = reponse;
+        this.loading = false;
+      });
+  }
+
+  ngOnInit(): void {
+    this.loadCategory();
+  }
+
+  onPageIndexChange(pageIndex: number): void {
+    this.pageIndex = pageIndex;
+    this.loadCategory();
+    console.log(this.pageIndex);
+  }
+
+  onPageSizeChange(pageSize: number): void {
+    this.pageSize = pageSize;
+    this.loadCategory();
+    console.log(this.pageSize);
+  }
+
+  onSortChange(event: { key: string; order: SortOrder }) {
+    this.sort.key = event.key;
+    this.sort.order = event.order;
+    this.loadCategory();
+    console.log(event);
+  }
+
+  onSearchChange(search: string) {
+    this.search = search;
+    this.loadCategory();
+  }
+
+  deleteComment() {
+    console.log(this.idColumn.id);
+  }
 }

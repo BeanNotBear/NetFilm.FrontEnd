@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { formatDistance } from 'date-fns';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -38,6 +39,7 @@ interface Data extends User {
     NzFormModule,
     NzInputModule,
     NzListModule,
+    NzIconModule,
     NgTemplateOutlet,
   ],
   templateUrl: './comment.component.html',
@@ -56,6 +58,7 @@ export class CommentComponent implements OnInit {
   replyValue = '';
   activeReplyId: number | null = null;
   now = Date.now();
+  userId = '919c241a-e503-4133-bb71-3ae9f5a19ecd';
 
   constructor(private apiService: ApiService) {}
 
@@ -84,6 +87,7 @@ export class CommentComponent implements OnInit {
         this.LoadComment();
       });
     }, 500);
+    this.inputValue = '';
   }
 
   focusTextArea() {
@@ -113,7 +117,7 @@ export class CommentComponent implements OnInit {
     var newReply: AddReplyDto = {
       commentId: parentComment.id,
       content: this.replyValue,
-      userId: '919C241A-E503-4133-BB71-3AE9F5A19ECD',
+      userId: '919c241a-e503-4133-bb71-3ae9f5a19ecd',
     };
     this.apiService.reply(newReply).subscribe((reponse) => {
       this.apiService

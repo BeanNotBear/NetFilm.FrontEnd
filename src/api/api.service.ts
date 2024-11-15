@@ -5,6 +5,7 @@ import { delay } from 'rxjs';
 import { UserDto } from '../models/userDtos/userDto.model';
 import { Role, RoleResponse } from '../models/roleDtos/role';
 import { CategoryDto } from '../models/categoryDtos/categoryDto.model';
+import { CommentDto } from '../models/commentDtos/commentDto.model';
 
 @Injectable({
   providedIn: 'root',
@@ -72,6 +73,25 @@ export class ApiService {
 
   getReplyByCommentId(commentId: string) {
     return this.http.get<any>(this.baseUrl + '/Comment/reply/' + commentId);
+  }
+
+  getCommentsPagination(
+    pageIndex: number,
+    pageSize: number,
+    searchTerm: string,
+    sortBy: string,
+    ascending: boolean
+  ) {
+    return this.http
+      .get<PageResult<CommentDto>>(this.baseUrl + '/Comment/PageResult', {
+        params: new HttpParams()
+          .set('pageIndex', pageIndex)
+          .set('pageSize', pageSize)
+          .set('searchTerm', searchTerm)
+          .set('sortBy', sortBy)
+          .set('ascending', ascending),
+      })
+      .pipe(delay(0));
   }
 
   addRole(role: Role) {
