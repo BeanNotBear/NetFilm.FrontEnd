@@ -1,10 +1,10 @@
 <nz-upload
   class="avatar-uploader"
-
-  nzName="avatar"
+  nzName="file"
   nzListType="picture-card"
   [nzShowUploadList]="false"
   [nzBeforeUpload]="beforeUpload"
+  [nzAction]="apiUrl"
   (nzChange)="handleChange($event)"
 >
   @if (!avatarUrl) {
@@ -14,4 +14,4 @@
     <img [src]="avatarUrl" style="width: 100%; height: 100%" />
   }
 </nz-upload>
-<!--nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"-->
+

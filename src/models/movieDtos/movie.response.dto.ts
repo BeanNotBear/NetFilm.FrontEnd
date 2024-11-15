@@ -1,5 +1,8 @@
 import {CountryDto} from "../countryDtos/country.dto";
 import {SubtitleResponseDto} from "../subtitleDtos/subtitle.response.dto";
+import {ParticipantDto} from "../participantDtos/participant.dto";
+import {CommentDto} from "../commentDtos/comment.dto";
+import {CategoryDto} from "../categoryDtos/category.dto";
 
 export class MovieResponseDto {
   id!: string;
@@ -15,5 +18,8 @@ export class MovieResponseDto {
   duration!: number;
   totalViews!: number;
   country: CountryDto = new CountryDto();
-  subtitles: SubtitleResponseDto = new SubtitleResponseDto();
+  categories: CategoryDto[] = [];
+  subtitles: SubtitleResponseDto[] = [];
+  comments: CommentDto[]  = [];
+  participants: ParticipantDto[] = [];
 }

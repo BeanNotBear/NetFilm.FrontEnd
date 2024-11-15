@@ -22,6 +22,12 @@ import {NzUploadComponent, NzUploadFile} from "ng-zorro-antd/upload";
 import {Observable} from "rxjs";
 import {PosterUploadComponent} from "../poster-upload/poster-upload.component";
 import {MovieResponseDto} from "../../models/movieDtos/movie.response.dto";
+import {CountryService} from "../../service/country.service";
+import {ParticipantService} from "../../service/participant.service";
+import {ParticipantDto} from "../../models/participantDtos/participant.dto";
+import {CategoryService} from "../../service/category.service";
+import {CategoryDto} from "../../models/categoryDtos/category.dto";
+import {MovieService} from "../../service/movie.service";
 
 @Component({
   selector: 'app-movie-admin',
@@ -58,22 +64,22 @@ export class MovieAdminComponent {
   alowUploadFileTypes = 'video/mp4,video/webm,video/ogg,video/quicktime,video/x-msvideo,video/x-flv,video/3gpp,video/x-matroska';
   isVisibleDialog  = false;
   isVisibleLoading = false;
-  value = '';
-  selectedCountry = null;
-  selectedQuality = null;
-  releaseDate = null;
   movie: MovieResponseDto = new MovieResponseDto();
   posterFile!: NzUploadFile;
   countries: CountryDto[] = [];
+  participants: ParticipantDto[] = [];
+  categories: CategoryDto[] = [];
   qualities: {value: number; name: string}[] = [
     {value: 0, name: 'HD'},
     {value: 1, name: 'Full HD'}
   ];
+  apiUrl = '';
 
-  previewFile = (file: NzUploadFile): NzUploadFile => {
-    console.log('Your upload file:', file);
-    return file
-  };
+  constructor(private countryService: CountryService,
+              private participantService: ParticipantService,
+              private categoryService: CategoryService,
+              private movieService: MovieService) {
+  }
 
   apiKey = '0vuhsazgiv5rjydoflr0l0zbhd3khd54mgka0cgti58u6pld';
   init: EditorComponent['init'] = {
@@ -85,7 +91,63 @@ export class MovieAdminComponent {
 
   onUploadMovieDone(movie: MovieResponseDto) {
     console.log(movie);
+    this.movie = movie;
+    this.apiUrl = `https://localhost:7027/api/Movies/${this.movie.id}/Add/Poster`;
+    this.fetchCountry();
+    this.fetchParticipants();
+    this.fetchCategory();
+    console.log(this.countries);
     this.isVisibleDialog = true;
+  }
+
+  fetchCountry() {
+    this.countryService.getCountries().subscribe({
+      next: data => {
+        console.log(data);
+        this.countries = data;
+      },
+      error: err =>  {
+        console.error(err)
+      }
+    });
+  }
+
+  fetchCategory() {
+    this.categoryService.getCategories().subscribe({
+      next: data => {
+        console.log(data);
+        this.categories = data;
+      },
+      error: err =>  {
+        console.error(err)
+      }
+    });
+  }
+
+  fetchParticipants() {
+    this.participantService.getParticipants().subscribe({
+      next: data => {
+        console.log(data);
+        this.participants = data;
+      },
+      error: err =>  {
+        console.error(err)
+      }
+    });
+  }
+
+  onNext() {
+    console.log(this.movie);
+    console.log(new Date(this.movie.release_Date).toISOString())
+    console.log(this.posterFile);
+    this.movieService.updateMovieDetails(this.movie, this.posterFile).subscribe({
+      next: data => {
+
+      },
+      error: err =>  {
+        console.error(err)
+      }
+    });
   }
 
   onUploadPoster(file: NzUploadFile) {

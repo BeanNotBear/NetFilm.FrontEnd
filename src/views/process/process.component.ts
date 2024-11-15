@@ -1,4 +1,4 @@
-import {Component, ContentChildren, QueryList} from '@angular/core';
+import {Component, ContentChildren, EventEmitter, Input, Output, QueryList} from '@angular/core';
 import {ProcessDirective} from "../../directives/process.directive";
 import {NzButtonModule} from 'ng-zorro-antd/button';
 import {NzStepsModule} from 'ng-zorro-antd/steps';
@@ -13,6 +13,8 @@ import {NgTemplateOutlet} from "@angular/common";
 })
 export class ProcessComponent {
   @ContentChildren(ProcessDirective) processes!: QueryList<ProcessDirective>;
+  @Input() totalProcesses = 0;
+  @Output() onNextProcess = new EventEmitter();
 
   current = 0;
 
@@ -26,6 +28,7 @@ export class ProcessComponent {
   next(): void {
     this.current += 1;
     this.changeContent();
+    this.onNextProcess.emit();
   }
 
   done(): void {

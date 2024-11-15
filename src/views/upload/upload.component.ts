@@ -5,6 +5,7 @@ import {NzUploadModule, NzUploadFile} from "ng-zorro-antd/upload";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {MovieService} from "../../service/movie.service";
 import {MovieResponseDto} from "../../models/movieDtos/movie.response.dto";
+import {v4 as uuidv4} from 'uuid';
 
 @Component({
   selector: 'app-upload',
@@ -38,6 +39,7 @@ export class UploadComponent {
       const lastIndex = this.fileList.length - 1;
       if (lastIndex > this.limitFile - 1) {
         this.fileList = this.fileList.slice(1, lastIndex + 1);
+        this.messageService.error(`Only ${this.limitFile} file${this.limitFile !== 1 ? 's' : ''} allowed`);
       }
     }
   }
@@ -49,10 +51,13 @@ export class UploadComponent {
 
   handleUpload(): void {
     this.uploading = true;
-    // You can use any AJAX library you like
     this.movieService.uploadMovie(this.fileList[0])
       .subscribe({
         next: (movie) => {
+          if(this.fileList[0] instanceof File) {
+            const duration = this.getDuration(this.fileList[0]);
+            duration.then(duration => movie.duration = Math.ceil(duration/60));
+          }
           this.uploading = false;
           this.fileList = [];
           this.messageService.success('upload successfully.');
@@ -63,5 +68,29 @@ export class UploadComponent {
           this.messageService.error('upload failed.');
         }
       });
+  }
+
+  private getDuration(file: File): Promise<number> {
+    return new Promise((resolve, reject) => {
+      // Create temporary video element
+      const video = document.createElement('video');
+      video.preload = 'metadata';
+
+      // Create object URL for the file
+      const url = URL.createObjectURL(file);
+
+      video.onloadedmetadata = () => {
+        // Clean up object URL
+        URL.revokeObjectURL(url);
+        resolve(video.duration);
+      };
+
+      video.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject("Error loading video file");
+      };
+
+      video.src = url;
+    });
   }
 }

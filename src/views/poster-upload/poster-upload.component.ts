@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 
 import {NzIconDirective, NzIconModule} from 'ng-zorro-antd/icon';
@@ -18,6 +18,7 @@ import {NzUploadComponent, NzUploadFile, NzUploadModule} from 'ng-zorro-antd/upl
 export class PosterUploadComponent {
   loading = false;
   avatarUrl?: string;
+  @Input() apiUrl = '';
   @Output() onUploadFilePoster = new EventEmitter<NzUploadFile>();
 
   constructor(private messageService: NzMessageService) {}
@@ -60,7 +61,7 @@ export class PosterUploadComponent {
     this.getBase64(info.file!.originFileObj!, (img: string) => {
       this.loading = false;
       this.avatarUrl = img;
-      this.onUploadFilePoster.emit(info.file!);
+      this.onUploadFilePoster.emit(info.file);
     });
 
   }

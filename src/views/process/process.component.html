@@ -17,12 +17,12 @@
       <span>Previous</span>
     </button>
   }
-  @if (current < 2) {
+  @if (current < 1) {
     <button nz-button nzType="default" (click)="next()">
       <span>Next</span>
     </button>
   }
-  @if (current === 2) {
+  @if (current === totalProcesses) {
     <button nz-button nzType="primary" (click)="done()">
       <span>Done</span>
     </button>

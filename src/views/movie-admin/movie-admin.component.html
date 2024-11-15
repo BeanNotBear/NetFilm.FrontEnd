@@ -18,10 +18,14 @@
   <app-dialog-admin
     [isVisible]="isVisibleDialog"
     [isOkLoading]="isVisibleLoading"
-    [width]="1000">
+    [width]="1000"
+    [footer]="null">
     <ngvn-dialog dialogName="Add Movie">
       <ng-template appDialogContent>
-        <app-process>
+        <app-process
+          [totalProcesses]="1"
+          (onNextProcess)="onNext()"
+        >
           <ngvn-process [currentStep]="0" stepName="Details">
             <ng-template appProcessContent>
               <div>
@@ -36,13 +40,11 @@
                       @for (country of countries; track country) {
                         <nz-option [nzLabel]="country.name" [nzValue]="country.id"></nz-option>
                       }
-                      <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
-                      <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
                     </nz-select>
                   </div>
                   <div class="form">
                     <label>Quality: </label>
-                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a country" [(ngModel)]="selectedQuality">
+                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a country" [(ngModel)]="movie.quality">
                       @for (quality of qualities; track quality) {
                         <nz-option [nzLabel]="quality.name" [nzValue]="quality.value"></nz-option>
                       }
@@ -52,7 +54,7 @@
                 <div class="form">
                   <div class="form">
                     <label>Release Date: </label>
-                    <nz-date-picker [(ngModel)]="releaseDate"></nz-date-picker>
+                    <nz-date-picker [(ngModel)]="movie.release_Date"></nz-date-picker>
                   </div>
                   <div class="form">
                     <label>Allowing Date: </label>
@@ -60,17 +62,60 @@
                       style="width: 120px"
                       nz-input
                       type="number"
-                      [ngModel]="value"
+                      [ngModel]="movie.allowing_Age"
                     />
+                  </div>
+                  <div class="form">
+                    <label>Category: </label>
+                    <nz-select
+                      [nzMaxTagCount]="3"
+                      [nzMaxTagPlaceholder]="tagPlaceHolder"
+                      nzMode="multiple"
+                      nzPlaceHolder="Please select"
+                      [(ngModel)]="movie.categories"
+                    >
+                      @for (item of categories; track item) {
+                        <nz-option [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+                      }
+                    </nz-select>
+                    <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="form">
+                  <div class="form">
+                    <label>Participant: </label>
+                    <nz-select
+                      [nzMaxTagCount]="3"
+                      [nzMaxTagPlaceholder]="tagPlaceHolder"
+                      nzMode="multiple"
+                      nzPlaceHolder="Please select"
+                      [(ngModel)]="movie.participants"
+                    >
+                      @for (item of participants; track item) {
+                        <nz-option [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+                      }
+                    </nz-select>
+                    <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected
+                    </ng-template>
+                  </div>
+                  <div class="form">
+                    <label>Duration: </label>
+                    <div class="form">
+                      <input nz-input placeholder="Basic usage" [(ngModel)]="movie.duration" [disabled]="true" />
+                      <div>  (min)</div>
+                    </div>
                   </div>
                 </div>
                 <div class="form">
                   <label>Poster: </label>
-                  <app-poster-upload (onUploadFilePoster)="onUploadPoster($event)"></app-poster-upload>
+                  <app-poster-upload
+                    [apiUrl]="apiUrl"
+                    (onUploadFilePoster)="onUploadPoster($event)"></app-poster-upload>
                 </div>
                 <div class="form">
                   <label>Description: </label>
-                  <editor [apiKey]="apiKey" class="input" [init]="init"></editor>
+                  <editor [(ngModel)]="movie.description" [apiKey]="apiKey" class="input" [init]="init"></editor>
                 </div>
               </div>
             </ng-template>
