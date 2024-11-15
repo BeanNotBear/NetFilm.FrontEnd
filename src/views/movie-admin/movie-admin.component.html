@@ -18,6 +18,7 @@
   <app-dialog-admin
     [isVisible]="isVisibleDialog"
     [isOkLoading]="isVisibleLoading"
+    (close)="onCloseDialog()"
     [width]="1000"
     [footer]="null">
     <ngvn-dialog dialogName="Add Movie">
@@ -38,7 +39,7 @@
                     <label>Country: </label>
                     <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a country" [(ngModel)]="movie.country">
                       @for (country of countries; track country) {
-                        <nz-option [nzLabel]="country.name" [nzValue]="country.id"></nz-option>
+                        <nz-option [nzLabel]="country.name" [nzValue]="country"></nz-option>
                       }
                     </nz-select>
                   </div>
@@ -93,7 +94,7 @@
                       [(ngModel)]="movie.participants"
                     >
                       @for (item of participants; track item) {
-                        <nz-option [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+                        <nz-option [nzLabel]="item.name" [nzValue]="item"></nz-option>
                       }
                     </nz-select>
                     <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected
@@ -122,7 +123,29 @@
           </ngvn-process>
           <ngvn-process [currentStep]="1" stepName="Subtitle">
             <ng-template appProcessContent>
-              <app-upload></app-upload>
+              <nz-upload (change)="onChangeSubtitles()" [(nzFileList)]="subtitleFiles" [nzBeforeUpload]="beforeUpload">
+                <button nz-button>
+                  <span nz-icon nzType="upload"></span>
+                  Select File
+                </button>
+              </nz-upload>
+              <br />
+              <br />
+              <button
+                nz-button
+                nzType="primary"
+                [nzLoading]="uploading"
+                (click)="handleUploadSubtitle()"
+
+                [disabled]="subtitleFiles.length === 0"
+              >
+                {{ uploading ? 'Uploading' : 'Start Upload' }}
+              </button>
+              @for(i of n; track i) {
+                <div class="form">
+                  <input required nz-input placeholder="Basic usage" [(ngModel)]="subtitleName[i]" type="text" />
+                </div>
+              }
             </ng-template>
           </ngvn-process>
         </app-process>

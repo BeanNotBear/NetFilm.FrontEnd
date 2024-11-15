@@ -94,4 +94,15 @@ export class ApiService {
   uploadMovieDetails(id: string, movie: MovieDto): Observable<MovieResponseDto> {
     return this.http.put<MovieResponseDto>(`${this.baseUrl}/Movies/${id}/Add/Details`, movie);
   }
+
+  uploadSubtitle(id: string, formData: FormData, method: string): Observable<MovieResponseDto> {
+    const req = new HttpRequest(method, `${this.baseUrl}/Subtitles/Upload`, formData, {
+      // reportProgress: true
+    });
+
+    return this.http.request(req).pipe(
+      filter((event: HttpEvent<any>) => event.type === HttpEventType.Response),
+      map((response: HttpResponse<any>) => response.body as MovieResponseDto)
+    );
+  }
 }

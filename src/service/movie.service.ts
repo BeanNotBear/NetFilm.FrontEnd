@@ -21,7 +21,7 @@ export class MovieService {
   }
 
   updateMovieDetails(movie: MovieResponseDto, file: NzUploadFile) {
-    let categories = movie.categories.map(x => x.id).join(',');
+    let categories = movie.categories.join(',');
     console.log(categories)
     let participants = movie.participants.map(x => x.id).join(',');
     console.log(participants)
@@ -30,12 +30,13 @@ export class MovieService {
       movie.description,
       movie.quality,
       movie.allowing_Age,
-      movie.release_Date,
+      new Date(movie.release_Date).toISOString(),
       movie.duration,
       movie.country.id,
       categories,
       participants
     );
+    console.log(movieRequest);
     return this.apiService.uploadMovieDetails(movie.id, movieRequest);
   }
 

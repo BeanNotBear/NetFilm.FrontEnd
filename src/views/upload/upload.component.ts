@@ -24,6 +24,7 @@ export class UploadComponent {
   @Input() multipleUpload = true;
   @Input() limitFile: number | null = null;
   @Output() onUploadMovieDone = new EventEmitter<MovieResponseDto>();
+  @Output() raiseNumberOfFile = new EventEmitter<number>();
 
   uploading = false;
   fileList: NzUploadFile[] = [];
@@ -41,6 +42,9 @@ export class UploadComponent {
         this.fileList = this.fileList.slice(1, lastIndex + 1);
         this.messageService.error(`Only ${this.limitFile} file${this.limitFile !== 1 ? 's' : ''} allowed`);
       }
+    }
+    if(this.fileList) {
+      this.raiseNumberOfFile.emit(this.fileList.length);
     }
   }
 
