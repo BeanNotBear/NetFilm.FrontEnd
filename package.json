@@ -23,7 +23,9 @@
     "bootstrap": "^5.3.3",
     "boxicons": "^2.1.4",
     "ng-zorro-antd": "^18.2.0",
+    "primeng": "^17.18.12",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.14.5",
     "swiper": "^8.4.7",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"

@@ -79,7 +79,19 @@
             </div>
           </div>
           <div class="action col-lg-3 d-flex justify-content-end">
-            <i class='bx bxs-user'></i>
+            <div class="nav-item dropdown" style="margin: 0px; padding: 0px">
+              <i class='bx bxs-user'></i>
+              <ul class="dropdown-menu">
+                @if (!LoggedIn) {
+                  <li><a class="dropdown-item text-white" routerLink="/login">Login</a></li>
+                  <li><a class="dropdown-item text-white" routerLink="/register">Register</a></li>
+                }
+                @if (LoggedIn) {
+                  <li><a class="dropdown-item text-white" routerLink="/user-admin">Admin</a></li>
+                  <li><a class="dropdown-item text-white" (click)="logoutBtn()">Logout</a></li>
+                }
+              </ul>
+            </div>
           </div>
         </div>
       </div>
