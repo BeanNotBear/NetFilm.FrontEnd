@@ -93,6 +93,6 @@ export class MovieService {
   }
 
   getMovieDetails(id: string) {
-
+    return this.apiService.getMovieDetails(id);
   }
 }

@@ -112,4 +112,8 @@ export class ApiService {
       params: httpParam
     });
   }
+
+  getMovieDetails(id: string) {
+    return this.http.get<MovieResponseDto>(`${this.baseUrl}/Movies/${id}`);
+  }
 }
