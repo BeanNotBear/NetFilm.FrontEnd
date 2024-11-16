@@ -35,4 +35,7 @@ export class DialogComponent {
     this.router.navigate([`/movie/${this.movie.id}/details`])
   }
 
+  watchNow() {
+    this.router.navigate([`/movie/${this.movie.id}/watch`])
+  }
 }

@@ -22,7 +22,7 @@ export const routes: Routes = [
     component: MovieDetailsComponent
   },
   {
-    path: 'movie/watch',
+    path: 'movie/:movieId/watch',
     title: 'Watch',
     component: MovieWatchingComponent
   },

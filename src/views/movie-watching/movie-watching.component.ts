@@ -12,6 +12,9 @@ import {TabComponent} from "../tab/tab.component";
 import {TabDirective} from "../../directives/tab.directive";
 import {MoviesComponent} from "../movies/movies.component";
 import {MovieAreaComponent} from "../movie-area/movie-area.component";
+import {ActivatedRoute} from "@angular/router";
+import {MovieService} from "../../service/movie.service";
+import {MovieResponseDto} from "../../models/movieDtos/movie.response.dto";
 
 @Component({
   selector: 'app-movie-watching',
@@ -35,10 +38,36 @@ import {MovieAreaComponent} from "../movie-area/movie-area.component";
 export class MovieWatchingComponent {
   preload: string = 'auto';
   api!: VgApiService;
+  movieId!: string;
+  movie!: MovieResponseDto;
 
   playerState$!: Observable<string>;
 
-  constructor(private playerState: PlayerStateService) { }
+  constructor(private playerState: PlayerStateService,
+              private route: ActivatedRoute,
+              private movieService: MovieService) {
+    this.route.params.subscribe({
+      next: param => {
+        this.movieId = param['movieId'];
+        this.fetchMovieDetails();
+        console.log(this.movieId);
+      },
+      error: err => {
+        console.error(err)
+      }
+    });
+  }
+
+  fetchMovieDetails() {
+    this.movieService.getMovieDetails(this.movieId).subscribe({
+      next: data => {
+        this.movie = data;
+      },
+      error: err => {
+        console.error(err);
+      }
+    });
+  }
 
   ngOnInit() {
     this.playerState$ = this.playerState.state$;

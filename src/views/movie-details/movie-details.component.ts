@@ -37,6 +37,7 @@ export class MovieDetailsComponent {
       next: param => {
         this.movieId = param['movieId'];
         this.fetchMovieDetails();
+        this.releaseDate = this.movie.release_Date;
         console.log(this.movieId);
       },
       error: err => {
