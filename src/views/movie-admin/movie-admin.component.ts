@@ -122,6 +122,7 @@ export class MovieAdminComponent {
     this.messageService.success('Add movie successfully!');
     this.isVisibleDialog = false;
     this.subtitleFiles = [];
+    this.n = [];
   }
 
   onUploadMovieDone(movie: MovieResponseDto) {
