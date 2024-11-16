@@ -6,6 +6,9 @@ import {MovieSiderComponent} from "../movie-sider/movie-sider.component";
 import {TabDirective} from "../../directives/tab.directive";
 import {CommentComponent} from "../comment/comment.component";
 import {ContentDirective} from "../../directives/content.directive";
+import {ActivatedRoute} from "@angular/router";
+import {MovieService} from "../../service/movie.service";
+import {MovieResponseDto} from "../../models/movieDtos/movie.response.dto";
 
 @Component({
   selector: 'app-movie-details',
@@ -24,9 +27,33 @@ import {ContentDirective} from "../../directives/content.directive";
 export class MovieDetailsComponent {
   formattedReleaseDate!: string;
   releaseDate = '08/29/2003';
+  movieId!: string;
+  movie!: MovieResponseDto;
 
-  constructor(private dateService: DateService) {
+  constructor(private dateService: DateService,
+              private route: ActivatedRoute,
+              private movieService: MovieService) {
+    this.route.params.subscribe({
+      next: param => {
+        this.movieId = param['movieId'];
+        this.fetchMovieDetails();
+        console.log(this.movieId);
+      },
+      error: err => {
+        console.error(err)
+      }
+    });
+  }
 
+  fetchMovieDetails() {
+    this.movieService.getMovieDetails(this.movieId).subscribe({
+      next: data => {
+        this.movie = data;
+      },
+      error: err => {
+        console.error(err);
+      }
+    });
   }
 
   formatReleaseDate(): string {
