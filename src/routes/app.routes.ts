@@ -4,6 +4,7 @@ import {UserAdminComponent} from "../views/user-admin/user-admin.component";
 import {MovieDetailsComponent} from "../views/movie-details/movie-details.component";
 import {MovieWatchingComponent} from "../views/movie-watching/movie-watching.component";
 import {MovieListComponent} from "../views/movie-list/movie-list.component";
+import { ParticipantComponent } from '../views/participant/participant.component';
 
 export const routes: Routes = [
   {
@@ -34,6 +35,11 @@ export const routes: Routes = [
     path: 'user-admin',
     title: ' User Admin',
     component: UserAdminComponent,
+  },
+  {
+    path: 'participant',
+    title: 'participant',
+    component: ParticipantComponent,
   },
 
 ];

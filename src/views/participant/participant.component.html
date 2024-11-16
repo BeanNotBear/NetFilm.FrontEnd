@@ -1,0 +1,58 @@
+<!-- Table with Bootstrap -->
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th style="width: 25%;">Name</th>
+      <th style="width: 25%;">Role in Movie</th>
+      <th style="width: 25%;">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let participant of participants; let i = index">
+      <td>{{ participant.name }}</td>
+      <td>
+        <ng-container *ngIf="participant.roleInMovie === 0">Director</ng-container>
+        <ng-container *ngIf="participant.roleInMovie === 1">Actor</ng-container>
+      </td>
+      <td>
+        <button class="btn btn-link" (click)="participantIdToUpdate = participant.id; editParticipant(participant)">Edit</button>
+        <button class="btn btn-link text-danger" (click)="participantIdToDelete = participant.id; deleteParticipant()">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Add Participant Button -->
+<button class="btn btn-primary" (click)="openCreateModal()">Add Participant</button>
+
+<!-- Modal for Creating/Editing Participant -->
+<div class="modal fade" [ngClass]="{'show': isModalVisible}" tabindex="-1" aria-hidden="true" style="display: block;" *ngIf="isModalVisible">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 style="color: black !important;">{{ modalTitle }}</h5> <!-- Dynamic title -->
+        <button type="button" class="btn-close" (click)="handleCancel()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="participantForm">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" id="name" class="form-control" formControlName="name" placeholder="Enter name" />
+          </div>
+          <div class="mb-3">
+            <label for="roleInMovie" class="form-label">Role in Movie:</label>
+            <select id="roleInMovie" class="form-select" formControlName="roleInMovie">
+              <option value="" disabled selected>Select a role</option>
+              <option [ngValue]="0">Director</option>
+              <option [ngValue]="1">Actor</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="handleCancel()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="handleOk()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
