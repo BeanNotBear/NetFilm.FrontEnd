@@ -3,6 +3,8 @@ import {NzUploadFile} from "ng-zorro-antd/upload";
 import {ApiService} from "../api/api.service";
 import {MovieResponseDto} from "../models/movieDtos/movie.response.dto";
 import {MovieDto} from "../models/movieDtos/movie.dto";
+import {MovieParam} from "../models/movieDtos/movie.param";
+import {HttpParams} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -46,5 +48,47 @@ export class MovieService {
       formData.append('file', file);
     }
     return this.apiService.uploadFile(formData, 'POST');
+  }
+
+  getMoviesViewer(movieParam: MovieParam) {
+    let param = new HttpParams()
+      .set("PageIndex", movieParam.pageIndex)
+      .set("PageSize", movieParam.pageSize)
+      .set("SearchTerm", movieParam.searchTerm);
+
+    if(movieParam.status !== null) {
+      param = param.set("Status", movieParam.status);
+    }
+    if(movieParam.quality !== null) {
+      param = param.set("Quality", movieParam.quality);
+    }
+    if(movieParam.allowingAge !== null) {
+      param = param.set("AllowingAge", movieParam.allowingAge);
+    }
+    if(movieParam.averageStar !== null) {
+      param = param.set("AverageStar", movieParam.averageStar);
+    }
+    if(movieParam.country !== null) {
+      param = param.set("Country", movieParam.country);
+    }
+    if(movieParam.category !== null) {
+      param = param.set("Category", movieParam.category)
+    }
+    if(movieParam.participant !== null) {
+      param = param.set("Participant", movieParam.participant)
+    }
+    if(movieParam.releaseDate !== null) {
+      param = param.set("ReleaseDate", movieParam.releaseDate)
+    }
+    if(movieParam.includes !== null) {
+      param = param.set("Includes", movieParam.includes)
+    }
+    if(movieParam.sortBy !== null) {
+      param = param.set("SortBy", movieParam.sortBy)
+    }
+    if(movieParam.ascending !== null) {
+      param = param.set("Ascending", movieParam.ascending)
+    }
+    return this.apiService.getMoviesViewer(param);
   }
 }

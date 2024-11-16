@@ -17,6 +17,7 @@ import {CountryDto} from "../models/countryDtos/country.dto";
 import {ParticipantDto} from "../models/participantDtos/participant.dto";
 import {CategoryDto} from "../models/categoryDtos/category.dto";
 import {MovieDto} from "../models/movieDtos/movie.dto";
+import {MovieViewerDto} from "../models/movieDtos/movie.viewer.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -104,5 +105,11 @@ export class ApiService {
       filter((event: HttpEvent<any>) => event.type === HttpEventType.Response),
       map((response: HttpResponse<any>) => response.body as MovieResponseDto)
     );
+  }
+
+  getMoviesViewer(httpParam: HttpParams) {
+    return this.http.get<PageResult<MovieViewerDto>>(`${this.baseUrl}/Movies/spec`, {
+      params: httpParam
+    });
   }
 }

@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {MoviesComponent} from "../movies/movies.component";
+import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
 
 @Component({
   selector: 'app-movie-area',
@@ -13,5 +14,5 @@ import {MoviesComponent} from "../movies/movies.component";
 export class MovieAreaComponent {
   @Input({required: true}) areaName!: string;
   @Input() visibleViewAll: boolean = true;
-  // @Input()
+  @Input() movies!: MovieViewerDto[];
 }

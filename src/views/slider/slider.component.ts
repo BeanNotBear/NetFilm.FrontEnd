@@ -1,4 +1,5 @@
-import {Component, AfterViewInit, Output, EventEmitter} from '@angular/core';
+import {Component, AfterViewInit, Output, EventEmitter, Input} from '@angular/core';
+import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
 
 @Component({
   selector: 'app-slider',
@@ -9,18 +10,7 @@ import {Component, AfterViewInit, Output, EventEmitter} from '@angular/core';
 })
 
 export class SliderComponent implements AfterViewInit{
-  slides = [
-    {title: 'Slide 1', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
-    { title: 'Slide 2', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
-    { title: 'Slide 3', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
-    { title: 'Slide 4', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
-    { title: 'Slide 5', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
-    { title: 'Slide 6', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
-    { title: 'Slide 7', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
-    { title: 'Slide 7', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
-    { title: 'Slide 7', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'},
-    { title: 'Slide 7', content: 'Lorem ipsum dolor sit amet consectetur...', image: 'https://m.media-amazon.com/images/M/MV5BNTgwNDBhOGItNTIxZC00ZjMzLWFhZTYtOGNiM2MzYWViMWUwXkEyXkFqcGc@._V1_.jpg'}
-  ];
+  @Input() sliders: MovieViewerDto[] = [];
 
   @Output() openDialog = new EventEmitter<boolean>();
 
@@ -58,7 +48,7 @@ export class SliderComponent implements AfterViewInit{
   }
 
   nextSlide() {
-    if (this.active < this.slides.length - 1) {
+    if (this.active < this.sliders.length - 1) {
       this.active++;
       this.loadShow();
     }
