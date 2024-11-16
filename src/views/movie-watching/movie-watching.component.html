@@ -79,7 +79,7 @@
         </ng-template>
       </ngvn-tab>
     </app-tab>
-    <app-movie-area areaName="Top Views"></app-movie-area>
-    <app-movie-area areaName="Top Rate"></app-movie-area>
+    <app-movie-area [movies]="topviews" areaName="Top Views"></app-movie-area>
+    <app-movie-area [movies]="mostRates" areaName="Most Rate"></app-movie-area>
   </div>
 </div>

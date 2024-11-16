@@ -2,7 +2,7 @@
   <div class="action">
     <h3>{{ areaName }}</h3>
     @if (visibleViewAll) {
-      <p>View All <i class="fa-solid fa-arrow-right"></i></p>
+      <p (click)="onViewAll()">View All <i class="fa-solid fa-arrow-right"></i></p>
     }
   </div>
   <app-movies (selectMovie)="onSelectMovie($event)" [movies]="movies"></app-movies>

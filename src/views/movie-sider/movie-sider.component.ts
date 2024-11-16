@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
 
 @Component({
   selector: 'app-movie-sider',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrl: './movie-sider.component.scss'
 })
 export class MovieSiderComponent {
-
+  @Input() movies!: MovieViewerDto
 }

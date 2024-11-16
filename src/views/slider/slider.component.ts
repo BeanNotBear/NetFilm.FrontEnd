@@ -9,7 +9,7 @@ import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
   styleUrl: './slider.component.scss'
 })
 
-export class SliderComponent implements OnInit{
+export class SliderComponent implements OnInit, AfterViewInit{
   @Input() sliders: MovieViewerDto[] = [];
 
   @Output() openDialog = new EventEmitter<string>();
@@ -17,6 +17,10 @@ export class SliderComponent implements OnInit{
   active = 3;
 
   ngOnInit(): void {
+    this.loadShow();
+  }
+
+  ngAfterViewInit(): void {
     this.loadShow();
   }
 
@@ -64,4 +68,6 @@ export class SliderComponent implements OnInit{
   onClick(movieId: string) {
     this.openDialog.emit(movieId);
   }
+
+
 }

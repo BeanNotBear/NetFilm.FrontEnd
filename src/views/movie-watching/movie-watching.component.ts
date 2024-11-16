@@ -15,6 +15,8 @@ import {MovieAreaComponent} from "../movie-area/movie-area.component";
 import {ActivatedRoute} from "@angular/router";
 import {MovieService} from "../../service/movie.service";
 import {MovieResponseDto} from "../../models/movieDtos/movie.response.dto";
+import {MovieParam} from "../../models/movieDtos/movie.param";
+import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
 
 @Component({
   selector: 'app-movie-watching',
@@ -40,6 +42,8 @@ export class MovieWatchingComponent {
   api!: VgApiService;
   movieId!: string;
   movie!: MovieResponseDto;
+  topviews: MovieViewerDto[] = [];
+  mostRates: MovieViewerDto[] = [];
 
   playerState$!: Observable<string>;
 
@@ -71,6 +75,8 @@ export class MovieWatchingComponent {
 
   ngOnInit() {
     this.playerState$ = this.playerState.state$;
+    this.fetchTopViews();
+    this.fetchMostRate();
   }
 
   onPlayerReady(api: VgApiService) {
@@ -87,6 +93,63 @@ export class MovieWatchingComponent {
         this.playerState.updatePlayerState('pause');
       }
     );
+  }
 
+  fetchTopViews() {
+    const movieParam = new MovieParam(
+      1,
+      6,
+      "",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      false,
+      null,
+      'totalviews',
+      false
+    );
+    this.movieService.getMoviesViewer(movieParam).subscribe({
+      next: data => {
+        console.log(data);
+        this.topviews = data.items;
+      },
+      error: err => {
+        console.error(err)
+      }
+    });
+  }
+
+  fetchMostRate() {
+    const movieParam = new MovieParam(
+      1,
+      6,
+      "",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      false,
+      null,
+      'averagestar',
+      false
+    );
+    this.movieService.getMoviesViewer(movieParam).subscribe({
+      next: data => {
+        console.log(data);
+        this.mostRates = data.items;
+      },
+      error: err => {
+        console.error(err)
+      }
+    });
   }
 }

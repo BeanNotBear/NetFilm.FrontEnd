@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MoviesComponent} from "../movies/movies.component";
 import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-movie-area',
@@ -17,7 +18,14 @@ export class MovieAreaComponent {
   @Input() movies!: MovieViewerDto[];
   @Output() selectMovie = new EventEmitter<string>();
 
+  constructor(private router: Router) {
+  }
+
   onSelectMovie(id: string) {
     this.selectMovie.emit(id);
+  }
+
+  onViewAll() {
+    this.router.navigate(['/movies']);
   }
 }
