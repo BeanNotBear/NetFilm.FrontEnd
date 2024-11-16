@@ -31,8 +31,9 @@ export class HomeComponent implements OnInit{
     this.isOpen = isOpen;
   }
 
-  onOpenDialog(isOpen: boolean) {
-    this.isOpen  = isOpen;
+  onOpenDialog(movieId: string) {
+
+    this.isOpen  = true;
   }
 
   ngOnInit(): void {

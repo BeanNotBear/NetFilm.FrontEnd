@@ -91,4 +91,8 @@ export class MovieService {
     }
     return this.apiService.getMoviesViewer(param);
   }
+
+  getMovieDetails(id: string) {
+
+  }
 }

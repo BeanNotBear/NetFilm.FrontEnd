@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, Output, EventEmitter, Input} from '@angular/core';
+import {Component, AfterViewInit, Output, EventEmitter, Input, OnInit} from '@angular/core';
 import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
 
 @Component({
@@ -9,14 +9,14 @@ import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
   styleUrl: './slider.component.scss'
 })
 
-export class SliderComponent implements AfterViewInit{
+export class SliderComponent implements OnInit{
   @Input() sliders: MovieViewerDto[] = [];
 
-  @Output() openDialog = new EventEmitter<boolean>();
+  @Output() openDialog = new EventEmitter<string>();
 
   active = 3;
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.loadShow();
   }
 
@@ -61,7 +61,7 @@ export class SliderComponent implements AfterViewInit{
     }
   }
 
-  onClick() {
-    this.openDialog.emit(true);
+  onClick(movieId: string) {
+    this.openDialog.emit(movieId);
   }
 }
