@@ -6,6 +6,7 @@ import {DialogComponent} from "../dialog/dialog.component";
 import {MovieService} from "../../service/movie.service";
 import {MovieParam} from "../../models/movieDtos/movie.param";
 import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
+import {MovieResponseDto} from "../../models/movieDtos/movie.response.dto";
 
 @Component({
   selector: 'app-home',
@@ -21,26 +22,31 @@ import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
 })
 export class HomeComponent implements OnInit{
   constructor(private movieService: MovieService) {
+    this.fetchSliders();
   }
   isOpen = false;
   topviews: MovieViewerDto[] = [];
   mostRates: MovieViewerDto[] = [];
   newReleases: MovieViewerDto[] = [];
   sliders: MovieViewerDto[] = [];
+  movie!: MovieResponseDto;
+  movieId!: string;
+
   onCloseDialog(isOpen: boolean) {
     this.isOpen = isOpen;
   }
 
   onOpenDialog(movieId: string) {
-
+    console.log(movieId);
+    this.movieId = movieId;
     this.isOpen  = true;
+    this.fetchMovieDetails();
   }
 
   ngOnInit(): void {
     this.fetchTopViews();
     this.fetchMostRate();
     this.fetchNewRelease();
-    this.fetchSliders();
   }
 
   fetchTopViews() {
@@ -155,6 +161,18 @@ export class HomeComponent implements OnInit{
       },
       error: err => {
         console.error(err)
+      }
+    });
+  }
+
+  fetchMovieDetails() {
+    console.log(this.movieId)
+    this.movieService.getMovieDetails(this.movieId).subscribe({
+      next: data => {
+        this.movie = data;
+      },
+      error: err => {
+        console.error(err);
       }
     });
   }

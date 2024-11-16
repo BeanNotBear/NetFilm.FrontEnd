@@ -5,5 +5,5 @@
       <p>View All <i class="fa-solid fa-arrow-right"></i></p>
     }
   </div>
-  <app-movies [movies]="movies"></app-movies>
+  <app-movies (selectMovie)="onSelectMovie($event)" [movies]="movies"></app-movies>
 </div>

@@ -1,6 +1,6 @@
 <div class="movies" >
   @for (movie of movies; track movie.id) {
-    <app-movie [movie]="movie"/>
+    <app-movie (selectMovie)="onSelectMovie($event)" [movie]="movie"/>
   }
 </div>
 

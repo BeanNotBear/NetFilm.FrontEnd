@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Movie} from "../movies/movies.component";
 import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
 
@@ -11,4 +11,10 @@ import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
 })
 export class MovieComponent {
   @Input() movie!: MovieViewerDto;
+  @Output() selectMovie = new EventEmitter<string>();
+
+  onSelect() {
+    this.selectMovie.emit(this.movie.id);
+    console.log(this.movie)
+  }
 }

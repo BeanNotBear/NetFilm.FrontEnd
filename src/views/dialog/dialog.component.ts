@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {RateComponent} from "../rate/rate.component";
+import {MovieService} from "../../service/movie.service";
+import {MovieResponseDto} from "../../models/movieDtos/movie.response.dto";
 
 @Component({
   selector: 'app-dialog',
@@ -12,12 +14,18 @@ import {RateComponent} from "../rate/rate.component";
 })
 export class DialogComponent {
   @Input() isOpen = false;
+  @Input() movie!: MovieResponseDto;
   @Output() closeDialog = new EventEmitter<boolean>();
-  rate = 4.1;
   allowHalf = true
+
+
+  constructor(private movieService: MovieService) {
+    console.log(this.movie)
+  }
 
   onClose() {
     this.isOpen = false;
     this.closeDialog.emit(this.isOpen);
   }
+
 }

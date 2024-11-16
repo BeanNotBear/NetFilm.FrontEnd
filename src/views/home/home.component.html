@@ -2,11 +2,11 @@
   <div class="slider">
     <app-slider [sliders]="sliders" (openDialog)="onOpenDialog($event)"></app-slider>
   </div>
-  <app-movie-area [movies]="topviews"  areaName="Most Views"></app-movie-area>
-  <app-movie-area [movies]="mostRates" areaName="Most Rates"></app-movie-area>
-  <app-movie-area [movies]="newReleases" areaName="New Release"></app-movie-area>
+  <app-movie-area (selectMovie)="onOpenDialog($event)" [movies]="topviews"  areaName="Most Views"></app-movie-area>
+  <app-movie-area (selectMovie)="onOpenDialog($event)" [movies]="mostRates" areaName="Most Rates"></app-movie-area>
+  <app-movie-area (selectMovie)="onOpenDialog($event)" [movies]="newReleases" areaName="New Release"></app-movie-area>
 </div>
 @if(isOpen) {
-  <app-dialog (closeDialog)="onCloseDialog($event)" [class.app-dialog-backdrop]="isOpen" [isOpen]="isOpen"></app-dialog>
+  <app-dialog [movie]="movie" (closeDialog)="onCloseDialog($event)" [class.app-dialog-backdrop]="isOpen" [isOpen]="isOpen"></app-dialog>
 }
 

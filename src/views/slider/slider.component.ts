@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, Output, EventEmitter, Input, OnInit} from '@angular/core';
+import {Component, AfterViewInit, Output, EventEmitter, Input, OnInit, OnDestroy} from '@angular/core';
 import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
 
 @Component({
