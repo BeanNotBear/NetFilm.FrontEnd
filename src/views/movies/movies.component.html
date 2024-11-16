@@ -1,6 +1,9 @@
-<div class="movies" >
-  @for (movie of movies; track movie.id) {
+<div class="movies">
+  @for (movie of movies; track $index) {
     <app-movie (selectMovie)="onSelectMovie($event)" [movie]="movie"/>
+    @if(($index+1) % 6 === 0) {
+      <br>
+    }
   }
 </div>
 
