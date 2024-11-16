@@ -3,30 +3,47 @@
     <h3>Filter</h3>
     <div class="filter">
       <label for="category">Category:</label>
-      <select name="category" id="category">
-        <option value="">1</option>
-        <option value="">2</option>
-        <option value="">3</option>
+      <select name="category" id="category" [(ngModel)]="movieParam.category" (change)="onChange()">
+        @for(category of categories; track category) {
+          <option [value]="category.id">{{category.name}}</option>
+        }
+        <option value="">All</option>
       </select>
       <label for="country">Country:</label>
-      <select name="country" id="country">
-        <option value="">1</option>
-        <option value="">2</option>
-        <option value="">3</option>
+      <select name="country" id="country" [(ngModel)]="movieParam.country" (change)="onChange()">
+        @for(country of countries; track countries) {
+          <option [value]="country.id">{{country.name}}</option>
+        }
+        <option value="">All</option>
       </select>
       <label for="quality">Quality:</label>
-      <select name="quality" id="quality">
-        <option value="">1</option>
-        <option value="">2</option>
-        <option value="">3</option>
+      <select name="quality" id="quality" [(ngModel)]="movieParam.quality" (change)="onChange()">
+        <option value="0">HD</option>
+        <option value="1">Full HD</option>
+        <option [value]="-1">All</option>
       </select>
       <label for="sort">Sort:</label>
-      <select name="sort" id="sort">
-        <option value="">1</option>
-        <option value="">2</option>
-        <option value="">3</option>
+      <select name="sort" id="sort" [(ngModel)]="movieParam.sortBy" (change)="onChange()">
+        <option value="name">Name</option>
+        <option value="releasedate">Release Date</option>
+        <option value="averagestar">Average Star</option>
+        <option value="totalviews">Views</option>
+      </select>
+      <label for="sort">Sort:</label>
+      <select name="sort" id="order" [(ngModel)]="movieParam.ascending" (change)="onChange()">
+        <option [value]="true">Ascending</option>
+        <option [value]="false">Descending</option>
       </select>
     </div>
   </div>
-  <app-movie-area [movies]="movies" areaName="Movies" [visibleViewAll]="false"></app-movie-area>
+  <app-movie-area [movies]="pagedResult.items" areaName="Movies" [visibleViewAll]="false"></app-movie-area>
+  <div class="paginator">
+    <nz-pagination [nzPageIndex]="pagedResult.pageIndex"
+                   [nzTotal]="pagedResult.totalItems"
+                   nzShowSizeChanger
+                   [nzPageSizeOptions]="pageSizeOptions"
+                   (nzPageIndexChange)="onPageIndexChange($event)"
+                   (nzPageSizeChange)="onPageSizeChange($event)"
+                   [nzPageSize]="12"></nz-pagination>
+  </div>
 </div>

@@ -59,7 +59,7 @@ export class MovieService {
     if(movieParam.status !== null) {
       param = param.set("Status", movieParam.status);
     }
-    if(movieParam.quality !== null) {
+    if(movieParam.quality !== null && movieParam.quality != -1) {
       param = param.set("Quality", movieParam.quality);
     }
     if(movieParam.allowingAge !== null) {
@@ -68,7 +68,7 @@ export class MovieService {
     if(movieParam.averageStar !== null) {
       param = param.set("AverageStar", movieParam.averageStar);
     }
-    if(movieParam.country !== null) {
+    if(movieParam.country !== null && movieParam.country !== "") {
       param = param.set("Country", movieParam.country);
     }
     if(movieParam.category !== null) {
@@ -86,7 +86,7 @@ export class MovieService {
     if(movieParam.sortBy !== null) {
       param = param.set("SortBy", movieParam.sortBy)
     }
-    if(movieParam.ascending !== null) {
+    if(movieParam.ascending !== null && movieParam.sortBy !== null) {
       param = param.set("Ascending", movieParam.ascending)
     }
     return this.apiService.getMoviesViewer(param);
