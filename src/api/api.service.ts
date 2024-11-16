@@ -4,19 +4,20 @@ import {PageResult} from "../models/common/pageResult.model";
 import {delay, Observable} from "rxjs";
 import {UserDto} from "../models/userDtos/userDto.model";
 import {Role, RoleResponse} from "../models/roleDtos/role";
+import { Participant } from '../models/participantDtos/participant';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private baseUrl = "https://localhost:7027/api";
+  private baseUrl = "http://localhost:5042/api";
 
   constructor(private http: HttpClient) {
   }
 
   getUsersPagination(pageIndex: number, pageSize: number, searchTerm: string, sortBy: string, ascending: boolean) {
-    return this.http.get<PageResult<UserDto>>('https://localhost:7027/api/Users/PageResult', {
+    return this.http.get<PageResult<UserDto>>('https://localhost:5042/api/Users/PageResult', {
       params: new HttpParams()
         .set('pageIndex', pageIndex)
         .set('pageSize', pageSize)
@@ -27,7 +28,7 @@ export class ApiService {
   }
 
   addRole(role: Role) {
-    return this.http.post<RoleResponse>('https://localhost:7027/api/Roles', role).subscribe(
+    return this.http.post<RoleResponse>('https://localhost:5042/api/Roles', role).subscribe(
       {
         next: data => {
           console.log(data);
@@ -38,5 +39,21 @@ export class ApiService {
         }
       }
     );
+  }
+
+  addParticipant(participant: Participant): Observable<Participant> {
+    return this.http.post<Participant>(`${this.baseUrl}/Participants`, participant);
+  }
+
+  getAllParticipants(): Observable<Participant[]> {
+    return this.http.get<Participant[]>(`${this.baseUrl}/Participants`);
+  }
+
+  putParticipant(participant: Participant, id: Number): Observable<Participant> {
+    return this.http.put<Participant>(`${this.baseUrl}/Participants/${id}`, participant);
+  }
+
+  deleteParticipant(id: Number): Observable<Participant> {
+    return this.http.delete<Participant>(`${this.baseUrl}/Participants/${id}`);
   }
 }

@@ -11,11 +11,34 @@ import {ColumnDirective} from "../views/table/components/column.directive";
 import {CellDirective} from "../views/table/components/cell.directive";
 import {HeaderDirective} from "../views/table/components/header.directive";
 import {DashboardComponent} from "../views/dashboard/dashboard.component";
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet, NzIconModule, NzLayoutModule, NzMenuModule, HeaderComponent, FooterComponent, TableComponent, ColumnDirective, CellDirective, HeaderDirective, DashboardComponent],
+  imports: [CommonModule,
+    RouterLink,
+    RouterOutlet,
+    NzIconModule,
+    NzLayoutModule,
+    NzMenuModule,
+    HeaderComponent,
+    FooterComponent,
+    TableComponent,
+    ColumnDirective,
+    CellDirective,
+    HeaderDirective,
+    DashboardComponent,
+    NzTableModule,
+    NzButtonModule,
+    NzFormModule,
+    NzInputModule,
+    NzModalModule,
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
