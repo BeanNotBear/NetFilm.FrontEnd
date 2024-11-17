@@ -1,0 +1,16 @@
+.poster {
+  width: 100px;
+}
+
+td button i{
+  margin-right: 10px;
+}
+
+td button:nth-child(3) {
+  background-color: #34a853;
+  border: unset;
+}
+
+td button:nth-child(3):hover {
+  background-color: #008225;
+}
