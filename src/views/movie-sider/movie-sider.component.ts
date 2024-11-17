@@ -9,5 +9,10 @@ import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
   styleUrl: './movie-sider.component.scss'
 })
 export class MovieSiderComponent {
-  @Input() movies!: MovieViewerDto
+  @Input() movies!: MovieViewerDto[];
+
+  getYearRelease(date: string) {
+    let year = new Date(date).getFullYear();
+    return year;
+  }
 }

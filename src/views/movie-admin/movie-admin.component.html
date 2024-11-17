@@ -58,12 +58,12 @@
                     <nz-date-picker [(ngModel)]="movie.release_Date"></nz-date-picker>
                   </div>
                   <div class="form">
-                    <label>Allowing Date: </label>
+                    <label>Allowing Age: </label>
                     <input
                       style="width: 120px"
                       nz-input
                       type="number"
-                      [ngModel]="movie.allowing_Age"
+                      [(ngModel)]="movie.allowing_Age"
                     />
                   </div>
                   <div class="form">
@@ -118,12 +118,20 @@
                   <label>Description: </label>
                   <editor [(ngModel)]="movie.description" [apiKey]="apiKey" class="input" [init]="init"></editor>
                 </div>
+                @if(isVisibleSubmit) {
+                  <div class="form">
+                    <button class="submit" (click)="onSubmit()">Submit</button>
+                  </div>
+                }
               </div>
             </ng-template>
           </ngvn-process>
           <ngvn-process [currentStep]="1" stepName="Subtitle">
             <ng-template appProcessContent>
-              <nz-upload (change)="onChangeSubtitles()" [(nzFileList)]="subtitleFiles" [nzBeforeUpload]="beforeUpload">
+              <nz-upload (change)="onChangeSubtitles()"
+                         [(nzFileList)]="subtitleFiles"
+                         [nzFileType]="fileTypes"
+                         [nzBeforeUpload]="beforeUpload">
                 <button nz-button>
                   <span nz-icon nzType="upload"></span>
                   Select File

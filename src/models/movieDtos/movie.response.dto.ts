@@ -17,6 +17,7 @@ export class MovieResponseDto {
   release_Date!: string;
   duration!: number;
   totalViews!: number;
+  totalPeopleVote!: number;
   country: CountryDto = new CountryDto();
   categories: CategoryDto[] = [];
   subtitles: SubtitleResponseDto[] = [];

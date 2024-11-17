@@ -65,7 +65,7 @@ import {SubtitleService} from "../../service/subtitle.service";
 })
 export class MovieAdminComponent {
   alowUploadFileTypes = 'video/mp4,video/webm,video/ogg,video/quicktime,video/x-msvideo,video/x-flv,video/3gpp,video/x-matroska';
-  isVisibleDialog = false;
+  isVisibleDialog = true;
   isVisibleLoading = false;
   movie: MovieResponseDto = new MovieResponseDto();
   posterFile!: NzUploadFile;
@@ -80,9 +80,12 @@ export class MovieAdminComponent {
   numberOfFiles = 0;
   n = Array(this.numberOfFiles).fill(0).map((_, i) => i);
   subtitleName: string[] = [];
+  isVisibleSubmit = true;
 
   subtitleFiles: NzUploadFile[] = [];
   uploading = false;
+  fileTypes: string = 'text/vtt';
+  canNext = true;
 
   onChangeSubtitles() {
     this.numberOfFiles = this.subtitleFiles.length;
@@ -109,6 +112,9 @@ export class MovieAdminComponent {
 
   beforeUpload = (file: NzUploadFile): boolean => {
     this.subtitleFiles = this.subtitleFiles.concat(file);
+    if(file.type !==  '.vtt') {
+      this.messageService.error('Can only upload file vtt!')
+    }
     return false;
   };
 
@@ -177,17 +183,29 @@ export class MovieAdminComponent {
   }
 
   onNext() {
-    console.log(this.movie);
-    console.log(new Date(this.movie.release_Date).toISOString())
-    console.log(this.posterFile);
-    this.movieService.updateMovieDetails(this.movie, this.posterFile).subscribe({
-      next: data => {
+    this.isVisibleSubmit = false;
+  }
 
-      },
-      error: err => {
-        console.error(err)
-      }
-    });
+  onSubmit() {
+    let isValidData  = false;
+    if(this.movie.name && this.movie.description && this.movie.quality && this.movie.allowing_Age
+      && this.movie.release_Date && this.movie.duration && this.movie.country.id && this.movie.categories
+      && this.movie.participants) {
+      isValidData = true;
+    }
+    if(isValidData) {
+      this.movieService.updateMovieDetails(this.movie).subscribe({
+        next: data => {
+          this.canNext = true;
+        },
+        error: err => {
+          console.error(err)
+        }
+      });
+    } else {
+      this.canNext = false;
+      console.error('Fail');
+    }
   }
 
   onUploadPoster(file: NzUploadFile) {

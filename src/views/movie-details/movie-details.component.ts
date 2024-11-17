@@ -9,6 +9,8 @@ import {ContentDirective} from "../../directives/content.directive";
 import {ActivatedRoute} from "@angular/router";
 import {MovieService} from "../../service/movie.service";
 import {MovieResponseDto} from "../../models/movieDtos/movie.response.dto";
+import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
+import {MovieParam} from "../../models/movieDtos/movie.param";
 
 @Component({
   selector: 'app-movie-details',
@@ -29,6 +31,7 @@ export class MovieDetailsComponent {
   releaseDate = '08/29/2003';
   movieId!: string;
   movie!: MovieResponseDto;
+  movies: MovieViewerDto[] = [];
 
   constructor(private dateService: DateService,
               private route: ActivatedRoute,
@@ -44,12 +47,41 @@ export class MovieDetailsComponent {
         console.error(err)
       }
     });
+    this.fetchMovies();
   }
 
   fetchMovieDetails() {
     this.movieService.getMovieDetails(this.movieId).subscribe({
       next: data => {
         this.movie = data;
+      },
+      error: err => {
+        console.error(err);
+      }
+    });
+  }
+
+  fetchMovies() {
+    const movieParam = new MovieParam(
+      1,
+      4,
+      "",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      false,
+      null,
+      'averagestar',
+      false
+    );
+    this.movieService.getMoviesViewer(movieParam).subscribe({
+      next: value => {
+        this.movies  = value.items;
       },
       error: err => {
         console.error(err);

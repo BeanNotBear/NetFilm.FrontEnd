@@ -6,11 +6,11 @@
       </div>
       <div class="movie-infor col-lg-9">
         <div class="basic-infor">
-          <h3>{{movie.name}}</h3>
+          <h3>{{ movie.name }}</h3>
           <div>
             <p class="date-release">{{ formatReleaseDate() }}</p>
-            <p class="duration">{{movie.duration}} min</p>
-            <p class="country">{{movie.country.name}}</p>
+            <p class="duration">{{ movie.duration }} min</p>
+            <p class="country">{{ movie.country.name }}</p>
           </div>
         </div>
         <div class="rating">
@@ -20,18 +20,18 @@
                         [disable]="true"
                         [rate]="movie.average_Star"
                         [totalRate]="movie.average_Star"></app-rate>
-<!--              <div class="your-rate">Your rate: 5</div>-->
+              <!--              <div class="your-rate">Your rate: 5</div>-->
             </div>
             <div class="total-vote">
               <i class="fa-solid fa-users"></i>
-              <span>10 Votes</span>
+              <span>{{ movie.totalPeopleVote }} Votes</span>
             </div>
           </div>
         </div>
         <div class="cate-action">
           <div class="category">
-            @for(item of movie.categories; track item) {
-              <div><a href="#">{{item.name}}</a></div>
+            @for (item of movie.categories; track item) {
+              <div><a href="#">{{ item.name }}</a></div>
             }
           </div>
           <div>
@@ -55,8 +55,8 @@
         <ng-template appContent>
           <h5>Participants</h5>
           <ul>
-            @for(item of movie.participants; track item) {
-              <li>{{item.name}}</li>
+            @for (item of movie.participants; track item) {
+              <li>{{ item.name }}</li>
             }
           </ul>
         </ng-template>
@@ -64,5 +64,5 @@
     </app-tab>
     <hr>
   </div>
-  <app-movie-sider></app-movie-sider>
+  <app-movie-sider [movies]="movies"></app-movie-sider>
 </div>

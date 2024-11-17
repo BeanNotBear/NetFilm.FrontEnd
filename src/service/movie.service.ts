@@ -22,7 +22,7 @@ export class MovieService {
     return this.apiService.uploadFile(formData, 'POST');
   }
 
-  updateMovieDetails(movie: MovieResponseDto, file: NzUploadFile) {
+  updateMovieDetails(movie: MovieResponseDto) {
     let categories = movie.categories.join(',');
     console.log(categories)
     let participants = movie.participants.map(x => x.id).join(',');
