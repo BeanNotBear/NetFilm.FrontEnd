@@ -51,7 +51,7 @@
   ></ngvn-column>
 
   <ngvn-column header="Action">
-    <ng-template appCell>
+    <ng-template appCell let-row>
       <td>
         <!-- <button nz-button nzType="primary" nzSize="small" nzShape="round">
           <i class="fa-regular fa-pen-to-square"></i>
@@ -64,7 +64,7 @@
           nzSize="small"
           nzShape="round"
           nzDanger
-          (click)="deleteComment()"
+          (click)="deleteComment(row.id)"
         >
           <i class="fa-regular fa-trash-can"></i>
           Delete
@@ -76,8 +76,6 @@
 <!-- <app-dialog-admin
   [isVisible]="isVisibleDialog"
   [isOkLoading]="isLoandingDialod"
-  (close)="onClose()"
-  (submit)="onSubmit()"
 >
   <ngvn-dialog dialogName="Add User">
     <ng-template appDialogContent>

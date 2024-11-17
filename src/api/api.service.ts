@@ -6,6 +6,8 @@ import { UserDto } from '../models/userDtos/userDto.model';
 import { Role, RoleResponse } from '../models/roleDtos/role';
 import { CategoryDto } from '../models/categoryDtos/categoryDto.model';
 import { CommentDto } from '../models/commentDtos/commentDto.model';
+import { AddReplyDto } from '../models/commentDtos/addReplyDto.model';
+import { AdvertiseDto } from '../models/advertiseDtos/advertiseDto.model';
 
 @Injectable({
   providedIn: 'root',
@@ -92,6 +94,33 @@ export class ApiService {
           .set('ascending', ascending),
       })
       .pipe(delay(0));
+  }
+
+  deleteComment(commentId: string) {
+    return this.http.patch<any>(this.baseUrl + '/Comment/' + commentId, null);
+  }
+
+  getAdvertisesPagination(
+    pageIndex: number,
+    pageSize: number,
+    searchTerm: string,
+    sortBy: string,
+    ascending: boolean
+  ) {
+    return this.http
+      .get<PageResult<AdvertiseDto>>(this.baseUrl + '/Advertise/PageResult', {
+        params: new HttpParams()
+          .set('pageIndex', pageIndex)
+          .set('pageSize', pageSize)
+          .set('searchTerm', searchTerm)
+          .set('sortBy', sortBy)
+          .set('ascending', ascending),
+      })
+      .pipe(delay(0));
+  }
+
+  addAdvertise(data: any) {
+    return this.http.post<any>(this.baseUrl + '/Advertise', data);
   }
 
   addRole(role: Role) {

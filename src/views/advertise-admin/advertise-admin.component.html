@@ -1,1 +1,135 @@
-<p>advertise-admin works!</p>
+<div class="header-table">
+  <h3>Advertise Manager</h3>
+  <button
+    nz-button
+    nzType="primary"
+    nzSize="large"
+    nzShape="round"
+    (click)="onOpenAdd()"
+  >
+    <i class="fa-regular fa-square-plus"></i>
+    Create
+  </button>
+</div>
+<br />
+<app-table
+  [rows]="pageResult.items"
+  [page]="pageResult.pageIndex"
+  [pageSize]="pageResult.pageSize"
+  [totalRows]="pageResult.totalItems"
+  [clientPagination]="false"
+  (pageIndexChange)="onPageIndexChange($event)"
+  (pageSizeChange)="onPageSizeChange($event)"
+  (searchChange)="onSearchChange($event)"
+  [loading]="loading"
+>
+  <ngvn-column header="ID" key="id"></ngvn-column>
+
+  <ngvn-column
+    header="Image"
+    key="image"
+    [sortable]="true"
+    (sortChange)="onSortChange($event)"
+  ></ngvn-column>
+
+  <ngvn-column
+    header="Title"
+    key="title"
+    [sortable]="true"
+    (sortChange)="onSortChange($event)"
+  ></ngvn-column>
+
+  <ngvn-column
+    header="Content"
+    key="content"
+    [sortable]="true"
+    (sortChange)="onSortChange($event)"
+  ></ngvn-column>
+
+  <ngvn-column
+    header="CreateBy"
+    key="createBy"
+    [sortable]="true"
+    (sortChange)="onSortChange($event)"
+  ></ngvn-column>
+
+  <ngvn-column header="Action">
+    <ng-template appCell>
+      <td>
+        <button
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="round"
+          class="action"
+        >
+          <i class="fa-regular fa-pen-to-square"></i>
+          Update
+        </button>
+        <!--                <nz-divider nzType="vertical"></nz-divider>-->
+        <!--                <button nz-button nzType="primary" nzSize="small" nzShape="round" nzDanger>-->
+        <!--                    <i class="fa-regular fa-trash-can"></i>-->
+        <!--                    Delete-->
+        <!--                </button>-->
+      </td>
+    </ng-template>
+  </ngvn-column>
+</app-table>
+<app-dialog-admin
+  [isVisible]="isVisibleDialog"
+  [isOkLoading]="isLoandingDialod"
+  (close)="onClose()"
+  (submit)="onSubmit()"
+>
+  <ngvn-dialog dialogName="Add User">
+    <ng-template appDialogContent
+      ><form nz-form [formGroup]="validateForm">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title"
+            >Title</nz-form-label
+          >
+          <nz-form-control
+            [nzSm]="14"
+            [nzXs]="24"
+            nzErrorTip="Please input your title"
+          >
+            <input nz-input formControlName="title" id="title" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="content" nzRequired
+            >Content</nz-form-label
+          >
+          <nz-form-control
+            [nzSm]="14"
+            [nzXs]="24"
+            nzErrorTip="Please input your content"
+          >
+            <input
+              nz-input
+              type="text"
+              id="content"
+              formControlName="content"
+            />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="image" nzRequired
+            >Image</nz-form-label
+          >
+          <nz-upload
+            nzListType="picture"
+            [(nzFileList)]="fileList"
+            [nzLimit]="1"
+            (nzChange)="handleChange($event)"
+          >
+            <button nz-button>
+              <span nz-icon nzType="upload"></span>
+              Upload
+            </button>
+          </nz-upload>
+        </nz-form-item>
+      </form>
+    </ng-template>
+  </ngvn-dialog>
+</app-dialog-admin>

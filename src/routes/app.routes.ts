@@ -6,6 +6,7 @@ import { MovieWatchingComponent } from '../views/movie-watching/movie-watching.c
 import { MovieListComponent } from '../views/movie-list/movie-list.component';
 import { CategoryAdminComponent } from '../views/category-admin/category-admin.component';
 import { CommentAdminComponent } from '../views/comment-admin/comment-admin.component';
+import { AdvertiseAdminComponent } from '../views/advertise-admin/advertise-admin.component';
 
 export const routes: Routes = [
   {
@@ -46,5 +47,10 @@ export const routes: Routes = [
     path: 'comment-admin',
     title: 'Comment Admin',
     component: CommentAdminComponent,
+  },
+  {
+    path: 'advertise-admin',
+    title: 'Advertise Admin',
+    component: AdvertiseAdminComponent,
   },
 ];

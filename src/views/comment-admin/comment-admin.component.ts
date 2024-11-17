@@ -11,6 +11,10 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { FormsModule } from '@angular/forms';
 import { CommentDto } from '../../models/commentDtos/commentDto.model';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { HeaderDirective } from '../table/components/header.directive';
+import { DialogAdminComponent } from '../dialog-admin/dialog-admin.component';
+import { DialogDirective } from '../../directives/dialog.directive';
+import { DialogContentDirective } from '../../directives/dialog-content.directive';
 
 @Component({
   selector: 'app-comment-admin',
@@ -24,6 +28,10 @@ import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
     NzDividerModule,
     NzModalModule,
     FormsModule,
+    HeaderDirective,
+    DialogAdminComponent,
+    DialogDirective,
+    DialogContentDirective,
   ],
   templateUrl: './comment-admin.component.html',
   styleUrl: './comment-admin.component.scss',
@@ -57,7 +65,7 @@ export class CommentAdminComponent {
     totalPages: number = 0;
   })();
 
-  loadCategory(): void {
+  loadComment(): void {
     this.loading = true;
     this.apiService
       .getCommentsPagination(
@@ -74,34 +82,40 @@ export class CommentAdminComponent {
   }
 
   ngOnInit(): void {
-    this.loadCategory();
+    this.loadComment();
   }
 
   onPageIndexChange(pageIndex: number): void {
     this.pageIndex = pageIndex;
-    this.loadCategory();
+    this.loadComment();
     console.log(this.pageIndex);
   }
 
   onPageSizeChange(pageSize: number): void {
     this.pageSize = pageSize;
-    this.loadCategory();
+    this.loadComment();
     console.log(this.pageSize);
   }
 
   onSortChange(event: { key: string; order: SortOrder }) {
     this.sort.key = event.key;
     this.sort.order = event.order;
-    this.loadCategory();
+    this.loadComment();
     console.log(event);
   }
 
   onSearchChange(search: string) {
     this.search = search;
-    this.loadCategory();
+    this.loadComment();
   }
 
-  deleteComment() {
-    console.log(this.idColumn.id);
+  deleteComment(id: string) {
+    this.apiService.deleteComment(id).subscribe(() => {
+      this.loadComment();
+    });
+  }
+
+  onOpenAdd() {
+    this.isVisibleDialog = true;
   }
 }

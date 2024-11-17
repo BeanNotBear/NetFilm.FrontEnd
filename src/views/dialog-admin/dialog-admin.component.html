@@ -1,15 +1,15 @@
 <nz-modal
-        [(nzVisible)]="isVisible"
-        nzTitle="Modal Title"
-        (nzOnCancel)="handleCancel()"
-        (nzOnOk)="handleOk()"
-        [nzOkLoading]="isOkLoading"
+  [(nzVisible)]="isVisible"
+  nzTitle="Modal Title"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
 >
-    <div *nzModalContent>
-        @if (dialog.templateContent.template) {
-            <ng-container *ngTemplateOutlet="dialog.templateContent.template"></ng-container>
-        } @else {
-            123
-        }
-    </div>
+  <div *nzModalContent>
+    @if (dialog.templateContent.template) {
+    <ng-container
+      *ngTemplateOutlet="dialog.templateContent.template"
+    ></ng-container>
+    } @else { 123 }
+  </div>
 </nz-modal>
