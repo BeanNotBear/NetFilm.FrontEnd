@@ -27,6 +27,7 @@ export class DialogAdminComponent {
   @Input() isOkLoading = false;
   @Input() width: number |  string = 600;
   @Input() footer: string | TemplateRef<{}> | Array<ModalButtonOptions<NzSafeAny>> | null | undefined = Array<ModalButtonOptions<NzSafeAny>>();
+  @Input() dialogTitle = "Modal Title";
 
   @Output() close = new EventEmitter<void>();
   @Output() submit = new EventEmitter<void>();

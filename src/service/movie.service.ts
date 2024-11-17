@@ -92,6 +92,48 @@ export class MovieService {
     return this.apiService.getMoviesViewer(param);
   }
 
+  getMoviesManagement(movieParam: MovieParam) {
+    let param = new HttpParams()
+      .set("PageIndex", movieParam.pageIndex)
+      .set("PageSize", movieParam.pageSize)
+      .set("SearchTerm", movieParam.searchTerm);
+
+    if(movieParam.status !== null) {
+      param = param.set("Status", movieParam.status);
+    }
+    if(movieParam.quality !== null && movieParam.quality != -1) {
+      param = param.set("Quality", movieParam.quality);
+    }
+    if(movieParam.allowingAge !== null) {
+      param = param.set("AllowingAge", movieParam.allowingAge);
+    }
+    if(movieParam.averageStar !== null) {
+      param = param.set("AverageStar", movieParam.averageStar);
+    }
+    if(movieParam.country !== null && movieParam.country !== "") {
+      param = param.set("Country", movieParam.country);
+    }
+    if(movieParam.category !== null) {
+      param = param.set("Category", movieParam.category)
+    }
+    if(movieParam.participant !== null) {
+      param = param.set("Participant", movieParam.participant)
+    }
+    if(movieParam.releaseDate !== null) {
+      param = param.set("ReleaseDate", movieParam.releaseDate)
+    }
+    if(movieParam.includes !== null) {
+      param = param.set("Includes", movieParam.includes)
+    }
+    if(movieParam.sortBy !== null) {
+      param = param.set("SortBy", movieParam.sortBy)
+    }
+    if(movieParam.ascending !== null && movieParam.sortBy !== null) {
+      param = param.set("Ascending", movieParam.ascending)
+    }
+    return this.apiService.getMoviesManagement(param);
+  }
+
   getMovieDetails(id: string) {
     return this.apiService.getMovieDetails(id);
   }

@@ -15,6 +15,7 @@ export class ProcessComponent {
   @ContentChildren(ProcessDirective) processes!: QueryList<ProcessDirective>;
   @Input() totalProcesses = 0;
   @Output() onNextProcess = new EventEmitter();
+  @Output() onDone = new EventEmitter();
 
   current = 0;
 
@@ -29,6 +30,6 @@ export class ProcessComponent {
   }
 
   done(): void {
-    console.log('done');
+    this.onDone.emit();
   }
 }

@@ -2,6 +2,12 @@
   color: var(--white);
 }
 
+.header-table{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
 .ant-modal-content {
   width: 50%;
 

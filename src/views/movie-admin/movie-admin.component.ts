@@ -31,6 +31,10 @@ import {MovieService} from "../../service/movie.service";
 import {HttpClient} from "@angular/common/http";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {SubtitleService} from "../../service/subtitle.service";
+import {ColumnDirective} from "../table/components/column.directive";
+import {CellDirective} from "../table/components/cell.directive";
+import {MovieTableComponent} from "../movie-table/movie-table.component";
+import {MovieDetailsAdminComponent} from "../movie-details-admin/movie-details-admin.component";
 
 @Component({
   selector: 'app-movie-admin',
@@ -56,6 +60,10 @@ import {SubtitleService} from "../../service/subtitle.service";
     NzTooltipDirective,
     NzUploadComponent,
     PosterUploadComponent,
+    ColumnDirective,
+    CellDirective,
+    MovieTableComponent,
+    MovieDetailsAdminComponent,
   ],
   providers: [
     {provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js'}
@@ -65,7 +73,7 @@ import {SubtitleService} from "../../service/subtitle.service";
 })
 export class MovieAdminComponent {
   alowUploadFileTypes = 'video/mp4,video/webm,video/ogg,video/quicktime,video/x-msvideo,video/x-flv,video/3gpp,video/x-matroska';
-  isVisibleDialog = true;
+  isVisibleDialog = false;
   isVisibleLoading = false;
   movie: MovieResponseDto = new MovieResponseDto();
   posterFile!: NzUploadFile;
@@ -93,6 +101,10 @@ export class MovieAdminComponent {
     console.log(this.subtitleName);
   }
 
+  onDoneProcess() {
+    this.isVisibleDialog = false;
+  }
+
   constructor(private countryService: CountryService,
               private participantService: ParticipantService,
               private categoryService: CategoryService,
@@ -111,12 +123,17 @@ export class MovieAdminComponent {
   };
 
   beforeUpload = (file: NzUploadFile): boolean => {
-    this.subtitleFiles = this.subtitleFiles.concat(file);
-    if(file.type !==  '.vtt') {
-      this.messageService.error('Can only upload file vtt!')
+    const fileExtension = file.name.split('.').pop()?.toLowerCase();
+
+    if (fileExtension !== 'vtt') {
+      this.messageService.error('Can only upload .vtt files!');
+      return false;
     }
-    return false;
+
+    this.subtitleFiles = this.subtitleFiles.concat(file);
+    return false; // Prevents the default upload behavior.
   };
+
 
   handleUploadSubtitle() {
     const formData = new FormData();
@@ -182,28 +199,23 @@ export class MovieAdminComponent {
     });
   }
 
-  onNext() {
-    this.isVisibleSubmit = false;
-  }
-
   onSubmit() {
-    let isValidData  = false;
-    if(this.movie.name && this.movie.description && this.movie.quality && this.movie.allowing_Age
+    let isValidData = false;
+    if (this.movie.name && this.movie.description && this.movie.quality && this.movie.allowing_Age
       && this.movie.release_Date && this.movie.duration && this.movie.country.id && this.movie.categories
       && this.movie.participants) {
       isValidData = true;
     }
-    if(isValidData) {
+    if (isValidData) {
       this.movieService.updateMovieDetails(this.movie).subscribe({
         next: data => {
-          this.canNext = true;
+          this.isVisibleSubmit = false;
         },
         error: err => {
           console.error(err)
         }
       });
     } else {
-      this.canNext = false;
       console.error('Fail');
     }
   }
@@ -211,5 +223,24 @@ export class MovieAdminComponent {
   onUploadPoster(file: NzUploadFile) {
     console.log(file);
     this.posterFile = file;
+  }
+
+  isVisibleMovieDetails = false;
+  movieDetails!: MovieResponseDto;
+
+  onSelectMovie(id: string) {
+    this.isVisibleMovieDetails = true;
+    this.movieService.getMovieDetails(id).subscribe({
+      next: value => {
+        this.movieDetails = value;
+      },
+      error: err => {
+        console.error(err);
+      }
+    });
+  }
+
+  onCloseMovieDetails() {
+    this.isVisibleMovieDetails = false;
   }
 }

@@ -1,6 +1,6 @@
 <nz-modal
         [(nzVisible)]="isVisible"
-        nzTitle="Modal Title"
+        [nzTitle]="dialogTitle"
         (nzOnCancel)="handleCancel()"
         (nzOnOk)="handleOk()"
         [nzOkLoading]="isOkLoading"

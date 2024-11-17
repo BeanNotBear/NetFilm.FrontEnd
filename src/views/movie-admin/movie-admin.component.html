@@ -1,8 +1,16 @@
-<h3>Movie Management</h3>
+<div class="header-table">
+  <h3>Movie Manager</h3>
+  <button nz-button nzType="primary" nzSize="large" nzShape="round">
+    <i class="fa-regular fa-square-plus"></i>
+    Create
+  </button>
+</div>
+<app-movie-details-admin (closeMovieDetails)="onCloseMovieDetails()" [movie]="movieDetails"
+                         [isVisible]="isVisibleMovieDetails"></app-movie-details-admin>
 <app-tab>
   <ngvn-tab tabName="Movie List">
     <ng-template appContent>
-      <app-table></app-table>
+      <app-movie-table (selectMovie)="onSelectMovie($event)"></app-movie-table>
     </ng-template>
   </ngvn-tab>
   <ngvn-tab tabName="Upload Movie">
@@ -25,7 +33,7 @@
       <ng-template appDialogContent>
         <app-process
           [totalProcesses]="1"
-          (onNextProcess)="onNext()"
+          (onDone)="onDoneProcess()"
         >
           <ngvn-process [currentStep]="0" stepName="Details">
             <ng-template appProcessContent>
@@ -103,8 +111,8 @@
                   <div class="form">
                     <label>Duration: </label>
                     <div class="form">
-                      <input nz-input placeholder="Basic usage" [(ngModel)]="movie.duration" [disabled]="true" />
-                      <div>  (min)</div>
+                      <input nz-input placeholder="Basic usage" [(ngModel)]="movie.duration" [disabled]="true"/>
+                      <div> (min)</div>
                     </div>
                   </div>
                 </div>
@@ -118,7 +126,7 @@
                   <label>Description: </label>
                   <editor [(ngModel)]="movie.description" [apiKey]="apiKey" class="input" [init]="init"></editor>
                 </div>
-                @if(isVisibleSubmit) {
+                @if (isVisibleSubmit) {
                   <div class="form">
                     <button class="submit" (click)="onSubmit()">Submit</button>
                   </div>
@@ -137,8 +145,8 @@
                   Select File
                 </button>
               </nz-upload>
-              <br />
-              <br />
+              <br/>
+              <br/>
               <button
                 nz-button
                 nzType="primary"
@@ -149,9 +157,9 @@
               >
                 {{ uploading ? 'Uploading' : 'Start Upload' }}
               </button>
-              @for(i of n; track i) {
+              @for (i of n; track i) {
                 <div class="form">
-                  <input required nz-input placeholder="Basic usage" [(ngModel)]="subtitleName[i]" type="text" />
+                  <input required nz-input placeholder="Basic usage" [(ngModel)]="subtitleName[i]" type="text"/>
                 </div>
               }
             </ng-template>
@@ -161,3 +169,4 @@
     </ngvn-dialog>
   </app-dialog-admin>
 </app-tab>
+

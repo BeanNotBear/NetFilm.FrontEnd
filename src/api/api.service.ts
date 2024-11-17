@@ -18,6 +18,7 @@ import {ParticipantDto} from "../models/participantDtos/participant.dto";
 import {CategoryDto} from "../models/categoryDtos/category.dto";
 import {MovieDto} from "../models/movieDtos/movie.dto";
 import {MovieViewerDto} from "../models/movieDtos/movie.viewer.dto";
+import {MovieManageDto} from "../models/movieDtos/movie.manage.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -109,6 +110,12 @@ export class ApiService {
 
   getMoviesViewer(httpParam: HttpParams) {
     return this.http.get<PageResult<MovieViewerDto>>(`${this.baseUrl}/Movies/spec`, {
+      params: httpParam
+    });
+  }
+
+  getMoviesManagement(httpParam: HttpParams) {
+    return this.http.get<PageResult<MovieManageDto>>(`${this.baseUrl}/Movies/admin/spec`, {
       params: httpParam
     });
   }
