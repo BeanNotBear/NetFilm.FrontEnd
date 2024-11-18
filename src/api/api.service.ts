@@ -35,7 +35,7 @@ import { AdvertiseDto } from '../models/advertiseDtos/advertiseDto.model';
   providedIn: 'root',
 })
 export class ApiService {
-  private baseUrl = 'https://localhost:7027/api';
+  private baseUrl = 'https://localhost:44348/api';
 
   private headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
