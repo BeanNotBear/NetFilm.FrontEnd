@@ -4,7 +4,7 @@
       @if (tab.templateContent) {
         <ng-container *ngTemplateOutlet="tab.templateContent.template;"></ng-container>
       } @else {
-        {{tab.tabName}}
+        {{tab.key}}
       }
     </nz-tab>
   }

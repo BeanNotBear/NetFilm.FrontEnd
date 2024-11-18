@@ -16,6 +16,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import {AuthService} from "../service/auth.service";
 
 @Component({
   selector: 'app-root',
@@ -43,12 +44,22 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent{
-  constructor() {
+  constructor(private authService: AuthService) {
   }
 
   isCollapsed = false;
 
+  isDashBoard = true;
+
   ngOnInit(): void {
 
+  }
+
+  onOpenDashboard() {
+    this.isDashBoard = false;
+  }
+
+  onCloseDashboard() {
+    this.isDashBoard = true;
   }
 }

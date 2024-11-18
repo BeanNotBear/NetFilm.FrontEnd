@@ -1,0 +1,112 @@
+<app-dialog-admin
+  dialogTitle="Movie Details"
+  [width]="1000"
+  [footer]="null"
+  [isVisible]="isVisible"
+  (close)="closeMovieDetails.emit()"
+>
+  <ngvn-dialog>
+    <ng-template appDialogContent>
+      <div class="movie-details">
+        <div class="movie-image">
+          <img [src]="movie.thumbnail" alt="">
+        </div>
+        <div class="movie-information">
+          <h5>{{ movie.name }}</h5>
+          <div>
+            Total View:
+            {{ movie.totalViews }}
+            <i class="fa-solid fa-eye"></i>
+          </div>
+          <div>
+            Total People Vote:
+            {{ movie.totalPeopleVote }}
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <div>
+            Average Star:
+            {{ movie.average_Star }}
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <div>
+            Allowing Age:
+            {{ movie.allowing_Age }}
+            <i class="fa-solid fa-plus"></i>
+          </div>
+          <div>
+            Duration:
+            {{ movie.duration }}(min)
+            <i class="fa-solid fa-clock"></i>
+          </div>
+          <div>
+            Release Date:
+            {{ getDate(movie.release_Date) }}
+            <i class="fa-solid fa-calendar-days"></i>
+          </div>
+          <div>
+            Quality:
+            @if (movie.quality === 0) {
+              HD
+            } @else if (movie.quality === 1) {
+              Full HD
+            }
+          </div>
+          <div>
+            Status:
+            @if (movie.status === 0) {
+              Daft
+            } @else if (movie.status === 1) {
+              Active
+            } @else if (movie.status === 2) {
+              InActive
+            } @else if (movie.status === 3) {
+              Upcomming
+            }
+          </div>
+          <div>
+            Country:
+            {{ movie.country.name }}
+          </div>
+          <div>
+            Subtitles:
+            @if (movie.subtitles.length === 0) {
+              None
+            } @else {
+              <ul class="flex">
+                @for (subtitle of movie.subtitles; track subtitle) {
+                  <li>{{ subtitle.subtitleName }}</li>
+                }
+              </ul>
+            }
+          </div>
+          <div>
+            Categories:
+            @if (movie.categories.length === 0) {
+              None
+            } @else {
+              <ul class="flex">
+                @for (category of movie.categories; track category) {
+                  <li>{{ category.name }}</li>
+                }
+              </ul>
+            }
+          </div>
+          <div>
+            Participants:
+            @if (movie.participants.length === 0) {
+              None
+            } @else {
+              <ul class="flex">
+                @for (participant of movie.participants; track participant) {
+                  <li>{{ participant.name }}</li>
+                }
+              </ul>
+            }
+          </div>
+          <div [innerHTML]="movie.description">
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngvn-dialog>
+</app-dialog-admin>

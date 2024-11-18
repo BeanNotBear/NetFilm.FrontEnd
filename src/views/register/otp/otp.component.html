@@ -1,0 +1,47 @@
+<div class="otp-container flex flex-column align-items-center">
+  <div class="text-center mb-4">
+    <div class="title mb-2">Verify Your Account</div>
+    <p class="subtitle mb-0">Enter the code sent to your phone</p>
+  </div>
+
+  <div class="w-full">
+    <p-inputOtp
+      [(ngModel)]="verifyEmail.code"
+      [length]="6"
+      class="w-full justify-content-between">
+      <ng-template pTemplate="input" let-token let-events="events" let-index="index">
+        <input
+          #otpInput
+          pInputText
+          type="text"
+          [maxLength]="1"
+          (input)="events.input($event)"
+          (keydown)="events.keydown($event)"
+          (paste)="events.paste($event)"
+          [attr.value]="token"
+          [class]="getInputClass(token)"
+          [ngClass]="{'filled': token}" />
+      </ng-template>
+    </p-inputOtp>
+  </div>
+
+  <div class="flex justify-content-evenly align-items-center w-full mt-4 button-container">
+    <button
+      pButton
+      [label]="resendLabel"
+      [disabled]="timerActive"
+      (click)="handleResend()"
+      class="custom-button resend-button" style="margin-left: 140px">
+      <i class="pi pi-clock mr-2" [ngClass]="{'spin': timerActive}"></i>
+    </button>
+
+    <button
+      pButton
+      label="Verify"
+      icon="pi pi-check"
+      [loading]="verifying"
+      (click)="handleSubmit()"
+      class="custom-button verify-button" style="margin-left: 20px">
+    </button>
+  </div>
+</div>

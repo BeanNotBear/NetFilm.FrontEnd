@@ -1,0 +1,80 @@
+<!-- Normal Breadcrumb Begin -->
+<section class="normal-breadcrumb"
+         style="background-image: url('https://preview.redd.it/s2-spoilers-all-of-the-character-wallpapers-from-the-arcane-v0-enbzr68d6owd1.jpg?width=2048&format=pjpg&auto=webp&s=8181c42349c84d0de2492c1e0c2295de9fd0ed1f'); height: 200px; display: flex; align-items: center; justify-content: center; background-size: cover; background-position: center;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <div class="normal__breadcrumb__text">
+          <h2>Register</h2>
+          <p>Welcome to the official NetFilm blog.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Normal Breadcrumb End -->
+
+@if(!isRegister){
+<!-- Register Section Begin -->
+<section class="login spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="login__form">
+          <h3>Register</h3>
+          <form (ngSubmit)="onSubmit()">
+            <div class="input__item">
+              <input type="text" placeholder="First Name" name="firstName" [(ngModel)]="register.firstName" required>
+              <span class="fa-solid fa-user-pen"></span>
+            </div>
+            <div class="input__item">
+              <input type="text" placeholder="Last Name" name="lastName" [(ngModel)]="register.lastName" required>
+              <span class="fa-solid fa-user-pen"></span>
+            </div>
+            <div class="input__item">
+              <input type="date" placeholder="Date Of Birth" name="dateOfBirth" [(ngModel)]="register.dateOfBirth" required>
+              <span class="fa-regular fa-calendar-days"></span>
+            </div>
+            <div class="input__item">
+              <input type="text" placeholder="Username" name="userName" [(ngModel)]="register.userName" required>
+              <span class="fa-solid fa-user"></span>
+            </div>
+            <div class="input__item">
+              <input type="text" placeholder="Email" name="email" [(ngModel)]="register.email" required>
+              <span class="fa-regular fa-envelope"></span>
+            </div>
+            <div class="input__item">
+              <input
+                [type]="isPasswordVisible ? 'text' : 'password'"
+                placeholder="Password"
+                name="passWord"
+                [(ngModel)]="register.passWord" required
+              >
+              <span
+                class="fa-solid fa-lock"
+                [ngClass]="isPasswordVisible ? 'fa-eye' : 'fa-lock'"
+                (click)="togglePasswordVisibility()">
+              </span>
+            </div>
+            <div class="input__item">
+              <input type="text" placeholder="Phone Number" name="phoneNumber" [(ngModel)]="register.phoneNumber" required>
+              <span class="fa-solid fa-phone"></span>
+            </div>
+            <button type="submit" class="site-btn">Register Now</button>
+          </form>
+          <a routerLink="/forgot-password" class="forget_pass">Forgot Your Password?</a>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="login__register">
+          <h3>Have An Account?</h3>
+          <a routerLink="/login" class="primary-btn">Login Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Login Section End -->
+} @else {
+  <app-otp [email]="register.email"></app-otp>
+}

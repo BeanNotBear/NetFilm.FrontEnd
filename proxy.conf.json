@@ -1,0 +1,10 @@
+{
+  "/subtitles": {
+    "target": "https://d1psb6ixmwpbjl.cloudfront.net",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/subtitles": ""
+    }
+  }
+}

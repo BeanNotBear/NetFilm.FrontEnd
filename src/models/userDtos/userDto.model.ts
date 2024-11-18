@@ -2,7 +2,7 @@ export interface UserDto {
   id: string;
   firstName: string;
   lastName: string;
-  dateOfBirth: string;
+  dateOfBirth: Date;
   userName: string;
   email: string;
   phoneNumber: string;

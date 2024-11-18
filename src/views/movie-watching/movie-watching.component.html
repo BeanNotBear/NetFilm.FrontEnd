@@ -4,7 +4,9 @@
       <vg-overlay-play></vg-overlay-play>
       <vg-buffering></vg-buffering>
 
-      <vg-controls>
+      <vg-controls
+        [vgAutohide]="true" [vgAutohideTime]="1.5"
+      >
         <vg-play-pause></vg-play-pause>
         <vg-playback-button></vg-playback-button>
 
@@ -18,7 +20,7 @@
         <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
         <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
 
-        <vg-track-selector></vg-track-selector>
+        <vg-track-selector vgFor="singleVideo"></vg-track-selector>
         <vg-mute></vg-mute>
         <vg-volume></vg-volume>
 
@@ -30,15 +32,21 @@
         #media
         id="singleVideo"
         preload="auto"
-        src="https://dqg1h1bamqrgk.cloudfront.net/noi-vuc-noi-troi-ballad-le-bao-binh-official-lyrics-video-1080-publer.io.mp4">
+        crossorigin="anonymous"
+        (play)="onAddView(movie.id)"
+        [src]="movie.movie_Url">
+        @for (track of movie.subtitles; track track) {
+          <track kind="subtitles" [label]="track.subtitleName" [src]="track.subtitleUrl" [srclang]="track.subtitleName">
+        }
       </video>
+
     </vg-player>
-    <h3>Title</h3>
-    <p>View: 10 <i class="fa-solid fa-eye"></i></p>
+    <h3>{{ movie.name }}</h3>
+    <p>View: {{movie.totalViews}} <i class="fa-solid fa-eye"></i></p>
     <div class="flex">
       <span>Average Rate:</span>
-      <app-rate [rate]="1.2"
-                [totalRate]="1.2"
+      <app-rate [rate]="movie.average_Star"
+                [totalRate]="movie.average_Star"
                 [allowHalf]="true"
       ></app-rate>
     </div>
@@ -57,40 +65,25 @@
       </ngvn-tab>
       <ngvn-tab tabName="Description">
         <ng-template appContent>
-          <p>Tóm tắt
-            “Nam Lai Bắc Vãng” là một bộ phim truyền hình thể loại tình cảm lịch sử do Trịnh Hiểu Long (“Hậu Cung Chân
-            Hoàn Truyện”) và Lưu Chương Mục (“Hành Động Phá Băng”) đồng đạo diễn. Phim có sự tham gia của Bạch Kính Đình
-            (“Tân Xuyên Nhật Thường”), Kim Thần (“Được Ăn Cả Ngã Về Không”), và Đinh Dũng Đại (“Phong Thần 1: Tam Bộ
-            Khúc”) đảm nhận các vai chính. Vào cuối thập kỷ 1970, trên chuyến tàu hơi nước từ Ninh Dương đến cáp Nhĩ
-            Tân,
-            Uông Tân (do Bạch Kính Đình thủ vai), một thanh niên làm công việc kiểm soát trên tàu, đang chăm chỉ thực
-            hiện
-            nhiệm vụ giữ trật tự giữa đám đông hối hả. Anh nhầm lẫn Mã Khôi (do Đinh Dũng Đại thủ vai), một cựu cảnh sát
-            đường sắt là một kẻ đang chạy trốn, cả hai mở đầu một mối quan hệ thầy trò không mấy dễ dàng. Từ việc ban
-            đầu
-            không thích nhau, đến sự đồng cảm và tôn trọng lẫn nhau, Uông Tân và Mã Khôi đồng lòng chiến đấu tại tuyến
-            đầu
-            của cảnh sát đường sắt.</p>
+          <p [innerHTML]="movie.description"></p>
         </ng-template>
       </ngvn-tab>
       <ngvn-tab tabName="Participants">
         <ng-template appContent>
           <h5>Creator</h5>
           <ul>
-            <li>1</li>
-            <li>1</li>
-            <li>3</li>
+            @for(item of movie.participants; track item) {
+              <li>{{item.name}}</li>
+            }
           </ul>
-          <h5>Actors & Actress</h5>
-          <ul>
-            <li>1</li>
-            <li>1</li>
-            <li>3</li>
-          </ul>
+
         </ng-template>
       </ngvn-tab>
     </app-tab>
-    <app-movie-area areaName="Top Views"></app-movie-area>
-    <app-movie-area areaName="Top Rate"></app-movie-area>
+    <app-movie-area (selectMovie)="onOpenDialog($event)" [movies]="topviews" areaName="Top Views"></app-movie-area>
+    <app-movie-area (selectMovie)="onOpenDialog($event)" [movies]="mostRates" areaName="Most Rate"></app-movie-area>
   </div>
 </div>
+@if(isOpen) {
+  <app-dialog [movie]="movieDetails" (closeDialog)="onCloseDialog($event)" [class.app-dialog-backdrop]="isOpen" [isOpen]="isOpen"></app-dialog>
+}

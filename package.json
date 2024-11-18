@@ -19,13 +19,18 @@
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
+    "@tinymce/tinymce-angular": "^8.0.1",
     "@videogular/ngx-videogular": "^10.0.1",
     "bootstrap": "^5.3.3",
     "boxicons": "^2.1.4",
     "ng-zorro-antd": "^18.2.0",
+    "primeng": "^17.18.12",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.14.5",
     "swiper": "^8.4.7",
+    "tinymce": "^7.5.1",
     "tslib": "^2.3.0",
+    "uuid": "^11.0.3",
     "zone.js": "~0.14.10"
   },
   "devDependencies": {

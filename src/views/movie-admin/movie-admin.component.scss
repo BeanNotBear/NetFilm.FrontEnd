@@ -1,0 +1,49 @@
+* {
+  color: var(--white);
+}
+
+.header-table{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.ant-modal-content {
+  width: 50%;
+
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.form label {
+  width: 100px;
+  text-align: left;
+  margin-left: 40px;
+}
+
+.form .input {
+  width: 80%;
+}
+
+.form app-upload {
+  display: flex;
+}
+
+nz-select {
+  width: 200px;
+}
+
+.submit {
+  background-color: var(--blue);
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: unset;
+  margin-left: 20px;
+}
+
+
