@@ -119,8 +119,8 @@ export class ApiService {
       .pipe(delay(0));
   }
 
-  addAdvertise(data: any) {
-    return this.http.post<any>(this.baseUrl + '/Advertise', data);
+  addAdvertise(advertise: any, file: any) {
+    return this.http.post<any>(this.baseUrl + '/Advertise', advertise, file);
   }
 
   addRole(role: Role) {

@@ -75,61 +75,58 @@
     </ng-template>
   </ngvn-column>
 </app-table>
-<app-dialog-admin
-  [isVisible]="isVisibleDialog"
-  [isOkLoading]="isLoandingDialod"
-  (close)="onClose()"
-  (submit)="onSubmit()"
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="The first Modal"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
 >
-  <ngvn-dialog dialogName="Add User">
-    <ng-template appDialogContent
-      ><form nz-form [formGroup]="validateForm">
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title"
-            >Title</nz-form-label
-          >
-          <nz-form-control
-            [nzSm]="14"
-            [nzXs]="24"
-            nzErrorTip="Please input your title"
-          >
-            <input nz-input formControlName="title" id="title" />
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="content" nzRequired
-            >Content</nz-form-label
-          >
-          <nz-form-control
-            [nzSm]="14"
-            [nzXs]="24"
-            nzErrorTip="Please input your content"
-          >
-            <input
-              nz-input
-              type="text"
-              id="content"
-              formControlName="content"
-            />
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="image" nzRequired
-            >Image</nz-form-label
-          >
-          <nz-upload
-            nzListType="picture"
-            [(nzFileList)]="fileList"
-            [nzLimit]="1"
-            (nzChange)="handleChange($event)"
-          >
-            <button nz-button>
-              <span nz-icon nzType="upload"></span>
-              Upload
-            </button>
-          </nz-upload>
-        </nz-form-item>
-      </form>
-    </ng-template>
-  </ngvn-dialog>
-</app-dialog-admin>
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="createForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title"
+          >Title</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Please input your title"
+        >
+          <input nz-input formControlName="title" id="title" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="content" nzRequired
+          >Content</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Please input your content"
+        >
+          <input nz-input type="text" id="content" formControlName="content" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="image" nzRequired
+          >Image</nz-form-label
+        >
+        <nz-upload
+          nzAction="https://localhost:44348/api/Advertise"
+          nzListType="picture"
+          [(nzFileList)]="fileList"
+          [nzLimit]="1"
+          (nzChange)="handleChange($event)"
+          [nzBeforeUpload]="beforeUpload"
+        >
+          <button nz-button>
+            <span nz-icon nzType="upload"></span>
+            Upload
+          </button>
+        </nz-upload>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>

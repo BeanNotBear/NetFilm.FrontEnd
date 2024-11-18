@@ -20,6 +20,9 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { AddAdvertiseDto } from '../../models/advertiseDtos/addAdvertiseDto.model';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { AddFileAdvertiseDto } from '../../models/advertiseDtos/addAdvertiseFileDto.model';
 
 @Component({
   selector: 'app-advertise-admin',
@@ -42,6 +45,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzUploadModule,
     NzButtonModule,
     NzIconModule,
+    NzModalModule,
   ],
   templateUrl: './advertise-admin.component.html',
   styleUrl: './advertise-admin.component.scss',
@@ -52,21 +56,21 @@ export class AdvertiseAdminComponent {
   COL_DATA_TYPE = COL_DATA_TYPE;
 
   loading = false;
-  isVisibleDialog = false;
-  isLoandingDialod = false;
+
+  isVisible = false;
+  isOkLoading = false;
 
   pageIndex: number = 1;
   pageSize: number = 10;
   sort: { key: string; order: SortOrder } = { key: '', order: null };
   search: string = '';
 
-  validateForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
+  createForm: FormGroup = new FormGroup({
+    title: new FormControl('', [Validators.required]),
+    content: new FormControl('', [Validators.required]),
   });
 
-  defaultFileList: NzUploadFile[] = [];
-
-  fileList = [...this.defaultFileList];
+  fileList: NzUploadFile[] = [];
 
   pageResult: PageResult<AdvertiseDto> = new (class
     implements PageResult<AdvertiseDto>
@@ -80,7 +84,7 @@ export class AdvertiseAdminComponent {
     totalPages: number = 0;
   })();
 
-  loadCategory(): void {
+  loadAdvertise(): void {
     this.loading = true;
     this.apiService
       .getAdvertisesPagination(
@@ -97,47 +101,73 @@ export class AdvertiseAdminComponent {
   }
 
   ngOnInit(): void {
-    this.loadCategory();
+    this.loadAdvertise();
   }
 
   onPageIndexChange(pageIndex: number): void {
     this.pageIndex = pageIndex;
-    this.loadCategory();
+    this.loadAdvertise();
     console.log(this.pageIndex);
   }
 
   onPageSizeChange(pageSize: number): void {
     this.pageSize = pageSize;
-    this.loadCategory();
+    this.loadAdvertise();
     console.log(this.pageSize);
   }
 
   onSortChange(event: { key: string; order: SortOrder }) {
     this.sort.key = event.key;
     this.sort.order = event.order;
-    this.loadCategory();
+    this.loadAdvertise();
     console.log(event);
   }
 
   onSearchChange(search: string) {
     this.search = search;
-    this.loadCategory();
+    this.loadAdvertise();
   }
 
   onOpenAdd() {
-    this.isVisibleDialog = true;
-  }
-
-  onClose() {
-    this.isVisibleDialog = false;
+    this.isVisible = true;
   }
 
   onSubmit() {
-    if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
-    } else {
+    if (this.createForm.valid) {
+      const advertiseFile: AddFileAdvertiseDto = {
+        file: this.fileList[0].originFileObj,
+      };
+      const advertise: AddAdvertiseDto = {
+        title: this.createForm.value.title,
+        content: this.createForm.value.content,
+        createBy: '919C241A-E503-4133-BB71-3AE9F5A19ECD',
+      };
+
+      this.apiService.addAdvertise(advertise, advertiseFile).subscribe(() => {
+        this.loadAdvertise();
+        this.createForm.value.title = '';
+        this.createForm.value.content = '';
+        this.fileList = [];
+      });
     }
   }
+
+  beforeUpload = (file: any): boolean => {
+    this.fileList.push(file);
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.fileList = [
+        {
+          uid: file.uid,
+          name: file.name,
+          status: 'done',
+          url: e.target.result,
+        },
+      ];
+    };
+    reader.readAsDataURL(file);
+    return false;
+  };
 
   handleChange(event: any): void {
     const fileList = event.fileList;
@@ -146,5 +176,18 @@ export class AdvertiseAdminComponent {
     } else {
       this.fileList = fileList;
     }
+  }
+
+  handleOk(): void {
+    this.isOkLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isOkLoading = false;
+      this.onSubmit();
+    }, 100);
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
   }
 }
