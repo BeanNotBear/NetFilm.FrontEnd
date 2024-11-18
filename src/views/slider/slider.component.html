@@ -1,9 +1,9 @@
 <div class="container">
   <div class="slider">
-    @for(slide of slides; track slide) {
+    @for(slide of sliders; track slide) {
       <div class="item"
-           (click)="onClick()"
-           [style.backgroundImage]="'url(' + slide.image + ')'">
+           (click)="onClick(slide.id)"
+           [style.backgroundImage]="'url(' + slide.thumbnail + ')'">
       </div>
     }
     <div class="slider-action">

@@ -11,6 +11,7 @@ import {ColumnDirective} from "../views/table/components/column.directive";
 import {CellDirective} from "../views/table/components/cell.directive";
 import {HeaderDirective} from "../views/table/components/header.directive";
 import {DashboardComponent} from "../views/dashboard/dashboard.component";
+import {AuthService} from "../service/auth.service";
 
 @Component({
   selector: 'app-root',
@@ -20,12 +21,22 @@ import {DashboardComponent} from "../views/dashboard/dashboard.component";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent{
-  constructor() {
+  constructor(private authService: AuthService) {
   }
 
   isCollapsed = false;
 
+  isDashBoard = true;
+
   ngOnInit(): void {
 
+  }
+
+  onOpenDashboard() {
+    this.isDashBoard = false;
+  }
+
+  onCloseDashboard() {
+    this.isDashBoard = true;
   }
 }

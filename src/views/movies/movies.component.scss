@@ -1,8 +1,10 @@
-.movie-land {
-
-}
-
 .movies {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.movies app-movie {
+  flex: 0 0 calc(100% / 6);
+  margin: 20px 0;
 }

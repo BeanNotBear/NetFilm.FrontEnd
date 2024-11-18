@@ -38,6 +38,19 @@ h1 span {
   background-color: var(--red);
 }
 
+.nav-item:last-child {
+  width: fit-content;
+}
+
+.nav-item:last-child:hover {
+  background-color: unset;
+}
+
+.nav-item:last-child:hover i{
+  color: var(--red);
+}
+
+
 .action i {
   font-size: 44px;
   margin: 0 10px; /* Add space between icons */
@@ -88,3 +101,4 @@ h1 span {
   line-height:30px;
   padding:0 6px;
 }
+

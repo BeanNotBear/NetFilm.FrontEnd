@@ -1,0 +1,26 @@
+<div class="container">
+  <div>
+    <nz-upload [(nzFileList)]="fileList"
+               [nzFileType]="fileType"
+               [nzLimit]="limitFile"
+               [nzMultiple]="multipleUpload"
+               (change)="onRemove()"
+               [nzBeforeUpload]="beforeUpload">
+      <button nz-button>
+        <span nz-icon nzType="upload"></span>
+        Select File
+      </button>
+    </nz-upload>
+    <br/>
+    <br/>
+    <button
+      nz-button
+      nzType="primary"
+      [nzLoading]="uploading"
+      (click)="handleUpload()"
+      [disabled]="fileList.length === 0"
+    >
+      {{ uploading ? 'Uploading' : 'Start Upload' }}
+    </button>
+  </div>
+</div>

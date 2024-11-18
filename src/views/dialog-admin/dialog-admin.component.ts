@@ -1,7 +1,17 @@
-import {Component, ContentChild, ContentChildren, EventEmitter, Input, Output, QueryList} from '@angular/core';
-import {NzModalModule} from 'ng-zorro-antd/modal';
+import {
+  Component,
+  ContentChild,
+  ContentChildren,
+  EventEmitter,
+  Input,
+  Output,
+  QueryList,
+  TemplateRef
+} from '@angular/core';
+import {ModalButtonOptions, NzModalModule} from 'ng-zorro-antd/modal';
 import {DialogDirective} from "../../directives/dialog.directive";
 import {NgTemplateOutlet} from "@angular/common";
+import {NzSafeAny} from "ng-zorro-antd/core/types";
 
 @Component({
   selector: 'app-dialog-admin',
@@ -15,6 +25,9 @@ export class DialogAdminComponent {
 
   @Input() isVisible = true;
   @Input() isOkLoading = false;
+  @Input() width: number |  string = 600;
+  @Input() footer: string | TemplateRef<{}> | Array<ModalButtonOptions<NzSafeAny>> | null | undefined = Array<ModalButtonOptions<NzSafeAny>>();
+  @Input() dialogTitle = "Modal Title";
 
   @Output() close = new EventEmitter<void>();
   @Output() submit = new EventEmitter<void>();

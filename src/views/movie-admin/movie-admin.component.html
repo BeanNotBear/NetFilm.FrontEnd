@@ -1,0 +1,172 @@
+<div class="header-table">
+  <h3>Movie Manager</h3>
+  <button nz-button nzType="primary" nzSize="large" nzShape="round">
+    <i class="fa-regular fa-square-plus"></i>
+    Create
+  </button>
+</div>
+<app-movie-details-admin (closeMovieDetails)="onCloseMovieDetails()" [movie]="movieDetails"
+                         [isVisible]="isVisibleMovieDetails"></app-movie-details-admin>
+<app-tab>
+  <ngvn-tab tabName="Movie List">
+    <ng-template appContent>
+      <app-movie-table (selectMovie)="onSelectMovie($event)"></app-movie-table>
+    </ng-template>
+  </ngvn-tab>
+  <ngvn-tab tabName="Upload Movie">
+    <ng-template appContent>
+      <app-upload
+        [fileType]="alowUploadFileTypes"
+        [limitFile]="1"
+        [multipleUpload]="false"
+        (onUploadMovieDone)="onUploadMovieDone($event)"
+      ></app-upload>
+    </ng-template>
+  </ngvn-tab>
+  <app-dialog-admin
+    [isVisible]="isVisibleDialog"
+    [isOkLoading]="isVisibleLoading"
+    (close)="onCloseDialog()"
+    [width]="1000"
+    [footer]="null">
+    <ngvn-dialog dialogName="Add Movie">
+      <ng-template appDialogContent>
+        <app-process
+          [totalProcesses]="1"
+          (onDone)="onDoneProcess()"
+        >
+          <ngvn-process [currentStep]="0" stepName="Details">
+            <ng-template appProcessContent>
+              <div>
+                <div class="form">
+                  <label>Movie Name: </label>
+                  <input class="input" nz-input placeholder="Movie Name" [(ngModel)]="movie.name" type="text"/>
+                </div>
+                <div class="form">
+                  <div class="form">
+                    <label>Country: </label>
+                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a country" [(ngModel)]="movie.country">
+                      @for (country of countries; track country) {
+                        <nz-option [nzLabel]="country.name" [nzValue]="country"></nz-option>
+                      }
+                    </nz-select>
+                  </div>
+                  <div class="form">
+                    <label>Quality: </label>
+                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a country" [(ngModel)]="movie.quality">
+                      @for (quality of qualities; track quality) {
+                        <nz-option [nzLabel]="quality.name" [nzValue]="quality.value"></nz-option>
+                      }
+                    </nz-select>
+                  </div>
+                </div>
+                <div class="form">
+                  <div class="form">
+                    <label>Release Date: </label>
+                    <nz-date-picker [(ngModel)]="movie.release_Date"></nz-date-picker>
+                  </div>
+                  <div class="form">
+                    <label>Allowing Age: </label>
+                    <input
+                      style="width: 120px"
+                      nz-input
+                      type="number"
+                      [(ngModel)]="movie.allowing_Age"
+                    />
+                  </div>
+                  <div class="form">
+                    <label>Category: </label>
+                    <nz-select
+                      [nzMaxTagCount]="3"
+                      [nzMaxTagPlaceholder]="tagPlaceHolder"
+                      nzMode="multiple"
+                      nzPlaceHolder="Please select"
+                      [(ngModel)]="movie.categories"
+                    >
+                      @for (item of categories; track item) {
+                        <nz-option [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+                      }
+                    </nz-select>
+                    <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="form">
+                  <div class="form">
+                    <label>Participant: </label>
+                    <nz-select
+                      [nzMaxTagCount]="3"
+                      [nzMaxTagPlaceholder]="tagPlaceHolder"
+                      nzMode="multiple"
+                      nzPlaceHolder="Please select"
+                      [(ngModel)]="movie.participants"
+                    >
+                      @for (item of participants; track item) {
+                        <nz-option [nzLabel]="item.name" [nzValue]="item"></nz-option>
+                      }
+                    </nz-select>
+                    <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected
+                    </ng-template>
+                  </div>
+                  <div class="form">
+                    <label>Duration: </label>
+                    <div class="form">
+                      <input nz-input placeholder="Basic usage" [(ngModel)]="movie.duration" [disabled]="true"/>
+                      <div> (min)</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form">
+                  <label>Poster: </label>
+                  <app-poster-upload
+                    [apiUrl]="apiUrl"
+                    (onUploadFilePoster)="onUploadPoster($event)"></app-poster-upload>
+                </div>
+                <div class="form">
+                  <label>Description: </label>
+                  <editor [(ngModel)]="movie.description" [apiKey]="apiKey" class="input" [init]="init"></editor>
+                </div>
+                @if (isVisibleSubmit) {
+                  <div class="form">
+                    <button class="submit" (click)="onSubmit()">Submit</button>
+                  </div>
+                }
+              </div>
+            </ng-template>
+          </ngvn-process>
+          <ngvn-process [currentStep]="1" stepName="Subtitle">
+            <ng-template appProcessContent>
+              <nz-upload (change)="onChangeSubtitles()"
+                         [(nzFileList)]="subtitleFiles"
+                         [nzFileType]="fileTypes"
+                         [nzBeforeUpload]="beforeUpload">
+                <button nz-button>
+                  <span nz-icon nzType="upload"></span>
+                  Select File
+                </button>
+              </nz-upload>
+              <br/>
+              <br/>
+              <button
+                nz-button
+                nzType="primary"
+                [nzLoading]="uploading"
+                (click)="handleUploadSubtitle()"
+
+                [disabled]="subtitleFiles.length === 0"
+              >
+                {{ uploading ? 'Uploading' : 'Start Upload' }}
+              </button>
+              @for (i of n; track i) {
+                <div class="form">
+                  <input required nz-input placeholder="Basic usage" [(ngModel)]="subtitleName[i]" type="text"/>
+                </div>
+              }
+            </ng-template>
+          </ngvn-process>
+        </app-process>
+      </ng-template>
+    </ngvn-dialog>
+  </app-dialog-admin>
+</app-tab>
+

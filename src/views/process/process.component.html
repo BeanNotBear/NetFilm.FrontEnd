@@ -1,0 +1,30 @@
+<nz-steps [nzCurrent]="current">
+  @for(step of processes; track step) {
+    <nz-step [nzTitle]="step.stepName"></nz-step>
+  }
+</nz-steps>
+
+<div class="steps-content">
+  @for(step of processes; track step) {
+    @if(step.currentStep === current && step.templateContent) {
+      <ng-container *ngTemplateOutlet="step.templateContent.template"></ng-container>
+    }
+  }
+</div>
+<div class="steps-action">
+  @if (current > 0) {
+    <button nz-button nzType="default" (click)="pre()">
+      <span>Previous</span>
+    </button>
+  }
+  @if (current < 1) {
+    <button nz-button nzType="default" (click)="next()">
+      <span>Next</span>
+    </button>
+  }
+  @if (current === totalProcesses) {
+    <button nz-button nzType="primary" (click)="done()">
+      <span>Done</span>
+    </button>
+  }
+</div>

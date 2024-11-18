@@ -1,5 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Movie} from "../movies/movies.component";
+import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
 
 @Component({
   selector: 'app-movie',
@@ -9,5 +10,11 @@ import {Movie} from "../movies/movies.component";
   styleUrl: './movie.component.scss'
 })
 export class MovieComponent {
-  @Input() movie!: Movie;
+  @Input() movie!: MovieViewerDto;
+  @Output() selectMovie = new EventEmitter<string>();
+
+  onSelect() {
+    this.selectMovie.emit(this.movie.id);
+    console.log(this.movie)
+  }
 }

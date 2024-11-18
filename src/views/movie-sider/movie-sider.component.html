@@ -1,52 +1,18 @@
 <div class="sider">
   <h4>Top Rates</h4>
-  <div class="movie">
-    <div class="movie-image">
-      <img src="https://image.tmdb.org/t/p/w185/eYsdP5QffklSZMXJMy295xTHKmt.jpg" alt="">
-    </div>
-    <div class="movie-infor">
-      <h5>Title</h5>
-      <div class="">
-        <span class="star"><i class="fa-solid fa-star"></i> 1.5</span>
-        <span>2024</span>
+  @for(movie of movies; track movie) {
+    <div class="movie">
+      <div class="movie-image">
+        <img [src]="movie.thumbnail" alt="">
+      </div>
+      <div class="movie-infor">
+        <h5>{{movie.name}}</h5>
+        <div class="">
+          <span class="star"><i class="fa-solid fa-star"></i> {{movie.average_Star}}</span>
+          <span>{{getYearRelease(movie.release_Date)}}</span>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="movie">
-    <div class="movie-image">
-      <img src="https://image.tmdb.org/t/p/w185/eYsdP5QffklSZMXJMy295xTHKmt.jpg" alt="">
-    </div>
-    <div class="movie-infor">
-      <h5>Title</h5>
-      <div class="">
-        <span class="star"><i class="fa-solid fa-star"></i> 1.5</span>
-        <span>2024</span>
-      </div>
-    </div>
-  </div>
-  <div class="movie">
-    <div class="movie-image">
-      <img src="https://image.tmdb.org/t/p/w185/eYsdP5QffklSZMXJMy295xTHKmt.jpg" alt="">
-    </div>
-    <div class="movie-infor">
-      <h5>Title</h5>
-      <div class="">
-        <span class="star"><i class="fa-solid fa-star"></i> 1.5</span>
-        <span>2024</span>
-      </div>
-    </div>
-  </div>
-  <div class="movie">
-    <div class="movie-image">
-      <img src="https://image.tmdb.org/t/p/w185/eYsdP5QffklSZMXJMy295xTHKmt.jpg" alt="">
-    </div>
-    <div class="movie-infor">
-      <h5>Title</h5>
-      <div class="">
-        <span class="star"><i class="fa-solid fa-star"></i> 1.5</span>
-        <span>2024</span>
-      </div>
-    </div>
-  </div>
+  }
 </div>
 
