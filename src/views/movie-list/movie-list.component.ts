@@ -10,15 +10,19 @@ import {CountryDto} from "../../models/countryDtos/country.dto";
 import {FormsModule} from "@angular/forms";
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import {PageResult} from "../../models/common/pageResult.model";
+import {DialogComponent} from "../dialog/dialog.component";
+import {MovieResponseDto} from "../../models/movieDtos/movie.response.dto";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-movie-list',
   standalone: true,
-  imports: [
-    MovieAreaComponent,
-    FormsModule,
-    NzPaginationModule
-  ],
+    imports: [
+        MovieAreaComponent,
+        FormsModule,
+        NzPaginationModule,
+        DialogComponent
+    ],
   templateUrl: './movie-list.component.html',
   styleUrl: './movie-list.component.scss'
 })
@@ -26,6 +30,9 @@ export class MovieListComponent implements OnInit {
   categories: CategoryDto[] = [];
   countries: CountryDto[] = [];
   pageSizeOptions: number[] = [12, 18, 24];
+  isOpen = false;
+  movie!: MovieResponseDto;
+
   pagedResult: PageResult<MovieViewerDto> = new class implements PageResult<MovieViewerDto> {
     hasNext: boolean = false;
     hasPrevious: boolean = false;
@@ -55,14 +62,43 @@ export class MovieListComponent implements OnInit {
 
   constructor(private movieService: MovieService,
               private categoryService: CategoryService,
-              private countryService: CountryService) {
+              private countryService: CountryService,
+              private route: ActivatedRoute) {
 
   }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe({
+      next: value => {
+        if(value['search']) {
+          this.movieParam.searchTerm = value['search'];
+        }
+      }
+    })
     this.fetchMovies();
     this.fetchCategory();
     this.fetchCountry();
+  }
+
+  onCloseDialog(isOpen: boolean) {
+    this.isOpen = isOpen;
+  }
+
+  onOpenDialog(movieId: string) {
+    console.log(movieId);
+    this.isOpen  = true;
+    this.fetchMovieDetails(movieId);
+  }
+
+  fetchMovieDetails(id: string) {
+    this.movieService.getMovieDetails(id).subscribe({
+      next: data => {
+        this.movie = data;
+      },
+      error: err => {
+        console.error(err);
+      }
+    });
   }
 
   onChange() {

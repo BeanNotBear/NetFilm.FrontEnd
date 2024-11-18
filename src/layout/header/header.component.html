@@ -67,8 +67,8 @@
         <div class="row">
           <div class="action col-lg-9">
             <div class="search-box d-flex justify-content-end">
-              <input class="search-txt" placeholder="Search...">
-              <button class="search-btn">
+              <input class="search-txt" placeholder="Search..." [(ngModel)]="search">
+              <button class="search-btn" (click)="onSearch()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                      class="feather feather-search">

@@ -40,5 +40,10 @@ export const routes: Routes = [
     path: 'movie-admin',
     title: 'Movie Management',
     component: MovieAdminComponent
+  },
+  {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full'
   }
 ];

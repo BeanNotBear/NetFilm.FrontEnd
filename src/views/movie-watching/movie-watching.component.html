@@ -33,6 +33,7 @@
         id="singleVideo"
         preload="auto"
         crossorigin="anonymous"
+        (play)="onAddView(movie.id)"
         [src]="movie.movie_Url">
         @for (track of movie.subtitles; track track) {
           <track kind="subtitles" [label]="track.subtitleName" [src]="track.subtitleUrl" [srclang]="track.subtitleName">
@@ -41,7 +42,7 @@
 
     </vg-player>
     <h3>{{ movie.name }}</h3>
-    <p>View: 10 <i class="fa-solid fa-eye"></i></p>
+    <p>View: {{movie.totalViews}} <i class="fa-solid fa-eye"></i></p>
     <div class="flex">
       <span>Average Rate:</span>
       <app-rate [rate]="movie.average_Star"
@@ -79,7 +80,10 @@
         </ng-template>
       </ngvn-tab>
     </app-tab>
-    <app-movie-area [movies]="topviews" areaName="Top Views"></app-movie-area>
-    <app-movie-area [movies]="mostRates" areaName="Most Rate"></app-movie-area>
+    <app-movie-area (selectMovie)="onOpenDialog($event)" [movies]="topviews" areaName="Top Views"></app-movie-area>
+    <app-movie-area (selectMovie)="onOpenDialog($event)" [movies]="mostRates" areaName="Most Rate"></app-movie-area>
   </div>
 </div>
+@if(isOpen) {
+  <app-dialog [movie]="movieDetails" (closeDialog)="onCloseDialog($event)" [class.app-dialog-backdrop]="isOpen" [isOpen]="isOpen"></app-dialog>
+}

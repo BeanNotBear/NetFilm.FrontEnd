@@ -123,4 +123,8 @@ export class ApiService {
   getMovieDetails(id: string) {
     return this.http.get<MovieResponseDto>(`${this.baseUrl}/Movies/${id}`);
   }
+
+  addView(id: string) {
+    return this.http.patch<MovieResponseDto>(`${this.baseUrl}/Movies/${id}/view`, {});
+  }
 }

@@ -17,23 +17,25 @@ import {MovieService} from "../../service/movie.service";
 import {MovieResponseDto} from "../../models/movieDtos/movie.response.dto";
 import {MovieParam} from "../../models/movieDtos/movie.param";
 import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
+import {DialogComponent} from "../dialog/dialog.component";
 
 @Component({
   selector: 'app-movie-watching',
   standalone: true,
-  imports: [
-    VgCoreModule,
-    VgControlsModule,
-    VgOverlayPlayModule,
-    VgBufferingModule,
-    RateComponent,
-    CommentComponent,
-    ContentDirective,
-    TabComponent,
-    TabDirective,
-    MoviesComponent,
-    MovieAreaComponent
-  ],
+    imports: [
+        VgCoreModule,
+        VgControlsModule,
+        VgOverlayPlayModule,
+        VgBufferingModule,
+        RateComponent,
+        CommentComponent,
+        ContentDirective,
+        TabComponent,
+        TabDirective,
+        MoviesComponent,
+        MovieAreaComponent,
+        DialogComponent
+    ],
   templateUrl: './movie-watching.component.html',
   styleUrl: './movie-watching.component.scss'
 })
@@ -44,6 +46,11 @@ export class MovieWatchingComponent {
   movie!: MovieResponseDto;
   topviews: MovieViewerDto[] = [];
   mostRates: MovieViewerDto[] = [];
+  isOpen = false;
+  isViewing = true;
+
+  movideIdDialog!: string;
+  movieDetails!: MovieResponseDto;
 
   playerState$!: Observable<string>;
 
@@ -58,6 +65,42 @@ export class MovieWatchingComponent {
       },
       error: err => {
         console.error(err)
+      }
+    });
+  }
+
+  onCloseDialog(isOpen: boolean) {
+    this.isOpen = isOpen;
+  }
+
+  onOpenDialog(movieId: string) {
+    console.log(movieId);
+    this.movideIdDialog = movieId;
+    this.isOpen  = true;
+    this.fetchMovieDetailsDialog();
+  }
+
+  onAddView(id: string) {
+    if (this.isViewing) {
+      this.isViewing = false;
+      this.movieService.addView(id).subscribe({
+        next: value => {
+
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
+    }
+  }
+
+  fetchMovieDetailsDialog() {
+    this.movieService.getMovieDetails(this.movideIdDialog).subscribe({
+      next: data => {
+        this.movieDetails = data;
+      },
+      error: err => {
+        console.error(err);
       }
     });
   }

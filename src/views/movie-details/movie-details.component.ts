@@ -6,7 +6,7 @@ import {MovieSiderComponent} from "../movie-sider/movie-sider.component";
 import {TabDirective} from "../../directives/tab.directive";
 import {CommentComponent} from "../comment/comment.component";
 import {ContentDirective} from "../../directives/content.directive";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MovieService} from "../../service/movie.service";
 import {MovieResponseDto} from "../../models/movieDtos/movie.response.dto";
 import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
@@ -35,6 +35,7 @@ export class MovieDetailsComponent {
 
   constructor(private dateService: DateService,
               private route: ActivatedRoute,
+              private router: Router,
               private movieService: MovieService) {
     this.route.params.subscribe({
       next: param => {
@@ -48,6 +49,10 @@ export class MovieDetailsComponent {
       }
     });
     this.fetchMovies();
+  }
+
+  onView(id: string) {
+    this.router.navigate([`movie/${id}/watch`]);
   }
 
   fetchMovieDetails() {

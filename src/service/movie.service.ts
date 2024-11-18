@@ -137,4 +137,8 @@ export class MovieService {
   getMovieDetails(id: string) {
     return this.apiService.getMovieDetails(id);
   }
+
+  addView(id: string) {
+    return this.apiService.addView(id);
+  }
 }
