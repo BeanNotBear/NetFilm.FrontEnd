@@ -26,8 +26,17 @@ export class AppComponent{
 
   isCollapsed = false;
 
+  isDashBoard = true;
 
   ngOnInit(): void {
 
+  }
+
+  onOpenDashboard() {
+    this.isDashBoard = false;
+  }
+
+  onCloseDashboard() {
+    this.isDashBoard = true;
   }
 }

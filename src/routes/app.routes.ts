@@ -26,7 +26,8 @@ export const routes: Routes = [
   {
     path: '',
     title: 'Home',
-    component: HomeComponent
+    redirectTo: '/home',
+    pathMatch: 'full'
   },
   {
     path: 'movie/details',

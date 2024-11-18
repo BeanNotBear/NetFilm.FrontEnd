@@ -42,7 +42,12 @@ export class AuthService {
         location.href = "home";
       },
       error => {
-        console.error('Error fetching data', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed to Login',
+          text: 'An error occurred while login. Please try again later.',
+          confirmButtonText: 'OK'
+        });
       }
     );
   }
@@ -136,9 +141,20 @@ export class AuthService {
   updatePassword(id: string, passwordUpdate: PasswordUpdate) {
     this.apiService.updatePassword(id, passwordUpdate).subscribe({
       next: (response) => {
-        this.logout();
-        location.href = "/login";
-        Swal.fire('Success', 'Password updated successfully!', 'success');
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Password Updated',
+          text: 'The user password have been updated successfully!',
+          confirmButtonText: 'OK'
+        }).then((result) => {
+          if(result.isConfirmed) {
+            this.logout();
+          }else{
+            this.logout();
+          }
+        })
+
       },
       error: (error) => {
         Swal.fire('Error', error.error || 'An error occurred while updating the password.', 'error');

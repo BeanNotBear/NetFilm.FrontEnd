@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {AuthService} from "../service/auth.service";
+import {routes} from "../routes/app.routes";
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,7 @@ export class roleGuard implements CanActivate {
     if (userRoles && !expectedRoles.some(role => userRoles.includes(role))) {
       console.log('Expected roles:', expectedRoles);
       console.log('User roles:', userRoles);
+      this.router.navigate(['/home']);
       return false;
     }
 
