@@ -87,6 +87,7 @@
                   <li><a class="dropdown-item text-white" routerLink="/register">Register</a></li>
                 }
                 @if (LoggedIn) {
+                  <li><a class="dropdown-item text-white" routerLink="/user-profile">Profile</a></li>
                   <li><a class="dropdown-item text-white" routerLink="/user-admin">Admin</a></li>
                   <li><a class="dropdown-item text-white" (click)="logoutBtn()">Logout</a></li>
                 }

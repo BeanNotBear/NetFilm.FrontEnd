@@ -8,6 +8,10 @@ import {Login} from "../models/authDtos/login.model";
 import {Register} from "../models/authDtos/register.model";
 import {VerifyEmail} from "../models/authDtos/verifyEmail.model";
 import {ResendEmail} from "../models/authDtos/resendEmail.model";
+import {UpdateUserRequestDto} from "../models/userDtos/updateUserRequestDto.model";
+import {PasswordUpdate} from "../models/userDtos/passwordUpdate.model";
+import {RequestForgotPasswordDto} from "../models/authDtos/requestForgotPasswordDto.model";
+import {ResetPasswordRequestDto} from "../models/authDtos/resetPasswordRequestDto";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +19,8 @@ import {ResendEmail} from "../models/authDtos/resendEmail.model";
 export class ApiService {
 
   private baseUrl = "https://localhost:7027/api";
+
+  private headers = {'Authorization' : `Bearer ${localStorage.getItem("token")}`};
 
   constructor(private http: HttpClient) {
   }
@@ -60,4 +66,27 @@ export class ApiService {
     return this.http.post('https://localhost:7027/api/Auths/ResendEmail', resendEmail);
   }
 
+  getUserByEmail(email: string) : Observable<any> {
+    const params = new HttpParams().set('email', email);
+    return this.http.get(`https://localhost:7027/api/Users/Email`, { params });
+  }
+
+  updateUser(id: string, updateUserRequestDto: UpdateUserRequestDto): Observable<any> {
+    return this.http.put(`${this.baseUrl}/Users/${id}`, updateUserRequestDto);
+  }
+
+  updatePassword(id: string, passwordUpdate: PasswordUpdate): Observable<any> {
+    const url = `${this.baseUrl}/Users/${id}/UpdatePassword`;
+    return this.http.patch(url, passwordUpdate);
+  }
+
+  forgotPassword(requestForgotPasswordDto: RequestForgotPasswordDto): Observable<any> {
+    const url = `${this.baseUrl}/Auths/ForgotPassword`;
+    return this.http.post(url, requestForgotPasswordDto);
+  }
+
+  resetPassword(resetPasswordRequestDto: ResetPasswordRequestDto): Observable<any> {
+    const url = `${this.baseUrl}/Auths/ResetPassword`;
+    return this.http.post(url, resetPasswordRequestDto);
+  }
 }

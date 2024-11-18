@@ -9,6 +9,9 @@ import {RegisterComponent} from "../views/register/register.component";
 import {authGuard} from "../guards/auth.guard";
 import {denyGuard} from "../guards/deny.guard";
 import {roleGuard} from "../guards/role.guard";
+import {UserProfileComponent} from "../views/user-profile/user-profile.component";
+import {ForgotPasswordComponent} from "../views/forgot-password/forgot-password.component";
+import {ResetPasswordComponent} from "../views/reset-password/reset-password.component";
 
 export const routes: Routes = [
   {
@@ -45,7 +48,7 @@ export const routes: Routes = [
     title: ' User Admin',
     component: UserAdminComponent,
     canActivate: [authGuard, roleGuard],
-    data:{
+    data: {
       role: ['ADMIN']
     }
   },
@@ -60,5 +63,21 @@ export const routes: Routes = [
     title: ' Register',
     component: RegisterComponent,
     canActivate: [denyGuard]
+  },
+  {
+    path: 'user-profile',
+    title: ' User Profile',
+    component: UserProfileComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'forgot-password',
+    title: ' Forgot Password',
+    component: ForgotPasswordComponent,
+  },
+  {
+    path: 'reset-password',
+    title: ' Reset Password',
+    component: ResetPasswordComponent,
   }
 ];
