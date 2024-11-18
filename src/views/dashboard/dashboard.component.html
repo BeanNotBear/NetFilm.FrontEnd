@@ -15,9 +15,6 @@
       <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/welcome">Welcome</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
             <a routerLink="/user-admin">User Admin</a>
           </li>
           <li nz-menu-item nzMatchRouter>
@@ -28,7 +25,7 @@
       <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a>Basic Form</a>
+            <a (click)="onStartHome()" routerLink="/home">Home</a>
           </li>
         </ul>
       </li>
