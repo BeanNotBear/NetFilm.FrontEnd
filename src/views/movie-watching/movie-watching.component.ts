@@ -133,8 +133,8 @@ export class MovieWatchingComponent {
     await this.authService.getUserByEmail(userEmail).subscribe({
       next: (data) => {
         console.log('User data:', data);
-        console.log({ 'data[0].id': data[0].id })
-        this.currentUserId = data[0].id;
+        console.log({ 'data.id': data.id })
+        this.currentUserId = data.id;
       },
       error: (err) => {
         console.error('Error fetching user:', err);

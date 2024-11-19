@@ -319,7 +319,7 @@ export class ApiService {
 
   getUserByEmail(email: string): Observable<any> {
     const params = new HttpParams().set('email', email);
-    return this.http.get(`https://localhost:7027/api/Users`, { headers: this.headers, params });
+    return this.http.get(`https://localhost:7027/api/Users/Email`, { headers: this.headers, params });
   }
 
   updateUser(
