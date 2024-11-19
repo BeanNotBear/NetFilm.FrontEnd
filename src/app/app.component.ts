@@ -21,22 +21,26 @@ import {AuthService} from "../service/auth.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent{
-  constructor(private authService: AuthService) {
-  }
-
-  isCollapsed = false;
 
   isDashBoard = true;
 
+  constructor(private authService: AuthService) {
+    const savedState = localStorage.getItem('isDashboard');
+    this.isDashBoard = savedState ? JSON.parse(savedState) : false;
+  }
+
+  isCollapsed = false;
   ngOnInit(): void {
 
   }
 
   onOpenDashboard() {
     this.isDashBoard = false;
+    localStorage.setItem('isDashboard', JSON.stringify(this.isDashBoard));
   }
 
   onCloseDashboard() {
     this.isDashBoard = true;
+    localStorage.setItem('isDashboard', JSON.stringify(this.isDashBoard));
   }
 }

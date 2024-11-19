@@ -1,0 +1,85 @@
+<div class="backdrop" id="backdrop" (click)="onClose()"></div>
+<dialog open id="dialogBox" class="dialog-box">
+  <div class="popup-overlay">
+    <div class="popup-container">
+      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" formControlName="firstName" placeholder="Enter first name" [(ngModel)]="updateUserRequestDto.firstName">
+          <div class="error"
+               *ngIf="registrationForm.get('firstName')?.touched && registrationForm.get('firstName')?.errors?.['required']">
+            First name is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" formControlName="lastName" placeholder="Enter last name" [(ngModel)]="updateUserRequestDto.lastName">
+          <div class="error"
+               *ngIf="registrationForm.get('lastName')?.touched && registrationForm.get('lastName')?.errors?.['required']">
+            Last name is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Date of Birth</label>
+          <input type="datetime-local" formControlName="dateOfBirth" [(ngModel)]="updateUserRequestDto.dateOfBirth">
+          <div class="error"
+               *ngIf="registrationForm.get('dateOfBirth')?.touched && registrationForm.get('dateOfBirth')?.errors?.['required']">
+            Date of birth is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" formControlName="userName" placeholder="Enter username" [(ngModel)]="updateUserRequestDto.userName">
+          <div class="error"
+               *ngIf="registrationForm.get('userName')?.touched && registrationForm.get('userName')?.errors?.['required']">
+            Username is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" formControlName="email" placeholder="Enter email" [(ngModel)]="updateUserRequestDto.email">
+          <div class="error"
+               *ngIf="registrationForm.get('email')?.touched && registrationForm.get('email')?.errors?.['required']">
+            Email is required
+          </div>
+          <div class="error"
+               *ngIf="registrationForm.get('email')?.touched && registrationForm.get('email')?.errors?.['email']">
+            Invalid email format
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" formControlName="phoneNumber" placeholder="Enter phone number" [(ngModel)]="updateUserRequestDto.phoneNumber">
+          <div class="error"
+               *ngIf="registrationForm.get('phoneNumber')?.touched && registrationForm.get('phoneNumber')?.errors?.['required']">
+            Phone number is required
+          </div>
+        </div>
+
+        <div class="form-group role-selection">
+          <label>Role</label>
+          <div class="checkbox-group">
+            <label>
+              <input type="checkbox" formControlName="adminRole" value="admin" [(ngModel)]="isAdmin">
+              Admin
+            </label>
+            <label>
+              <input type="checkbox" formControlName="userRole" value="user" [(ngModel)]="isUser">
+              User
+            </label>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" [disabled]="!registrationForm.valid">Update User</button>
+          <button type="button" (click)="closePopup()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</dialog>

@@ -14,6 +14,8 @@ import {DialogAdminComponent} from "../dialog-admin/dialog-admin.component";
 import {DialogDirective} from "../../directives/dialog.directive";
 import {DialogContentDirective} from "../../directives/dialog-content.directive";
 import {FormsModule} from "@angular/forms";
+import {AddUserComponent} from "./add-user/add-user.component";
+import {UpdateUserComponent} from "./update-user/update-user.component";
 
 @Component({
   selector: 'app-user-admin',
@@ -29,7 +31,9 @@ import {FormsModule} from "@angular/forms";
     DialogAdminComponent,
     DialogDirective,
     DialogContentDirective,
-    FormsModule
+    FormsModule,
+    AddUserComponent,
+    UpdateUserComponent
   ],
   templateUrl: './user-admin.component.html',
   styleUrl: './user-admin.component.scss'
@@ -42,8 +46,11 @@ export class UserAdminComponent {
   COL_DATA_TYPE = COL_DATA_TYPE;
 
   loading = false;
-  isVisibleDialog = false;
+  // isVisibleDialog = false;
   isLoandingDialod = false;
+  isAddUser = false;
+  isUpdateUser = false;
+  updateId: string = "";
 
   pageIndex: number = 1;
   pageSize: number = 10;
@@ -105,15 +112,24 @@ export class UserAdminComponent {
   }
 
   onOpenAdd() {
-    this.isVisibleDialog = true;
+    // this.isVisibleDialog = true;
+    this.isAddUser = true;
   }
 
   onClose() {
-    this.isVisibleDialog = false;
+    // this.isVisibleDialog = false;
+    this.isAddUser = false;
+    this.isUpdateUser = false;
   }
 
 
   onSubmit() {
     this.apiService.addRole({name: this.name})
+  }
+
+  onStartUpdate(rowData: any) {
+    this.isUpdateUser = true;
+    this.updateId = rowData.id;
+    console.log(rowData.id);
   }
 }

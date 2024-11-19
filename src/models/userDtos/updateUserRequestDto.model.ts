@@ -5,5 +5,5 @@ export interface UpdateUserRequestDto {
   userName: string;
   email: string;
   phoneNumber: string;
-  role: string[];
+  roles: string[];
 }

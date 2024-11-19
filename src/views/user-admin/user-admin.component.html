@@ -1,3 +1,10 @@
+@if(isAddUser){
+  <app-add-user (close)="onClose()"></app-add-user>
+}
+@if(isUpdateUser){
+  <app-update-user (close)="onClose()" [id]="updateId"></app-update-user>
+}
+
 <div class="header-table">
     <h3>User Manager</h3>
     <button nz-button nzType="primary" nzSize="large" nzShape="round" (click)="onOpenAdd()">
@@ -28,9 +35,9 @@
     <ngvn-column header="Phone Number" key="phoneNumber"></ngvn-column>
     <ngvn-column header="Role" key="roles"></ngvn-column>
     <ngvn-column header="Action">
-        <ng-template appCell>
+        <ng-template appCell let-data>
             <td>
-                <button nz-button nzType="primary" nzSize="small" nzShape="round">
+                <button nz-button nzType="primary" nzSize="small" nzShape="round" (click)="onStartUpdate(data)">
                     <i class="fa-regular fa-pen-to-square"></i>
                     Update
                 </button>
@@ -43,20 +50,20 @@
         </ng-template>
     </ngvn-column>
 </app-table>
-<app-dialog-admin
-        [isVisible]="isVisibleDialog"
-        [isOkLoading]="isLoandingDialod"
-        (close)="onClose()"
-        (submit)="onSubmit()"
->
-    <ngvn-dialog dialogName="Add User">
-        <ng-template appDialogContent>
-            <form>
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" placeholder="Enter walk name" required [(ngModel)]="name"/>
-                </div>
-            </form>
-        </ng-template>
-    </ngvn-dialog>
-</app-dialog-admin>
+<!--<app-dialog-admin-->
+<!--        [isVisible]="isVisibleDialog"-->
+<!--        [isOkLoading]="isLoandingDialod"-->
+<!--        (close)="onClose()"-->
+<!--        (submit)="onSubmit()"-->
+<!--&gt;-->
+<!--    <ngvn-dialog dialogName="Add User">-->
+<!--        <ng-template appDialogContent>-->
+<!--            <form>-->
+<!--                <div class="form-group">-->
+<!--                    <label for="name">Name </label>-->
+<!--                    <input type="text" id="name" name="name" placeholder="Enter walk name" required [(ngModel)]="name"/>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </ng-template>-->
+<!--    </ngvn-dialog>-->
+<!--</app-dialog-admin>-->
