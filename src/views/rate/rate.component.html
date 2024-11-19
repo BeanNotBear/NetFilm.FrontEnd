@@ -2,7 +2,9 @@
   <nz-rate
     [nzDisabled]="disable"
     [nzAllowHalf]="allowHalf"
-    [(ngModel)]="rate"></nz-rate>
+    [(ngModel)]="rate"
+    (ngModelChange)="onRateSelected($event)"
+    ></nz-rate>
   @if (disable) {
     <span>({{totalRate}}/5)</span>
   }

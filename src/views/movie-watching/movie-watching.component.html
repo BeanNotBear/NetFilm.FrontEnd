@@ -52,11 +52,22 @@
     </div>
     <div class="flex">
       <span>Your Rate:</span>
-      <app-rate
-        [disable]="false"
-        [rate]="3"
-      ></app-rate>
+      <app-rate [disable]="false"
+          [rate]="userCurrentRating"
+          (rateChange)="onRateChange($event)">
+</app-rate>
     </div>
+   <!-- Inline Confirmation Dialog -->
+   <div *ngIf="isDialogOpen" class="dialog-overlay">
+    <div class="dialog-content">
+      <h3 style="color: black;">Confirm Your Rating</h3>
+      <p style="color: black;">You are about to rate <strong>{{ movie.name }}</strong> with {{ userCurrentRating }} stars.</p>
+      <div class="dialog-buttons">
+        <button class="btn btn-primary" (click)="onConfirmVote()">Confirm</button>
+        <button class="btn btn-primary" (click)="onCancelVote()">Cancel</button>
+      </div>
+    </div>
+  </div>
     <app-tab>
       <ngvn-tab tabName="Comment">
         <ng-template appContent>
