@@ -176,7 +176,18 @@ export class AuthService {
   resetPassword(request: ResetPasswordRequestDto) {
     this.apiService.resetPassword(request).subscribe({
       next: (response) => {
-        Swal.fire('Success', 'Password reset successful.', 'success');
+        Swal.fire({
+          icon: 'success',
+          title: 'Password Updated',
+          text: 'The user password have been updated successfully!',
+          confirmButtonText: 'OK'
+        }).then((result) => {
+          if(result.isConfirmed) {
+            this.logout();
+          }else{
+            this.logout();
+          }
+        })
       },
       error: (error) => {
         Swal.fire('Error', error.error || 'An error occurred while resetting your password.', 'error');

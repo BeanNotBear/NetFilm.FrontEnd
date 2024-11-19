@@ -28,6 +28,8 @@ import {PasswordUpdate} from "../models/userDtos/passwordUpdate.model";
 import {RequestForgotPasswordDto} from "../models/authDtos/requestForgotPasswordDto.model";
 import {ResetPasswordRequestDto} from "../models/authDtos/resetPasswordRequestDto";
 import {MovieUpdateDetails} from "../models/movieDtos/movie.update.details";
+import {AddUser} from "../models/userDtos/addUser.model";
+import {UpdateUser} from "../models/userDtos/updateUser.model";
 
 @Injectable({
   providedIn: 'root'
@@ -191,5 +193,20 @@ export class ApiService {
   resetPassword(resetPasswordRequestDto: ResetPasswordRequestDto): Observable<any> {
     const url = `${this.baseUrl}/Auths/ResetPassword`;
     return this.http.post(url, resetPasswordRequestDto);
+  }
+
+  createUser(addUserRequestDto: AddUser): Observable<UserDto> {
+    const url = `${this.baseUrl}/Users`;
+    return this.http.post<UserDto>(url, addUserRequestDto);
+  }
+
+  getUserById(id: string): Observable<any> {
+    const url = `${this.baseUrl}/Users/${id}`;
+    return this.http.get(url);
+  }
+
+  updateUserAdmin(id: string, updateUserRequestDto: UpdateUser): Observable<any> {
+    const url = `${this.baseUrl}/Users/${id}`;
+    return this.http.put(url, updateUserRequestDto);
   }
 }
