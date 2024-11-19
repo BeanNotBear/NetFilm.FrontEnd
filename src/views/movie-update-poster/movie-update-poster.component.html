@@ -1,0 +1,21 @@
+<div>
+  <nz-upload
+    nz-tooltip
+    nzTooltipTitle="Click to upload poster"
+    class="avatar-uploader"
+    [nzAction]="api"
+    [nzHeaders]="headers"
+    nzName="file"
+    nzListType="picture-card"
+    [nzShowUploadList]="false"
+    [nzBeforeUpload]="beforeUpload"
+    (nzChange)="handleChange($event)"
+  >
+    @if (!avatarUrl) {
+      <span class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></span>
+      <div class="ant-upload-text">Upload</div>
+    } @else {
+      <img [src]="avatarUrl" style="width: 100%" />
+    }
+  </nz-upload>
+</div>

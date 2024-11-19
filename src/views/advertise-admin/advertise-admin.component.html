@@ -1,0 +1,138 @@
+<div class="header-table">
+  <h3>Advertise Manager</h3>
+  <button
+    nz-button
+    nzType="primary"
+    nzSize="large"
+    nzShape="round"
+    (click)="onOpenAdd()"
+  >
+    <i class="fa-regular fa-square-plus"></i>
+    Create
+  </button>
+</div>
+<br />
+<app-table
+  [rows]="pageResult.items"
+  [page]="pageResult.pageIndex"
+  [pageSize]="pageResult.pageSize"
+  [totalRows]="pageResult.totalItems"
+  [clientPagination]="false"
+  (pageIndexChange)="onPageIndexChange($event)"
+  (pageSizeChange)="onPageSizeChange($event)"
+  (searchChange)="onSearchChange($event)"
+  [loading]="loading"
+>
+  <ngvn-column header="ID" key="id"></ngvn-column>
+
+  <ngvn-column header="Image" key="image">
+    <ng-template appCell let-row>
+      <img class="image" [src]="row.image" alt="" /> </ng-template
+  ></ngvn-column>
+
+  <ngvn-column
+    header="Title"
+    key="title"
+    [sortable]="true"
+    (sortChange)="onSortChange($event)"
+  ></ngvn-column>
+
+  <ngvn-column
+    header="Content"
+    key="content"
+    [sortable]="true"
+    (sortChange)="onSortChange($event)"
+  ></ngvn-column>
+
+  <ngvn-column
+    header="CreatedBy"
+    key="createdBy"
+    [sortable]="true"
+    (sortChange)="onSortChange($event)"
+  ></ngvn-column>
+
+  <ngvn-column header="Action">
+    <ng-template appCell let-row>
+      <td>
+        <button
+          (click)="onOpenUpdate(row)"
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="round"
+          class="action"
+        >
+          <i class="fa-regular fa-pen-to-square"></i>
+          Update
+        </button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="round"
+          nzDanger
+          (click)="deleteAdvertise(row.id)"
+        >
+          <i class="fa-regular fa-trash-can"></i>
+          Delete
+        </button>
+      </td>
+    </ng-template>
+  </ngvn-column>
+</app-table>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="title"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+>
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="createForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title"
+          >Title</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Please input your title"
+        >
+          <input nz-input formControlName="title" id="title" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="content" nzRequired
+          >Content</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Please input your content"
+        >
+          <input nz-input type="text" id="content" formControlName="content" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="image" nzRequired
+          >Image</nz-form-label
+        >
+        <nz-upload
+          nzListType="picture"
+          [(nzFileList)]="fileList"
+          [nzLimit]="1"
+          (nzChange)="handleChange($event)"
+          [nzBeforeUpload]="beforeUpload"
+          aria-required="true"
+        >
+          <button nz-button>
+            <span nz-icon nzType="upload"></span>
+            Upload
+          </button>
+        </nz-upload>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>

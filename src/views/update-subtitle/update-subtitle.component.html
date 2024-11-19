@@ -1,0 +1,35 @@
+<div class="flex">
+  <div>
+    @for (subtitle of movie.subtitles; track subtitle) {
+      <div class="subtitle">
+        <div>{{ subtitle.subtitleName }}</div>
+        <div class="action">
+          <button (click)="onDelete(subtitle.id)"><i class="fa-solid fa-trash"></i> Delete</button>
+          <button (click)="onOpen(subtitle.subtitleUrl)"><i class="fa-regular fa-folder-open"></i> Open</button>
+        </div>
+      </div>
+    }
+  </div>
+  <div>
+    <nz-upload [(nzFileList)]="fileList" nzFileType="text/vtt" [nzBeforeUpload]="beforeUpload">
+      <button nz-button>
+        <span nz-icon nzType="upload"></span>
+        Select File
+      </button>
+    </nz-upload>
+    <br />
+    <br />
+    <button
+      nz-button
+      nzType="primary"
+      [nzLoading]="uploading"
+      (click)="handleUpload()"
+      [disabled]="fileList.length === 0"
+    >
+      {{ uploading ? 'Uploading' : 'Start Upload' }}
+    </button>
+    @for(file of fileList; track file) {
+      <input nz-input [placeholder]="file.name" [(ngModel)]="subtitleNameList[0]" type="text" />
+    }
+  </div>
+</div>

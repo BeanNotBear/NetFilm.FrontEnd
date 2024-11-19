@@ -5,6 +5,8 @@ import {MovieResponseDto} from "../models/movieDtos/movie.response.dto";
 import {MovieDto} from "../models/movieDtos/movie.dto";
 import {MovieParam} from "../models/movieDtos/movie.param";
 import {HttpParams} from "@angular/common/http";
+import {MovieUpdateDetails} from "../models/movieDtos/movie.update.details";
+import {delay} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +42,26 @@ export class MovieService {
     );
     console.log(movieRequest);
     return this.apiService.uploadMovieDetails(movie.id, movieRequest);
+  }
+
+  updateMovieInformation(movie: MovieResponseDto) {
+    let categories = movie.categories.map(x => x.id).join(',');
+    console.log(categories)
+    let participants = movie.participants.map(x => x.id).join(',');
+    console.log(participants)
+    let movieRequest: MovieUpdateDetails = new MovieUpdateDetails(
+      movie.name,
+      movie.description,
+      movie.status,
+      movie.quality,
+      movie.allowing_Age,
+      new Date(movie.release_Date).toISOString(),
+      movie.country.id,
+      false,
+      categories,
+      participants
+    );
+    return this.apiService.updateMovieInformation(movie.id, movieRequest);
   }
 
   uploadPoster(file: NzUploadFile) {
@@ -131,7 +153,7 @@ export class MovieService {
     if(movieParam.ascending !== null && movieParam.sortBy !== null) {
       param = param.set("Ascending", movieParam.ascending)
     }
-    return this.apiService.getMoviesManagement(param);
+    return this.apiService.getMoviesManagement(param).pipe(delay(300));
   }
 
   getMovieDetails(id: string) {

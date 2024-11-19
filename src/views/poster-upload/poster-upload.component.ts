@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 
 import {NzIconDirective, NzIconModule} from 'ng-zorro-antd/icon';
@@ -21,7 +21,13 @@ export class PosterUploadComponent {
   @Input() apiUrl = '';
   @Output() onUploadFilePoster = new EventEmitter<NzUploadFile>();
 
+
   constructor(private messageService: NzMessageService) {}
+
+  headers = () => {
+    const headers = {'Authorization' : `Bearer ${localStorage.getItem("token")}`};
+    return new Headers(headers);
+  }
 
   beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]): Observable<boolean> =>
     new Observable((observer: Observer<boolean>) => {
@@ -63,6 +69,5 @@ export class PosterUploadComponent {
       this.avatarUrl = img;
       this.onUploadFilePoster.emit(info.file);
     });
-
   }
 }

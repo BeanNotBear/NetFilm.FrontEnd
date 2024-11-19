@@ -1,15 +1,17 @@
 <nz-modal
-        [(nzVisible)]="isVisible"
-        [nzTitle]="dialogTitle"
-        (nzOnCancel)="handleCancel()"
-        (nzOnOk)="handleOk()"
-        [nzOkLoading]="isOkLoading"
-        [nzWidth]="width"
-        [nzFooter]="footer"
+  [(nzVisible)]="isVisible"
+  [nzTitle]="dialogTitle"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+  [nzWidth]="width"
+  [nzFooter]="footer"
 >
-    <div *nzModalContent>
-        @if (dialog.templateContent.template) {
-            <ng-container *ngTemplateOutlet="dialog.templateContent.template"></ng-container>
-        }
-    </div>
+  <div *nzModalContent>
+    @if (dialog.templateContent.template) {
+    <ng-container
+      *ngTemplateOutlet="dialog.templateContent.template"
+    ></ng-container>
+    }
+  </div>
 </nz-modal>

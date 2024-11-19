@@ -21,7 +21,8 @@ import {AuthService} from "../service/auth.service";
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     RouterLink,
     RouterOutlet,
     NzIconModule,
@@ -41,25 +42,29 @@ import {AuthService} from "../service/auth.service";
     NzModalModule,
   ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent{
-  constructor(private authService: AuthService) {
-  }
-
-  isCollapsed = false;
 
   isDashBoard = true;
 
+  constructor(private authService: AuthService) {
+    const savedState = localStorage.getItem('isDashboard');
+    this.isDashBoard = savedState ? JSON.parse(savedState) : true;
+  }
+
+  isCollapsed = false;
   ngOnInit(): void {
 
   }
 
   onOpenDashboard() {
     this.isDashBoard = false;
+    localStorage.setItem('isDashboard', JSON.stringify(this.isDashBoard));
   }
 
   onCloseDashboard() {
     this.isDashBoard = true;
+    localStorage.setItem('isDashboard', JSON.stringify(this.isDashBoard));
   }
 }

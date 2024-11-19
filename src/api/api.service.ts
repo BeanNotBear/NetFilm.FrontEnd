@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   HttpClient,
   HttpEvent,
@@ -29,42 +29,161 @@ import {PasswordUpdate} from "../models/userDtos/passwordUpdate.model";
 import {RequestForgotPasswordDto} from "../models/authDtos/requestForgotPasswordDto.model";
 import {ResetPasswordRequestDto} from "../models/authDtos/resetPasswordRequestDto";
 import { voteFilmDto } from '../models/voteDtos/voteFilmDto.model';
+import {MovieUpdateDetails} from "../models/movieDtos/movie.update.details";
+import {AddUser} from "../models/userDtos/addUser.model";
+import {UpdateUser} from "../models/userDtos/updateUser.model";
+import { CommentDto } from '../models/commentDtos/commentDto.model';
+import { AdvertiseDto } from '../models/advertiseDtos/advertiseDto.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
-
   private baseUrl = "https://localhost:7027/api";
-
   private headers = {'Authorization' : `Bearer ${localStorage.getItem("token")}`};
 
   constructor(private http: HttpClient) {
+
   }
 
-  getUsersPagination(pageIndex: number, pageSize: number, searchTerm: string, sortBy: string, ascending: boolean) {
-    return this.http.get<PageResult<UserDto>>('https://localhost:7027/api/Users/PageResult', {
-      params: new HttpParams()
-        .set('pageIndex', pageIndex)
-        .set('pageSize', pageSize)
-        .set('searchTerm', searchTerm)
-        .set('sortBy', sortBy)
-        .set('ascending', ascending)
-    }).pipe(delay(0));
+  getUsersPagination(
+    pageIndex: number,
+    pageSize: number,
+    searchTerm: string,
+    sortBy: string,
+    ascending: boolean
+  ) {
+    return this.http
+      .get<PageResult<UserDto>>(
+        `${this.baseUrl}/Users/PageResult`,
+        {
+          params: new HttpParams()
+            .set('pageIndex', pageIndex)
+            .set('pageSize', pageSize)
+            .set('searchTerm', searchTerm)
+            .set('sortBy', sortBy)
+            .set('ascending', ascending),
+        }
+      )
+      .pipe(delay(0));
+  }
+
+  getCategoriesPagination(
+    pageIndex: number,
+    pageSize: number,
+    searchTerm: string,
+    sortBy: string,
+    ascending: boolean
+  ) {
+    return this.http
+      .get<PageResult<CategoryDto>>(this.baseUrl + '/Category/PageResult', {
+        params: new HttpParams()
+          .set('pageIndex', pageIndex)
+          .set('pageSize', pageSize)
+          .set('searchTerm', searchTerm)
+          .set('sortBy', sortBy)
+          .set('ascending', ascending),
+      })
+      .pipe(delay(0));
+  }
+
+  addCategory(data: any) {
+    return this.http.post<any>(this.baseUrl + '/Category', data);
+  }
+
+  updateCategory(categoryId: string, data: any) {
+    return this.http.put<any>(this.baseUrl + '/Category/' + categoryId, data);
+  }
+  addComment(data: any) {
+    return this.http.post<any>(this.baseUrl + '/Comment', data);
+  }
+
+  getCommentByMovieId(movieId: string) {
+    return this.http.get<any>(this.baseUrl + '/Comment/movie/' + movieId);
+  }
+
+  reply(data: any) {
+    return this.http.post<any>(this.baseUrl + '/Comment/reply', data);
+  }
+
+  getReplyByCommentId(commentId: string) {
+    return this.http.get<any>(this.baseUrl + '/Comment/reply/' + commentId);
+  }
+
+  updateComment(commentId: string, data: any) {
+    return this.http.put<any>(this.baseUrl + '/Comment/' + commentId, data);
+  }
+
+  getCommentsPagination(
+    pageIndex: number,
+    pageSize: number,
+    searchTerm: string,
+    sortBy: string,
+    ascending: boolean
+  ) {
+    return this.http
+      .get<PageResult<CommentDto>>(this.baseUrl + '/Comment/PageResult', {
+        params: new HttpParams()
+          .set('pageIndex', pageIndex)
+          .set('pageSize', pageSize)
+          .set('searchTerm', searchTerm)
+          .set('sortBy', sortBy)
+          .set('ascending', ascending),
+      })
+      .pipe(delay(0));
+  }
+
+  deleteComment(commentId: string) {
+    return this.http.patch<any>(this.baseUrl + '/Comment/' + commentId, null);
+  }
+
+  getAdvertisesPagination(
+    pageIndex: number,
+    pageSize: number,
+    searchTerm: string,
+    sortBy: string,
+    ascending: boolean
+  ) {
+    return this.http
+      .get<PageResult<AdvertiseDto>>(this.baseUrl + '/Advertise/PageResult', {
+        params: new HttpParams()
+          .set('pageIndex', pageIndex)
+          .set('pageSize', pageSize)
+          .set('searchTerm', searchTerm)
+          .set('sortBy', sortBy)
+          .set('ascending', ascending),
+      })
+      .pipe(delay(0));
+  }
+
+  getRandomAdvertise() {
+    return this.http.get<any>(this.baseUrl + '/Advertise/Random');
+  }
+
+  addAdvertise(data: any) {
+    return this.http.post<any>(this.baseUrl + '/Advertise', data);
+  }
+
+  updateAdvertise(advertiseId: string, data: any) {
+    return this.http.put<any>(this.baseUrl + '/Advertise/' + advertiseId, data);
+  }
+
+  deleteAdvertise(advertiseId: string) {
+    return this.http.delete<any>(this.baseUrl + '/Advertise/' + advertiseId);
   }
 
   addRole(role: Role) {
-    return this.http.post<RoleResponse>('https://localhost:7027/api/Roles', role).subscribe(
-      {
-        next: data => {
+    return this.http
+      .post<RoleResponse>('https://localhost:7027/api/Roles', role)
+      .subscribe({
+        next: (data) => {
           console.log(data);
         },
-        error: error => {
+        error: (error) => {
           // this.errorMessage = error.message;
           console.error('There was an error!', error);
-        }
-      }
-    );
+        },
+      });
   }
 
   addParticipant(participant: Participant): Observable<Participant> {
@@ -85,18 +204,7 @@ export class ApiService {
   // used to upload movie
   uploadFile(formData: FormData, method: string): Observable<MovieResponseDto> {
     const req = new HttpRequest(method, `${this.baseUrl}/Movies/Upload`, formData, {
-      // reportProgress: true
-    });
-
-    return this.http.request(req).pipe(
-      filter((event: HttpEvent<any>) => event.type === HttpEventType.Response),
-      map((response: HttpResponse<any>) => response.body as MovieResponseDto)
-    );
-  }
-
-  uploadPoster(id: string, formData: FormData, method: string): Observable<MovieResponseDto> {
-    const req = new HttpRequest(method, `${this.baseUrl}/${id}/Add/Poster`, formData, {
-      // reportProgress: true
+      headers: new HttpHeaders(this.headers)
     });
 
     return this.http.request(req).pipe(
@@ -121,12 +229,14 @@ export class ApiService {
   }
 
   uploadMovieDetails(id: string, movie: MovieDto): Observable<MovieResponseDto> {
-    return this.http.put<MovieResponseDto>(`${this.baseUrl}/Movies/${id}/Add/Details`, movie);
+    return this.http.put<MovieResponseDto>(`${this.baseUrl}/Movies/${id}/Add/Details`, movie, {
+      headers: new HttpHeaders(this.headers)
+    });
   }
 
   uploadSubtitle(id: string, formData: FormData, method: string): Observable<MovieResponseDto> {
     const req = new HttpRequest(method, `${this.baseUrl}/Subtitles/Upload`, formData, {
-      // reportProgress: true
+      headers: new HttpHeaders(this.headers)
     });
 
     return this.http.request(req).pipe(
@@ -136,14 +246,18 @@ export class ApiService {
   }
 
   getMoviesViewer(httpParam: HttpParams) {
-    return this.http.get<PageResult<MovieViewerDto>>(`${this.baseUrl}/Movies/spec`, {
-      params: httpParam
-    });
+    return this.http.get<PageResult<MovieViewerDto>>(
+      `${this.baseUrl}/Movies/spec`,
+      {
+        params: httpParam,
+      }
+    );
   }
 
   getMoviesManagement(httpParam: HttpParams) {
     return this.http.get<PageResult<MovieManageDto>>(`${this.baseUrl}/Movies/admin/spec`, {
-      params: httpParam
+      params: httpParam,
+      headers: new HttpHeaders(this.headers)
     });
   }
 
@@ -152,31 +266,66 @@ export class ApiService {
   }
 
   addView(id: string) {
-    return this.http.patch<MovieResponseDto>(`${this.baseUrl}/Movies/${id}/view`, {});
+    return this.http.patch<MovieResponseDto>(
+      `${this.baseUrl}/Movies/${id}/view`,
+      {}
+    );
   }
-  
+
+  updateMovieInformation(id: string, movie: MovieUpdateDetails) {
+    return this.http.patch<MovieResponseDto>(`${this.baseUrl}/Movies/${id}/update/information`, movie, {
+      headers: new HttpHeaders(this.headers)
+    })
+  }
+
+  uploadPoster(id: string, formData: FormData): Observable<MovieResponseDto> {
+    const req = new HttpRequest('PATCH', `${this.baseUrl}/Movies/${id}/update/poster`, formData, {
+      headers: new HttpHeaders(this.headers)
+    });
+
+    return this.http.request(req).pipe(
+      filter((event: HttpEvent<any>) => event.type === HttpEventType.Response),
+      map((response: HttpResponse<any>) => response.body as MovieResponseDto)
+    );
+  }
+
+  deleteSubtitle(id: string) {
+    return this.http.delete<any>(`${this.baseUrl}/Subtitles/${id}`, {
+      headers: new HttpHeaders(this.headers)
+    });
+  }
+
   login(login: Login): Observable<any> {
-    return this.http.post<Login>(this.baseUrl + "/Auths/Login", login);
+    return this.http.post<Login>(this.baseUrl + '/Auths/Login', login);
   }
 
   register(register: Register): Observable<any> {
-    return this.http.post<Register>(this.baseUrl + "/Auths/Register", register);
+    return this.http.post<Register>(this.baseUrl + '/Auths/Register', register);
   }
 
   verifyEmail(verifyEmail: VerifyEmail): Observable<any> {
-    return this.http.post<VerifyEmail>('https://localhost:7027/api/Auths/EmailVerification', verifyEmail);
+    return this.http.post<VerifyEmail>(
+      'https://localhost:7027/api/Auths/EmailVerification',
+      verifyEmail
+    );
   }
 
   resendEmail(resendEmail: ResendEmail): Observable<any> {
-    return this.http.post('https://localhost:7027/api/Auths/ResendEmail', resendEmail);
+    return this.http.post(
+      'https://localhost:7027/api/Auths/ResendEmail',
+      resendEmail
+    );
   }
 
-  getUserByEmail(email: string) : Observable<any> {
+  getUserByEmail(email: string): Observable<any> {
     const params = new HttpParams().set('email', email);
     return this.http.get(`https://localhost:7027/api/Users`, { headers: this.headers, params });
   }
 
-  updateUser(id: string, updateUserRequestDto: UpdateUserRequestDto): Observable<any> {
+  updateUser(
+    id: string,
+    updateUserRequestDto: UpdateUserRequestDto
+  ): Observable<any> {
     return this.http.put(`${this.baseUrl}/Users/${id}`, updateUserRequestDto);
   }
 
@@ -185,17 +334,35 @@ export class ApiService {
     return this.http.patch(url, passwordUpdate);
   }
 
-  forgotPassword(requestForgotPasswordDto: RequestForgotPasswordDto): Observable<any> {
+  forgotPassword(
+    requestForgotPasswordDto: RequestForgotPasswordDto
+  ): Observable<any> {
     const url = `${this.baseUrl}/Auths/ForgotPassword`;
     return this.http.post(url, requestForgotPasswordDto);
   }
 
-  resetPassword(resetPasswordRequestDto: ResetPasswordRequestDto): Observable<any> {
+  resetPassword(
+    resetPasswordRequestDto: ResetPasswordRequestDto
+  ): Observable<any> {
     const url = `${this.baseUrl}/Auths/ResetPassword`;
     return this.http.post(url, resetPasswordRequestDto);
   }
 
   voteFilm(body: voteFilmDto): Observable<voteFilmDto> {
     return this.http.post<voteFilmDto>(`${this.baseUrl}/Vote`, body);
+  }
+  createUser(addUserRequestDto: AddUser): Observable<UserDto> {
+    const url = `${this.baseUrl}/Users`;
+    return this.http.post<UserDto>(url, addUserRequestDto);
+  }
+
+  getUserById(id: string): Observable<any> {
+    const url = `${this.baseUrl}/Users/${id}`;
+    return this.http.get(url);
+  }
+
+  updateUserAdmin(id: string, updateUserRequestDto: UpdateUser): Observable<any> {
+    const url = `${this.baseUrl}/Users/${id}`;
+    return this.http.put(url, updateUserRequestDto);
   }
 }

@@ -1,0 +1,15 @@
+* {
+  color: var(--white);
+}
+
+button {
+  color: var(--white) !important;
+}
+button i {
+  margin-right: 1px;
+}
+
+.header-table {
+  display: flex;
+  justify-content: space-between;
+}

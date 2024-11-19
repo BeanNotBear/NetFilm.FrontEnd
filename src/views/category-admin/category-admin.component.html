@@ -1,0 +1,74 @@
+<div class="header-table">
+  <h3>Category Manager</h3>
+  <button
+    nz-button
+    nzType="primary"
+    nzSize="large"
+    nzShape="round"
+    (click)="onOpenAdd()"
+  >
+    <i class="fa-regular fa-square-plus"></i>
+    Create
+  </button>
+</div>
+<br />
+<app-table
+  [rows]="pageResult.items"
+  [page]="pageResult.pageIndex"
+  [pageSize]="pageResult.pageSize"
+  [totalRows]="pageResult.totalItems"
+  [clientPagination]="false"
+  (pageIndexChange)="onPageIndexChange($event)"
+  (pageSizeChange)="onPageSizeChange($event)"
+  (searchChange)="onSearchChange($event)"
+  [loading]="loading"
+>
+  <ngvn-column header="ID" key="id"></ngvn-column>
+  <ngvn-column
+    header="Name"
+    key="name"
+    [sortable]="true"
+    (sortChange)="onSortChange($event)"
+  ></ngvn-column>
+
+  <ngvn-column header="Action">
+    <ng-template appCell let-row>
+      <td>
+        <button
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="round"
+          (click)="onOpenUpdate(row)"
+        >
+          <i class="fa-regular fa-pen-to-square"></i>
+          Update
+        </button>
+      </td>
+    </ng-template>
+  </ngvn-column>
+</app-table>
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="title"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+>
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="Form">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name"
+          >Name</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Please input your name of category"
+        >
+          <input nz-input formControlName="name" id="name" />
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>

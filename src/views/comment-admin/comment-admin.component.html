@@ -1,0 +1,97 @@
+<div class="header-table">
+  <h3>Comment Manager</h3>
+  <!-- <button
+    nz-button
+    nzType="primary"
+    nzSize="large"
+    nzShape="round"
+    (click)="onOpenAdd()"
+  >
+    <i class="fa-regular fa-square-plus"></i>
+    Create
+  </button> -->
+</div>
+<br />
+<app-table
+  [rows]="pageResult.items"
+  [page]="pageResult.pageIndex"
+  [pageSize]="pageResult.pageSize"
+  [totalRows]="pageResult.totalItems"
+  [clientPagination]="false"
+  (pageIndexChange)="onPageIndexChange($event)"
+  (pageSizeChange)="onPageSizeChange($event)"
+  (searchChange)="onSearchChange($event)"
+  [loading]="loading"
+>
+  <ngvn-column header="ID" key="id" #idColumn></ngvn-column>
+  <ngvn-column
+    header="Content"
+    key="content"
+    [sortable]="true"
+    (sortChange)="onSortChange($event)"
+  ></ngvn-column>
+  <ngvn-column
+    header="UserName"
+    key="userName"
+    [sortable]="true"
+    (sortChange)="onSortChange($event)"
+  ></ngvn-column>
+  <ngvn-column
+    header="Movie"
+    key="movie"
+    [sortable]="true"
+    (sortChange)="onSortChange($event)"
+  ></ngvn-column>
+  <ngvn-column
+    header="DateTime"
+    key="date"
+    [dataType]="COL_DATA_TYPE.DATE"
+    [sortable]="true"
+    (sortChange)="onSortChange($event)"
+  ></ngvn-column>
+
+  <ngvn-column header="Action">
+    <ng-template appCell let-row>
+      <td>
+        <!-- <button nz-button nzType="primary" nzSize="small" nzShape="round">
+          <i class="fa-regular fa-pen-to-square"></i>
+          Update
+        </button> -->
+        <nz-divider nzType="vertical"></nz-divider>
+        <button
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="round"
+          nzDanger
+          (click)="deleteComment(row.id)"
+        >
+          <i class="fa-regular fa-trash-can"></i>
+          Delete
+        </button>
+      </td>
+    </ng-template>
+  </ngvn-column>
+</app-table>
+<!-- <app-dialog-admin
+  [isVisible]="isVisibleDialog"
+  [isOkLoading]="isLoandingDialod"
+>
+  <ngvn-dialog dialogName="Add User">
+    <ng-template appDialogContent>
+      <form>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Enter walk name"
+            required
+            [(ngModel)]="nameCategory"
+          />
+        </div>
+      </form>
+    </ng-template>
+  </ngvn-dialog>
+</app-dialog-admin> -->

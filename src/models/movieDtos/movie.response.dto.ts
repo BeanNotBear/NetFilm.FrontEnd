@@ -12,7 +12,7 @@ export class MovieResponseDto {
   status!: number;
   quality!: number;
   average_Star!: number;
-  movie_Url!: number;
+  movie_Url!: string;
   allowing_Age!: number;
   release_Date!: string;
   duration!: number;

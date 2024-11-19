@@ -17,7 +17,7 @@
     [nzPageSize]="pageSize"
     [nzTotal]="totalRows"
     [nzFrontPagination]="clientPagination"
-    [nzScroll]="{ x: '1800px' }"
+    [nzScroll]="{ x: xScroll}"
     [nzPageSizeOptions]="pageSizeOption"
     (nzPageIndexChange)="pageIndexChange.emit($event)"
     (nzPageSizeChange)="pageSizeChange.emit($event)"

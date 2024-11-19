@@ -8,7 +8,7 @@ import {MovieParam} from "../../models/movieDtos/movie.param";
 import {MovieService} from "../../service/movie.service";
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzTableCellDirective} from "ng-zorro-antd/table";
-import {COL_DATA_TYPE} from "../table/models/types";
+import {COL_DATA_TYPE, SortOrder} from "../table/models/types";
 import {NzDividerModule} from "ng-zorro-antd/divider";
 
 @Component({
@@ -28,12 +28,9 @@ import {NzDividerModule} from "ng-zorro-antd/divider";
 export class MovieTableComponent implements OnInit{
 
   @Output() selectMovie = new EventEmitter<string>();
+  @Output() editMovie = new EventEmitter<string>();
 
   constructor(private movieService: MovieService) {
-  }
-
-  onSelect(id: string) {
-    this.selectMovie.emit(id);
   }
 
   ngOnInit(): void {
@@ -70,9 +67,14 @@ export class MovieTableComponent implements OnInit{
     null,
     false,
     null,
-    'views',
+    'releasedate',
     false
   );
+
+  onPageIndexChange(pageIndex: number) {
+    this.movieParam.pageIndex = pageIndex;
+    this.fetchMovies();
+  }
 
   fetchMovies() {
     this.loading = true;
@@ -86,5 +88,22 @@ export class MovieTableComponent implements OnInit{
         console.error(err)
       }
     });
+  }
+
+  onPageSizeChange(pageSize: number) {
+    this.movieParam.pageSize = pageSize;
+    this.fetchMovies();
+  }
+
+  onSearchMovie(seach: string) {
+    this.movieParam.searchTerm = seach;
+    this.fetchMovies();
+  }
+
+  onSortChange($event: { key: string; order: SortOrder }) {
+    this.movieParam.sortBy = $event.key;
+    // alert($event.key)
+    this.movieParam.ascending = $event.order === 'ascend';
+    this.fetchMovies();
   }
 }

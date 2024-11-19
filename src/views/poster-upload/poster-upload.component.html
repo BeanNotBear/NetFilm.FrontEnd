@@ -5,6 +5,7 @@
   [nzShowUploadList]="false"
   [nzBeforeUpload]="beforeUpload"
   [nzAction]="apiUrl"
+  [nzHeaders]="headers"
   (nzChange)="handleChange($event)"
 >
   @if (!avatarUrl) {

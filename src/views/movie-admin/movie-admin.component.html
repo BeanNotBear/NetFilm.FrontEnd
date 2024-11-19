@@ -1,16 +1,13 @@
 <div class="header-table">
   <h3>Movie Manager</h3>
-  <button nz-button nzType="primary" nzSize="large" nzShape="round">
-    <i class="fa-regular fa-square-plus"></i>
-    Create
-  </button>
 </div>
 <app-movie-details-admin (closeMovieDetails)="onCloseMovieDetails()" [movie]="movieDetails"
                          [isVisible]="isVisibleMovieDetails"></app-movie-details-admin>
+<app-movie-update [movie]="movieDetails" (onClose)="onCloseEditMovie()" [isVisible]="isVisibleEditMovie"></app-movie-update>
 <app-tab>
   <ngvn-tab tabName="Movie List">
     <ng-template appContent>
-      <app-movie-table (selectMovie)="onSelectMovie($event)"></app-movie-table>
+      <app-movie-table (editMovie)="onEditMovie($event)" (selectMovie)="onSelectMovie($event)"></app-movie-table>
     </ng-template>
   </ngvn-tab>
   <ngvn-tab tabName="Upload Movie">

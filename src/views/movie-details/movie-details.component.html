@@ -2,7 +2,7 @@
   <div class="movie-details">
     <div class="movie row">
       <div class="movie-image col-lg">
-        <img [src]="movie.thumbnail" alt="">
+        <img [src]="movie.thumbnail" alt="" />
       </div>
       <div class="movie-infor col-lg-9">
         <div class="basic-infor">
@@ -16,10 +16,12 @@
         <div class="rating">
           <div class="rate-star">
             <div class="rate">
-              <app-rate [allowHalf]="true"
-                        [disable]="true"
-                        [rate]="movie.average_Star"
-                        [totalRate]="movie.average_Star"></app-rate>
+              <app-rate
+                [allowHalf]="true"
+                [disable]="true"
+                [rate]="movie.average_Star"
+                [totalRate]="movie.average_Star"
+              ></app-rate>
               <!--              <div class="your-rate">Your rate: 5</div>-->
             </div>
             <div class="total-vote">
@@ -75,11 +77,15 @@
         <div class="cate-action">
           <div class="category">
             @for (item of movie.categories; track item) {
-              <div><a href="#">{{ item.name }}</a></div>
+            <div>
+              <a href="#">{{ item.name }}</a>
+            </div>
             }
           </div>
           <div>
-            <button class="watch-now" (click)="onView(movie.id)">Watch Now</button>
+            <button class="watch-now" (click)="onView(movie.id)">
+              Watch Now
+            </button>
           </div>
         </div>
       </div>
@@ -87,7 +93,7 @@
     <app-tab>
       <ngvn-tab tabName="Comment">
         <ng-template appContent>
-          <app-comment></app-comment>
+          <app-comment [movieId]="movie.id"></app-comment>
         </ng-template>
       </ngvn-tab>
       <ngvn-tab tabName="Description">
@@ -100,13 +106,13 @@
           <h5>Participants</h5>
           <ul>
             @for (item of movie.participants; track item) {
-              <li>{{ item.name }}</li>
+            <li>{{ item.name }}</li>
             }
           </ul>
         </ng-template>
       </ngvn-tab>
     </app-tab>
-    <hr>
+    <hr />
   </div>
   <app-movie-sider [movies]="movies"></app-movie-sider>
 </div>
