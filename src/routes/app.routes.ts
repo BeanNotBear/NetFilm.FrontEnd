@@ -16,6 +16,7 @@ import { roleGuard } from '../guards/role.guard';
 import { UserProfileComponent } from '../views/user-profile/user-profile.component';
 import { ForgotPasswordComponent } from '../views/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from '../views/reset-password/reset-password.component';
+import { ParticipantComponent } from '../views/participant/participant.component';
 
 export const routes: Routes = [
   {
@@ -56,6 +57,11 @@ export const routes: Routes = [
     data: {
       role: ['ADMIN'],
     },
+  },
+  {
+    path: 'participant',
+    title: 'participant',
+    component: ParticipantComponent,
   },
   {
     path: 'movie-admin',

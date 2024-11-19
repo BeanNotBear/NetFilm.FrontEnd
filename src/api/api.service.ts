@@ -12,6 +12,7 @@ import { PageResult } from '../models/common/pageResult.model';
 import { delay, filter, map, Observable } from 'rxjs';
 import { UserDto } from '../models/userDtos/userDto.model';
 import { Role, RoleResponse } from '../models/roleDtos/role';
+import { Participant } from '../models/participantDtos/participant';
 import { MovieResponseDto } from '../models/movieDtos/movie.response.dto';
 import { CountryDto } from '../models/countryDtos/country.dto';
 import { ParticipantDto } from '../models/participantDtos/participant.dto';
@@ -32,6 +33,7 @@ import { AddUser } from '../models/userDtos/addUser.model';
 import { UpdateUser } from '../models/userDtos/updateUser.model';
 import { CommentDto } from '../models/commentDtos/commentDto.model';
 import { AdvertiseDto } from '../models/advertiseDtos/advertiseDto.model';
+import { voteFilmDto } from '../models/voteDtos/voteFilmDto.model';
 
 @Injectable({
   providedIn: 'root',
@@ -181,6 +183,30 @@ export class ApiService {
       });
   }
 
+  addParticipant(participant: Participant): Observable<Participant> {
+    return this.http.post<Participant>(
+      `${this.baseUrl}/Participants`,
+      participant
+    );
+  }
+
+  getAllParticipants(): Observable<Participant[]> {
+    return this.http.get<Participant[]>(`${this.baseUrl}/Participants`);
+  }
+
+  putParticipant(
+    participant: Participant,
+    id: Number
+  ): Observable<Participant> {
+    return this.http.put<Participant>(
+      `${this.baseUrl}/Participants/${id}`,
+      participant
+    );
+  }
+
+  deleteParticipant(id: Number): Observable<Participant> {
+    return this.http.delete<Participant>(`${this.baseUrl}/Participants/${id}`);
+  }
   // used to upload movie
   uploadFile(formData: FormData, method: string): Observable<MovieResponseDto> {
     const req = new HttpRequest(
@@ -332,7 +358,10 @@ export class ApiService {
 
   getUserByEmail(email: string): Observable<any> {
     const params = new HttpParams().set('email', email);
-    return this.http.get(`https://localhost:7027/api/Users/Email`, { params });
+    return this.http.get(`http://localhost:5042/api/Users`, {
+      headers: this.headers,
+      params,
+    });
   }
 
   updateUser(
@@ -377,5 +406,8 @@ export class ApiService {
   ): Observable<any> {
     const url = `${this.baseUrl}/Users/${id}`;
     return this.http.put(url, updateUserRequestDto);
+  }
+  voteFilm(body: voteFilmDto): Observable<voteFilmDto> {
+    return this.http.post<voteFilmDto>(`${this.baseUrl}/Vote`, body);
   }
 }
