@@ -28,6 +28,7 @@ import {UpdateUserRequestDto} from "../models/userDtos/updateUserRequestDto.mode
 import {PasswordUpdate} from "../models/userDtos/passwordUpdate.model";
 import {RequestForgotPasswordDto} from "../models/authDtos/requestForgotPasswordDto.model";
 import {ResetPasswordRequestDto} from "../models/authDtos/resetPasswordRequestDto";
+import { voteFilmDto } from '../models/voteDtos/voteFilmDto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,7 @@ export class ApiService {
   }
 
   getUsersPagination(pageIndex: number, pageSize: number, searchTerm: string, sortBy: string, ascending: boolean) {
-    return this.http.get<PageResult<UserDto>>('https://localhost:5042/api/Users/PageResult', {
+    return this.http.get<PageResult<UserDto>>('https://localhost:7072/api/Users/PageResult', {
       params: new HttpParams()
         .set('pageIndex', pageIndex)
         .set('pageSize', pageSize)
@@ -53,7 +54,7 @@ export class ApiService {
   }
 
   addRole(role: Role) {
-    return this.http.post<RoleResponse>('https://localhost:5042/api/Roles', role).subscribe(
+    return this.http.post<RoleResponse>('https://localhost:7072/api/Roles', role).subscribe(
       {
         next: data => {
           console.log(data);
@@ -163,16 +164,16 @@ export class ApiService {
   }
 
   verifyEmail(verifyEmail: VerifyEmail): Observable<any> {
-    return this.http.post<VerifyEmail>('https://localhost:7027/api/Auths/EmailVerification', verifyEmail);
+    return this.http.post<VerifyEmail>('https://localhost:7072/api/Auths/EmailVerification', verifyEmail);
   }
 
   resendEmail(resendEmail: ResendEmail): Observable<any> {
-    return this.http.post('https://localhost:7027/api/Auths/ResendEmail', resendEmail);
+    return this.http.post('https://localhost:7072/api/Auths/ResendEmail', resendEmail);
   }
 
   getUserByEmail(email: string) : Observable<any> {
     const params = new HttpParams().set('email', email);
-    return this.http.get(`https://localhost:7027/api/Users/Email`, { params });
+    return this.http.get(`http://localhost:5042/api/Users`, { headers: this.headers, params });
   }
 
   updateUser(id: string, updateUserRequestDto: UpdateUserRequestDto): Observable<any> {
@@ -192,5 +193,9 @@ export class ApiService {
   resetPassword(resetPasswordRequestDto: ResetPasswordRequestDto): Observable<any> {
     const url = `${this.baseUrl}/Auths/ResetPassword`;
     return this.http.post(url, resetPasswordRequestDto);
+  }
+
+  voteFilm(body: voteFilmDto): Observable<voteFilmDto> {
+    return this.http.post<voteFilmDto>(`${this.baseUrl}/Vote`, body);
   }
 }

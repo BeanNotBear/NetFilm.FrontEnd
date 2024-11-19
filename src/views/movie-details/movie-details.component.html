@@ -26,6 +26,50 @@
               <i class="fa-solid fa-users"></i>
               <span>{{ movie.totalPeopleVote }} Votes</span>
             </div>
+            <div class="movie-details">            
+              <button class="watch-now" (click)="openVotePopup()">Rate Movie</button>
+              <div
+                class="popup-overlay"
+                *ngIf="isVotePopupVisible"
+                (click)="closeVotePopup()"
+              ></div>
+              <div class="popup" *ngIf="isVotePopupVisible">
+                <h3 style="color: black;">{{ !hasUserVoted ? 'Rate this Movie' : 'Update Your Rating' }}</h3>
+                <div class="rating-controls">
+                  <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+                    <button
+                      class="rating-star"
+                      [class.selected]="star <= userCurrentRating"
+                      (click)="userCurrentRating = star"
+                    >
+                      ★
+                    </button>
+                  </ng-container>
+                </div>
+                <div class="popup-actions">
+                  <button class="watch-now" (click)="submitVote()">Submit</button>
+                  <button class="watch-now" (click)="closeVotePopup()">Cancel</button>
+                </div>
+              </div>
+              <!-- <div class="popup" *ngIf="isVotePopupVisible">
+                <h3 style="color: black;">Rate this Movie</h3>
+                <div class="rating-controls">
+                  <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+                    <button
+                      class="rating-star"
+                      [class.selected]="star <= userCurrentRating"
+                      (click)="userCurrentRating = star"
+                    >
+                      ★
+                    </button>
+                  </ng-container>
+                </div>
+                <div class="popup-actions">
+                  <button class="watch-now" (click)="submitVote()">Submit</button>
+                  <button class="watch-now" (click)="closeVotePopup()">Cancel</button>
+                </div>
+              </div> -->
+            </div>
           </div>
         </div>
         <div class="cate-action">
