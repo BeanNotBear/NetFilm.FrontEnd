@@ -13,6 +13,8 @@ import {CountryDto} from "../../models/countryDtos/country.dto";
 import {CategoryDto} from "../../models/categoryDtos/category.dto";
 import {ParticipantDto} from "../../models/participantDtos/participant.dto";
 import {MovieService} from "../../service/movie.service";
+import {MessageService} from "primeng/api";
+import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
   selector: 'app-movie-information-update',
@@ -42,29 +44,42 @@ export class MovieInformationUpdateComponent implements OnInit {
   constructor(private countryService: CountryService,
               private categoryService: CategoryService,
               private participantService: ParticipantService,
-              private movieService: MovieService) {
+              private movieService: MovieService,
+              private messageService: NzMessageService) {
   }
 
   countries: CountryDto[] = [];
   categories: CategoryDto[] = [];
   participants: ParticipantDto[] = [];
+  categoryIds: string[] = [];
+  participantIds: string[] = [];
+  countryId!: string;
+
   qualities: { value: number; name: string }[] = [
     {value: 0, name: 'HD'},
     {value: 1, name: 'Full HD'}
   ];
 
   onSubmit() {
+    this.movie.categories = this.categories.filter(category => this.categoryIds.includes(category.id))
+    this.movie.participants = this.participants.filter(par =>  this.participantIds.includes(par.id))
+    this.movie.country = this.countries.find(country => (country.id === this.countryId)) || this.movie.country;
     this.movieService.updateMovieInformation(this.movie).subscribe({
       next: value => {
         this.movie = value;
+        this.messageService.success('Update successfully');
       },
       error: err => {
         console.error(err);
+        this.messageService.error('Update fail!!!')
       }
     })
   }
 
   ngOnInit() {
+    this.categoryIds = this.movie.categories.map(x => x.id);
+    this.participantIds = this.movie.participants.map(x => x.id);
+    this.countryId = this.movie.country.id;
     this.fetchCountry();
     this.fetchCategory();
     this.fetchParticipants();

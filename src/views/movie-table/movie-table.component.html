@@ -5,9 +5,13 @@
   [pageSize]="pageResult.pageSize"
   [totalRows]="pageResult.totalItems"
   [clientPagination]="false"
+  yScroll="700"
+  (pageIndexChange)="onPageIndexChange($event)"
+  (pageSizeChange)="onPageSizeChange($event)"
+  (searchChange)="onSearchMovie($event)"
 >
   <ngvn-column header="ID" key="id"></ngvn-column>
-  <ngvn-column header="Name" key="name"></ngvn-column>
+  <ngvn-column header="Name" key="name" [sortable]="true" (sortChange)="onSortChange($event)"></ngvn-column>
   <ngvn-column header="Poster" key="thumbnail">
     <ng-template appCell let-row>
       <img class="poster" [src]="row.thumbnail" alt="">
@@ -35,15 +39,15 @@
       }
     </ng-template>
   </ngvn-column>
-  <ngvn-column header="Average Star" key="average_Star"></ngvn-column>
-  <ngvn-column header="Allowing Age" key="allowing_Age"></ngvn-column>
-  <ngvn-column header="Release Date" key="release_Date" [dataType]="COL_DATA_TYPE.DATE"></ngvn-column>
-  <ngvn-column header="Duration" key="duration">
+  <ngvn-column header="Average Star" key="average_Star" [sortable]="true" (sortChange)="onSortChange($event)"></ngvn-column>
+  <ngvn-column header="Allowing Age" key="allowing_Age" [sortable]="true" (sortChange)="onSortChange($event)"></ngvn-column>
+  <ngvn-column header="Release Date" key="release_Date" [dataType]="COL_DATA_TYPE.DATE" [sortable]="true" (sortChange)="onSortChange($event)"></ngvn-column>
+  <ngvn-column header="Duration" key="duration" [sortable]="true" (sortChange)="onSortChange($event)">
     <ng-template appCell let-row>
       {{row.duration}} min
     </ng-template>
   </ngvn-column>
-  <ngvn-column header="Total Views" key="totalViews"></ngvn-column>
+  <ngvn-column header="Total Views" key="totalViews" [sortable]="true" (sortChange)="onSortChange($event)"></ngvn-column>
   <ngvn-column header="Action">
     <ng-template appCell let-row>
       <td>

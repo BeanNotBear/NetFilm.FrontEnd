@@ -9,6 +9,7 @@ import {NzUploadChangeParam, NzUploadFile, NzUploadModule} from 'ng-zorro-antd/u
 import {HttpClient, HttpHeaders, HttpParams, HttpRequest, HttpResponse} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {NzInputDirective} from "ng-zorro-antd/input";
+import {MovieService} from "../../service/movie.service";
 
 @Component({
   selector: 'app-upload-movie',
@@ -26,7 +27,7 @@ export class UploadMovieComponent {
 
   constructor(
     private http: HttpClient,
-    private messageService: NzMessageService
+    private messageService: NzMessageService,
   ) {
   }
 
@@ -56,7 +57,7 @@ export class UploadMovieComponent {
         next: () => {
           this.uploading = false;
           this.fileList = [];
-          this.messageService.success('upload successfully.');
+          this.messageService.success('Upload successfully. Please click F5 or reload page');
         },
         error: () => {
           this.uploading = false;

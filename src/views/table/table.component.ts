@@ -44,6 +44,8 @@ export class TableComponent {
   @Input() pageSize = 10;
   @Input() totalRows = 0;
   @Input() pageSizeOption: number[] = [10, 20, 30, 40, 50];
+  @Input() xScroll = '1800px';
+  // @Input() yScroll = '300';
   @Output() pageIndexChange = new EventEmitter<number>();
   @Output() pageSizeChange = new EventEmitter<number>();
   @Output() searchChange = new EventEmitter<string>();

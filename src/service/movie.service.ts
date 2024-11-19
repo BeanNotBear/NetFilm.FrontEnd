@@ -6,6 +6,7 @@ import {MovieDto} from "../models/movieDtos/movie.dto";
 import {MovieParam} from "../models/movieDtos/movie.param";
 import {HttpParams} from "@angular/common/http";
 import {MovieUpdateDetails} from "../models/movieDtos/movie.update.details";
+import {delay} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -152,7 +153,7 @@ export class MovieService {
     if(movieParam.ascending !== null && movieParam.sortBy !== null) {
       param = param.set("Ascending", movieParam.ascending)
     }
-    return this.apiService.getMoviesManagement(param);
+    return this.apiService.getMoviesManagement(param).pipe(delay(300));
   }
 
   getMovieDetails(id: string) {

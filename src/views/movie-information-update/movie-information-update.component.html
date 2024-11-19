@@ -6,9 +6,9 @@
   <div class="form">
     <div class="form">
       <label>Country: </label>
-      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a country" [(ngModel)]="movie.country">
+      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a country" [(ngModel)]="countryId">
         @for (country of countries; track country) {
-          <nz-option [nzLabel]="country.name" [nzValue]="country"></nz-option>
+          <nz-option [nzLabel]="country.name" [nzValue]="country.id"></nz-option>
         }
       </nz-select>
     </div>
@@ -42,10 +42,10 @@
         [nzMaxTagPlaceholder]="tagPlaceHolder"
         nzMode="multiple"
         nzPlaceHolder="Please select"
-        [(ngModel)]="movie.categories"
+        [(ngModel)]="categoryIds"
       >
         @for (item of categories; track item) {
-          <nz-option [nzLabel]="item.name" [nzValue]="item"></nz-option>
+          <nz-option [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
         }
       </nz-select>
       <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected
@@ -60,10 +60,10 @@
         [nzMaxTagPlaceholder]="tagPlaceHolder"
         nzMode="multiple"
         nzPlaceHolder="Please select"
-        [(ngModel)]="movie.participants"
+        [(ngModel)]="participantIds"
       >
         @for (item of participants; track item) {
-          <nz-option [nzLabel]="item.name" [nzValue]="item"></nz-option>
+          <nz-option [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
         }
       </nz-select>
       <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected
