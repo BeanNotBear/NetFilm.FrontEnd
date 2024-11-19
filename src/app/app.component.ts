@@ -40,7 +40,7 @@ export class AppComponent{
 
   constructor(private authService: AuthService) {
     const savedState = localStorage.getItem('isDashboard');
-    this.isDashBoard = savedState ? JSON.parse(savedState) : false;
+    this.isDashBoard = savedState ? JSON.parse(savedState) : true;
   }
 
   isCollapsed = false;

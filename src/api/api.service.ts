@@ -41,7 +41,7 @@ export class ApiService {
   private headers = {'Authorization' : `Bearer ${localStorage.getItem("token")}`};
 
   constructor(private http: HttpClient) {
-    
+
   }
 
   getUsersPagination(
@@ -53,7 +53,7 @@ export class ApiService {
   ) {
     return this.http
       .get<PageResult<UserDto>>(
-        'https://localhost:44348/api/Users/PageResult',
+        `${this.baseUrl}/Users/PageResult`,
         {
           params: new HttpParams()
             .set('pageIndex', pageIndex)
