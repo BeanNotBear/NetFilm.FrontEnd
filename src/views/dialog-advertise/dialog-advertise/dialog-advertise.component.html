@@ -1,0 +1,12 @@
+<dialog [open]="idOpenAdvertise">
+  <div class="x-mark" (click)="onClose()"><i class="fa-solid fa-x"></i></div>
+  <div class="movie-info">
+    <div class="dialog-image">
+      <img [src]="advertise.image" alt="" />
+    </div>
+    <div>
+      <h3>{{ advertise.title }}</h3>
+      <p [innerHTML]="advertise.content"></p>
+    </div>
+  </div>
+</dialog>

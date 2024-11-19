@@ -1,7 +1,7 @@
 @if (isDashBoard) {
-  <app-header (isDashboard)="onOpenDashboard()"></app-header>
-  <router-outlet></router-outlet>
-  <app-footer></app-footer>
+<app-header (isDashboard)="onOpenDashboard()"></app-header>
+<router-outlet></router-outlet>
+<app-footer></app-footer>
 } @else {
-  <app-dashboard (isHome)="onCloseDashboard()"></app-dashboard>
+<app-dashboard (isHome)="onCloseDashboard()"></app-dashboard>
 }
