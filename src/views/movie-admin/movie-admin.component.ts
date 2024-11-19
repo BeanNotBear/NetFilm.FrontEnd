@@ -35,6 +35,7 @@ import {ColumnDirective} from "../table/components/column.directive";
 import {CellDirective} from "../table/components/cell.directive";
 import {MovieTableComponent} from "../movie-table/movie-table.component";
 import {MovieDetailsAdminComponent} from "../movie-details-admin/movie-details-admin.component";
+import {MovieUpdateComponent} from "../movie-update/movie-update.component";
 
 @Component({
   selector: 'app-movie-admin',
@@ -64,6 +65,7 @@ import {MovieDetailsAdminComponent} from "../movie-details-admin/movie-details-a
     CellDirective,
     MovieTableComponent,
     MovieDetailsAdminComponent,
+    MovieUpdateComponent,
   ],
   providers: [
     {provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js'}
@@ -242,5 +244,22 @@ export class MovieAdminComponent {
 
   onCloseMovieDetails() {
     this.isVisibleMovieDetails = false;
+  }
+
+  isVisibleEditMovie = false;
+  onEditMovie(id: string) {
+    this.isVisibleEditMovie = true;
+    this.movieService.getMovieDetails(id).subscribe({
+      next: value => {
+        this.movieDetails = value;
+      },
+      error: err => {
+        console.error(err);
+      }
+    });
+  }
+
+  onCloseEditMovie() {
+    this.isVisibleEditMovie = false;
   }
 }

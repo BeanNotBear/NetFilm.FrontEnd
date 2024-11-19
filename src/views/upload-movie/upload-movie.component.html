@@ -1,0 +1,28 @@
+<div class="flex">
+  <video width="320" height="240" controls>
+    <source [src]="movie.movie_Url" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <div>
+    <nz-upload [(nzFileList)]="fileList"
+               [nzFileType]="fileType"
+               [nzLimit]="1"
+               [nzBeforeUpload]="beforeUpload">
+      <button nz-button>
+        <span nz-icon nzType="upload"></span>
+        Select File
+      </button>
+    </nz-upload>
+    <br />
+    <br />
+    <button
+      nz-button
+      nzType="primary"
+      [nzLoading]="uploading"
+      (click)="handleUpload()"
+      [disabled]="fileList.length === 0"
+    >
+      {{ uploading ? 'Uploading' : 'Start Upload' }}
+    </button>
+  </div>
+</div>

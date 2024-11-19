@@ -57,7 +57,11 @@ export const routes: Routes = [
   {
     path: 'movie-admin',
     title: 'Movie Management',
-    component: MovieAdminComponent
+    component: MovieAdminComponent,
+    canActivate: [authGuard, roleGuard],
+    data: {
+      role: ['ADMIN']
+    }
   },
   {
     path: 'login',

@@ -1,0 +1,28 @@
+<app-dialog-admin (close)="onClose.emit()" dialogTitle="Update Movie" [isVisible]="isVisible" [width]="1000">
+  <ngvn-dialog dialogName="Update Movie">
+    <ng-template appDialogContent>
+      <app-tab>
+        <ngvn-tab tabName="Upload Movie">
+          <ng-template appContent>
+            <app-upload-movie [movie]="movie"></app-upload-movie>
+          </ng-template>
+        </ngvn-tab>
+        <ngvn-tab tabName="Update Information">
+          <ng-template appContent>
+            <app-movie-information-update [movie]="movie"></app-movie-information-update>
+          </ng-template>
+        </ngvn-tab>
+        <ngvn-tab tabName="Update Poster">
+          <ng-template appContent>
+            <app-movie-update-poster [movie]="movie"></app-movie-update-poster>
+          </ng-template>
+        </ngvn-tab>
+        <ngvn-tab tabName="Update Subtitle">
+          <ng-template appContent>
+            <app-update-subtitle (raiseMovieId)="getMovieDetails($event)" [movie]="movie"></app-update-subtitle>
+          </ng-template>
+        </ngvn-tab>
+      </app-tab>
+    </ng-template>
+  </ngvn-dialog>
+</app-dialog-admin>

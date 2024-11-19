@@ -1,0 +1,8 @@
+div {
+  text-align: center;
+}
+
+:host ::ng-deep .avatar-uploader > .ant-upload {
+  width: 230px;
+  height: 320px;
+}

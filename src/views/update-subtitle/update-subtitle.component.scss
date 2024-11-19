@@ -1,0 +1,39 @@
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.flex div:last-child {
+  text-align: center;
+  width: fit-content;
+}
+
+.subtitle {
+  display:  flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.subtitle div:first-child {
+  margin-right: 10px;
+}
+
+.action button:first-child {
+  background-color: var(--red);
+  padding: 10px 15px;
+  border: unset;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.action button:last-child {
+  background-color: var(--blue);
+  padding: 10px 15px;
+  border: unset;
+  border-radius: 5px;
+}
+
+input {
+  margin: 10px 0;
+}

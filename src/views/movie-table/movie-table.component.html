@@ -47,12 +47,12 @@
   <ngvn-column header="Action">
     <ng-template appCell let-row>
       <td>
-        <button nz-button nzType="primary" nzSize="small" nzShape="round">
+        <button nz-button nzType="primary" nzSize="small" nzShape="round" (click)="editMovie.emit(row.id)">
           <i class="fa-regular fa-pen-to-square"></i>
           Update
         </button>
         <nz-divider nzType="horizontal"></nz-divider>
-        <button nz-button nzType="primary" nzSize="small" nzShape="round" (click)="onSelect(row.id)">
+        <button nz-button nzType="primary" nzSize="small" nzShape="round" (click)="selectMovie.emit(row.id)">
           <i class="fa-solid fa-circle-info"></i>
           Details
         </button>

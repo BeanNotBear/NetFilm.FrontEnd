@@ -27,6 +27,7 @@ import {UpdateUserRequestDto} from "../models/userDtos/updateUserRequestDto.mode
 import {PasswordUpdate} from "../models/userDtos/passwordUpdate.model";
 import {RequestForgotPasswordDto} from "../models/authDtos/requestForgotPasswordDto.model";
 import {ResetPasswordRequestDto} from "../models/authDtos/resetPasswordRequestDto";
+import {MovieUpdateDetails} from "../models/movieDtos/movie.update.details";
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,6 @@ import {ResetPasswordRequestDto} from "../models/authDtos/resetPasswordRequestDt
 export class ApiService {
 
   private baseUrl = "https://localhost:7027/api";
-
   private headers = {'Authorization' : `Bearer ${localStorage.getItem("token")}`};
 
   constructor(private http: HttpClient) {
@@ -68,18 +68,7 @@ export class ApiService {
   // used to upload movie
   uploadFile(formData: FormData, method: string): Observable<MovieResponseDto> {
     const req = new HttpRequest(method, `${this.baseUrl}/Movies/Upload`, formData, {
-      // reportProgress: true
-    });
-
-    return this.http.request(req).pipe(
-      filter((event: HttpEvent<any>) => event.type === HttpEventType.Response),
-      map((response: HttpResponse<any>) => response.body as MovieResponseDto)
-    );
-  }
-
-  uploadPoster(id: string, formData: FormData, method: string): Observable<MovieResponseDto> {
-    const req = new HttpRequest(method, `${this.baseUrl}/${id}/Add/Poster`, formData, {
-      // reportProgress: true
+      headers: new HttpHeaders(this.headers)
     });
 
     return this.http.request(req).pipe(
@@ -104,12 +93,14 @@ export class ApiService {
   }
 
   uploadMovieDetails(id: string, movie: MovieDto): Observable<MovieResponseDto> {
-    return this.http.put<MovieResponseDto>(`${this.baseUrl}/Movies/${id}/Add/Details`, movie);
+    return this.http.put<MovieResponseDto>(`${this.baseUrl}/Movies/${id}/Add/Details`, movie, {
+      headers: new HttpHeaders(this.headers)
+    });
   }
 
   uploadSubtitle(id: string, formData: FormData, method: string): Observable<MovieResponseDto> {
     const req = new HttpRequest(method, `${this.baseUrl}/Subtitles/Upload`, formData, {
-      // reportProgress: true
+      headers: new HttpHeaders(this.headers)
     });
 
     return this.http.request(req).pipe(
@@ -126,7 +117,8 @@ export class ApiService {
 
   getMoviesManagement(httpParam: HttpParams) {
     return this.http.get<PageResult<MovieManageDto>>(`${this.baseUrl}/Movies/admin/spec`, {
-      params: httpParam
+      params: httpParam,
+      headers: new HttpHeaders(this.headers)
     });
   }
 
@@ -137,7 +129,30 @@ export class ApiService {
   addView(id: string) {
     return this.http.patch<MovieResponseDto>(`${this.baseUrl}/Movies/${id}/view`, {});
   }
-  
+
+  updateMovieInformation(id: string, movie: MovieUpdateDetails) {
+    return this.http.patch<MovieResponseDto>(`${this.baseUrl}/Movies/${id}/update/information`, movie, {
+      headers: new HttpHeaders(this.headers)
+    })
+  }
+
+  uploadPoster(id: string, formData: FormData): Observable<MovieResponseDto> {
+    const req = new HttpRequest('PATCH', `${this.baseUrl}/Movies/${id}/update/poster`, formData, {
+      headers: new HttpHeaders(this.headers)
+    });
+
+    return this.http.request(req).pipe(
+      filter((event: HttpEvent<any>) => event.type === HttpEventType.Response),
+      map((response: HttpResponse<any>) => response.body as MovieResponseDto)
+    );
+  }
+
+  deleteSubtitle(id: string) {
+    return this.http.delete<any>(`${this.baseUrl}/Subtitles/${id}`, {
+      headers: new HttpHeaders(this.headers)
+    });
+  }
+
   login(login: Login): Observable<any> {
     return this.http.post<Login>(this.baseUrl + "/Auths/Login", login);
   }

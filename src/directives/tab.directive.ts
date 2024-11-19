@@ -10,8 +10,8 @@ export class TabDirective {
 
   @Input() tabName = '';
   @Input() key = '';
-  @ContentChild(HeaderDirective, {static: true}) templateHeader?: ContentDirective;
-  @ContentChild(ContentDirective, {static: true}) templateContent?: HeaderDirective;
+  @ContentChild(HeaderDirective, {static: true}) templateHeader?: HeaderDirective;
+  @ContentChild(ContentDirective, {static: true}) templateContent?: ContentDirective;
   constructor() { }
 
 }

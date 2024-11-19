@@ -1,31 +1,35 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import { Observable, Observer } from 'rxjs';
+import {Component, Input} from '@angular/core';
+import {Observable, Observer} from 'rxjs';
 
-import {NzIconDirective, NzIconModule} from 'ng-zorro-antd/icon';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import {NzUploadComponent, NzUploadFile, NzUploadModule} from 'ng-zorro-antd/upload';
+import {NzIconModule} from 'ng-zorro-antd/icon';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {NzUploadFile, NzUploadModule} from 'ng-zorro-antd/upload';
+import {MovieResponseDto} from "../../models/movieDtos/movie.response.dto";
+import {NzTooltipDirective} from "ng-zorro-antd/tooltip";
+import {ApiService} from "../../api/api.service";
 
 @Component({
-  selector: 'app-poster-upload',
+  selector: 'app-movie-update-poster',
   standalone: true,
-  imports: [
-    NzUploadComponent,
-    NzIconDirective
-  ],
-  templateUrl: './poster-upload.component.html',
-  styleUrl: './poster-upload.component.scss'
+  imports: [NzIconModule, NzUploadModule, NzTooltipDirective],
+  templateUrl: './movie-update-poster.component.html',
+  styleUrl: './movie-update-poster.component.scss'
 })
-export class PosterUploadComponent {
+export class MovieUpdatePosterComponent {
   loading = false;
   avatarUrl?: string;
-  @Input() apiUrl = '';
-  @Output() onUploadFilePoster = new EventEmitter<NzUploadFile>();
+  @Input() movie!: MovieResponseDto;
 
+  constructor(private apiService: ApiService, private messageService: NzMessageService) {
+  }
 
-  constructor(private messageService: NzMessageService) {}
+  api = () => {
+    const api = `https://localhost:7027/api/Movies/${this.movie.id}/update/poster`;
+    return api;
+  }
 
   headers = () => {
-    const headers = {'Authorization' : `Bearer ${localStorage.getItem("token")}`};
+    const headers = {'Authorization': `Bearer ${localStorage.getItem("token")}`};
     return new Headers(headers);
   }
 
@@ -67,7 +71,6 @@ export class PosterUploadComponent {
     this.getBase64(info.file!.originFileObj!, (img: string) => {
       this.loading = false;
       this.avatarUrl = img;
-      this.onUploadFilePoster.emit(info.file);
     });
   }
 }

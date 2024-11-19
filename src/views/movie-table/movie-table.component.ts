@@ -28,12 +28,9 @@ import {NzDividerModule} from "ng-zorro-antd/divider";
 export class MovieTableComponent implements OnInit{
 
   @Output() selectMovie = new EventEmitter<string>();
+  @Output() editMovie = new EventEmitter<string>();
 
   constructor(private movieService: MovieService) {
-  }
-
-  onSelect(id: string) {
-    this.selectMovie.emit(id);
   }
 
   ngOnInit(): void {
@@ -70,7 +67,7 @@ export class MovieTableComponent implements OnInit{
     null,
     false,
     null,
-    'views',
+    'releasedate',
     false
   );
 

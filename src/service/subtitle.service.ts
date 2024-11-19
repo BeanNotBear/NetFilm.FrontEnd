@@ -10,23 +10,42 @@ export class SubtitleService {
   constructor(private apiService: ApiService) {
   }
 
-  uploadSubtitle(id: string, name: string[], files: NzUploadFile[]) {
-    let i = 0;
-    files.forEach(x => {
-      let formData = new FormData();
-      if (x instanceof File) {
-        formData.append('File', x);
-        formData.append('SubtitleName', name[i]);
-        formData.append('MovieId', id);
-      }
-      ++i;
-      this.apiService.uploadSubtitle(id, formData, 'POST').subscribe({
-        next: data => {
+  deleteSubtitle(id: string) {
+    return this.apiService.deleteSubtitle(id);
+  }
 
-        }, error: err => {
-          console.error(err);
+  async uploadSubtitle(id: string, names: string[], files: NzUploadFile[]): Promise<void> {
+    try {
+      // Create an array of upload promises
+      const uploadPromises = files.map((file, index) => {
+        // Skip if file is not a File instance
+        if (!(file instanceof File)) {
+          console.warn(`File at index ${index} is not a File instance`);
+          return Promise.resolve();
         }
+
+        const formData = new FormData();
+        formData.append('File', file);
+        formData.append('SubtitleName', names[index]);
+        formData.append('MovieId', id);
+
+        // Convert the observable to a promise
+        return new Promise<void>((resolve, reject) => {
+          this.apiService.uploadSubtitle(id, formData, 'POST').subscribe({
+            next: () => resolve(),
+            error: (err) => {
+              console.error(`Failed to upload subtitle ${names[index]}:`, err);
+              reject(err);
+            }
+          });
+        });
       });
-    })
+
+      // Wait for all uploads to complete
+      await Promise.all(uploadPromises);
+    } catch (error) {
+      console.error('Error during subtitle upload:', error);
+      throw error; // Re-throw to allow caller to handle the error
+    }
   }
 }
