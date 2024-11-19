@@ -18,6 +18,9 @@ import {MovieResponseDto} from "../../models/movieDtos/movie.response.dto";
 import {MovieParam} from "../../models/movieDtos/movie.param";
 import {MovieViewerDto} from "../../models/movieDtos/movie.viewer.dto";
 import {DialogComponent} from "../dialog/dialog.component";
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../service/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-movie-watching',
@@ -34,7 +37,8 @@ import {DialogComponent} from "../dialog/dialog.component";
         TabDirective,
         MoviesComponent,
         MovieAreaComponent,
-        DialogComponent
+        DialogComponent,
+        CommonModule
     ],
   templateUrl: './movie-watching.component.html',
   styleUrl: './movie-watching.component.scss'
@@ -48,6 +52,10 @@ export class MovieWatchingComponent {
   mostRates: MovieViewerDto[] = [];
   isOpen = false;
   isViewing = true;
+  currentUserId = 'USER_ID_PLACEHOLDER';
+  userCurrentRating = 0;
+  maxRating = 5;
+  hasUserVoted = false; // Biến kiểm tra trạng thái vote
 
   movideIdDialog!: string;
   movieDetails!: MovieResponseDto;
@@ -56,7 +64,9 @@ export class MovieWatchingComponent {
 
   constructor(private playerState: PlayerStateService,
               private route: ActivatedRoute,
-              private movieService: MovieService) {
+              private movieService: MovieService,
+              private http: HttpClient,
+              private authService: AuthService) {
     this.route.params.subscribe({
       next: param => {
         this.movieId = param['movieId'];
@@ -116,10 +126,26 @@ export class MovieWatchingComponent {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const token = localStorage.getItem('token') ?? '';
+    const decodedToken = this.authService.parseJwt(token);
+    const userEmail = decodedToken?.email;
+    await this.authService.getUserByEmail(userEmail).subscribe({
+      next: (data) => {
+        console.log('User data:', data);
+        console.log({ 'data[0].id': data[0].id })
+        this.currentUserId = data[0].id;
+      },
+      error: (err) => {
+        console.error('Error fetching user:', err);
+      }
+    });
+    await this.getCurrentStarByUser();
     this.playerState$ = this.playerState.state$;
     this.fetchTopViews();
     this.fetchMostRate();
+    
+    
   }
 
   onPlayerReady(api: VgApiService) {
@@ -194,5 +220,75 @@ export class MovieWatchingComponent {
         console.error(err)
       }
     });
+  }
+  
+  getCurrentStarByUser() {
+    this.http.get<any[]>(`http://localhost:5042/api/Vote`).subscribe({
+      next: (votes) => {
+        const userVote = votes.find(
+          (vote) => vote.movieId === this.movieId && vote.userId === this.currentUserId
+        );
+        console.log({userVote})
+        if (userVote) {
+          // console.log({userVote})
+          this.userCurrentRating = userVote.star; // Gán sao đã vote
+          this.hasUserVoted = true; // Đánh dấu đã vote
+        } else {
+          this.userCurrentRating = 0; // Không có vote
+          this.hasUserVoted = false; // Đánh dấu chưa vote
+        }
+      },
+      error: (err) => console.error('Error fetching votes', err),
+    });
+  }
+  isDialogOpen = false;
+  // This method will be triggered when the user selects a rating (star)
+  onRateChange(event: number): void {
+    console.log('Rate change event:', event);  // Log the rating received from app-rate
+    this.userCurrentRating = event;
+    this.isDialogOpen = true;  // Open the confirmation dialog
+  }
+
+  // This method will be triggered when the user confirms the vote
+  onConfirmVote() {
+    this.submitVote(); // Call the method to submit the vote
+    this.isDialogOpen = false; // Close the dialog
+  }
+
+  // This method will be triggered when the user cancels the vote
+  onCancelVote() {
+    this.isDialogOpen = false; // Close the dialog without submitting the vote
+    // Optionally reset the rating if the user cancels
+    this.userCurrentRating = 0;
+  }
+  submitVote() {
+    const apiUrl = 'http://localhost:5042/api/Vote';
+
+    const votePayload = {
+      movieId: this.movieId,
+      userId: this.currentUserId,
+      star: this.userCurrentRating,
+    };
+
+    if (this.hasUserVoted) {
+      // User has voted before -> Call PUT
+      this.http.put(apiUrl, votePayload).subscribe({
+        next: () => {
+          console.log('Vote updated successfully');
+          this.fetchMovieDetails(); // Refresh movie details
+        },
+        error: (err) => console.error('Error updating vote', err),
+      });
+    } else {
+      // User has not voted -> Call POST
+      this.http.post(apiUrl, votePayload).subscribe({
+        next: () => {
+          console.log('Vote submitted successfully');
+          this.fetchMovieDetails(); // Refresh movie details
+          this.hasUserVoted = true;
+        },
+        error: (err) => console.error('Error submitting vote', err),
+      });
+    }
   }
 }
