@@ -3,7 +3,7 @@
   [nzDataSource]="data"
   [nzRenderItem]="commentTemplateRef"
   nzItemLayout="horizontal"
-  style="height: 500px; overflow: auto"
+  style="overflow: auto"
 >
   <ng-template #commentTemplateRef let-item>
     <nz-comment
@@ -25,10 +25,20 @@
 
       @if (userId == item.userId) {
       <nz-comment-action>
-        <span nz-icon nzType="edit" nzTheme="outline"></span>
+        <span
+          nz-icon
+          nzType="edit"
+          nzTheme="outline"
+          (click)="Modify(item)"
+        ></span>
       </nz-comment-action>
       <nz-comment-action>
-        <span nz-icon nzType="delete" nzTheme="outline"></span>
+        <span
+          nz-icon
+          nzType="delete"
+          nzTheme="outline"
+          (click)="DeleteComment(item.id)"
+        ></span>
       </nz-comment-action>
       }
 

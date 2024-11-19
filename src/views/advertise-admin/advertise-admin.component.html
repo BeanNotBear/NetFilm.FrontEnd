@@ -25,11 +25,9 @@
 >
   <ngvn-column header="ID" key="id"></ngvn-column>
 
-  <ngvn-column
-    header="Image"
-    key="image"
-    [sortable]="true"
-    (sortChange)="onSortChange($event)"
+  <ngvn-column header="Image" key="image">
+    <ng-template appCell let-row>
+      <img class="image" [src]="row.image" alt="" /> </ng-template
   ></ngvn-column>
 
   <ngvn-column
@@ -47,16 +45,17 @@
   ></ngvn-column>
 
   <ngvn-column
-    header="CreateBy"
-    key="createBy"
+    header="CreatedBy"
+    key="createdBy"
     [sortable]="true"
     (sortChange)="onSortChange($event)"
   ></ngvn-column>
 
   <ngvn-column header="Action">
-    <ng-template appCell>
+    <ng-template appCell let-row>
       <td>
         <button
+          (click)="onOpenUpdate(row)"
           nz-button
           nzType="primary"
           nzSize="small"
@@ -66,11 +65,18 @@
           <i class="fa-regular fa-pen-to-square"></i>
           Update
         </button>
-        <!--                <nz-divider nzType="vertical"></nz-divider>-->
-        <!--                <button nz-button nzType="primary" nzSize="small" nzShape="round" nzDanger>-->
-        <!--                    <i class="fa-regular fa-trash-can"></i>-->
-        <!--                    Delete-->
-        <!--                </button>-->
+        <nz-divider nzType="vertical"></nz-divider>
+        <button
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="round"
+          nzDanger
+          (click)="deleteAdvertise(row.id)"
+        >
+          <i class="fa-regular fa-trash-can"></i>
+          Delete
+        </button>
       </td>
     </ng-template>
   </ngvn-column>
@@ -78,7 +84,7 @@
 
 <nz-modal
   [(nzVisible)]="isVisible"
-  nzTitle="The first Modal"
+  [nzTitle]="title"
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   [nzOkLoading]="isOkLoading"
@@ -114,12 +120,12 @@
           >Image</nz-form-label
         >
         <nz-upload
-          nzAction="https://localhost:44348/api/Advertise"
           nzListType="picture"
           [(nzFileList)]="fileList"
           [nzLimit]="1"
           (nzChange)="handleChange($event)"
           [nzBeforeUpload]="beforeUpload"
+          aria-required="true"
         >
           <button nz-button>
             <span nz-icon nzType="upload"></span>

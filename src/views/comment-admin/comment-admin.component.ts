@@ -15,6 +15,7 @@ import { HeaderDirective } from '../table/components/header.directive';
 import { DialogAdminComponent } from '../dialog-admin/dialog-admin.component';
 import { DialogDirective } from '../../directives/dialog.directive';
 import { DialogContentDirective } from '../../directives/dialog-content.directive';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-comment-admin',
@@ -110,8 +111,26 @@ export class CommentAdminComponent {
   }
 
   deleteComment(id: string) {
-    this.apiService.deleteComment(id).subscribe(() => {
-      this.loadComment();
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to delete this comment!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Deleted!',
+          text: 'Comment has been deleted.',
+          icon: 'success',
+        }).then(() => {
+          this.apiService.deleteComment(id).subscribe(() => {
+            this.loadComment();
+          });
+        });
+      }
     });
   }
 

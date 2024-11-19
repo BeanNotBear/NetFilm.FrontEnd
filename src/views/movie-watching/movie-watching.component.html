@@ -4,13 +4,14 @@
       <vg-overlay-play></vg-overlay-play>
       <vg-buffering></vg-buffering>
 
-      <vg-controls
-        [vgAutohide]="true" [vgAutohideTime]="1.5"
-      >
+      <vg-controls [vgAutohide]="true" [vgAutohideTime]="1.5">
         <vg-play-pause></vg-play-pause>
         <vg-playback-button></vg-playback-button>
 
-        <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+        <vg-time-display
+          vgProperty="current"
+          vgFormat="mm:ss"
+        ></vg-time-display>
 
         <vg-scrub-bar>
           <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
@@ -34,33 +35,36 @@
         preload="auto"
         crossorigin="anonymous"
         (play)="onAddView(movie.id)"
-        [src]="movie.movie_Url">
+        [src]="movie.movie_Url"
+      >
         @for (track of movie.subtitles; track track) {
-          <track kind="subtitles" [label]="track.subtitleName" [src]="track.subtitleUrl" [srclang]="track.subtitleName">
+        <track
+          kind="subtitles"
+          [label]="track.subtitleName"
+          [src]="track.subtitleUrl"
+          [srclang]="track.subtitleName"
+        />
         }
       </video>
-
     </vg-player>
     <h3>{{ movie.name }}</h3>
-    <p>View: {{movie.totalViews}} <i class="fa-solid fa-eye"></i></p>
+    <p>View: {{ movie.totalViews }} <i class="fa-solid fa-eye"></i></p>
     <div class="flex">
       <span>Average Rate:</span>
-      <app-rate [rate]="movie.average_Star"
-                [totalRate]="movie.average_Star"
-                [allowHalf]="true"
+      <app-rate
+        [rate]="movie.average_Star"
+        [totalRate]="movie.average_Star"
+        [allowHalf]="true"
       ></app-rate>
     </div>
     <div class="flex">
       <span>Your Rate:</span>
-      <app-rate
-        [disable]="false"
-        [rate]="3"
-      ></app-rate>
+      <app-rate [disable]="false" [rate]="3"></app-rate>
     </div>
     <app-tab>
       <ngvn-tab tabName="Comment">
         <ng-template appContent>
-          <app-comment></app-comment>
+          <app-comment [movieId]="movie.id"></app-comment>
         </ng-template>
       </ngvn-tab>
       <ngvn-tab tabName="Description">
@@ -73,17 +77,29 @@
           <h5>Creator</h5>
           <ul>
             @for(item of movie.participants; track item) {
-              <li>{{item.name}}</li>
+            <li>{{ item.name }}</li>
             }
           </ul>
-
         </ng-template>
       </ngvn-tab>
     </app-tab>
-    <app-movie-area (selectMovie)="onOpenDialog($event)" [movies]="topviews" areaName="Top Views"></app-movie-area>
-    <app-movie-area (selectMovie)="onOpenDialog($event)" [movies]="mostRates" areaName="Most Rate"></app-movie-area>
+    <app-movie-area
+      (selectMovie)="onOpenDialog($event)"
+      [movies]="topviews"
+      areaName="Top Views"
+    ></app-movie-area>
+    <app-movie-area
+      (selectMovie)="onOpenDialog($event)"
+      [movies]="mostRates"
+      areaName="Most Rate"
+    ></app-movie-area>
   </div>
 </div>
 @if(isOpen) {
-  <app-dialog [movie]="movieDetails" (closeDialog)="onCloseDialog($event)" [class.app-dialog-backdrop]="isOpen" [isOpen]="isOpen"></app-dialog>
+<app-dialog
+  [movie]="movieDetails"
+  (closeDialog)="onCloseDialog($event)"
+  [class.app-dialog-backdrop]="isOpen"
+  [isOpen]="isOpen"
+></app-dialog>
 }

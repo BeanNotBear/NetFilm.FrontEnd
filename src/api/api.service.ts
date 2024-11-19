@@ -87,6 +87,10 @@ export class ApiService {
   addCategory(data: any) {
     return this.http.post<any>(this.baseUrl + '/Category', data);
   }
+
+  updateCategory(categoryId: string, data: any) {
+    return this.http.put<any>(this.baseUrl + '/Category/' + categoryId, data);
+  }
   addComment(data: any) {
     return this.http.post<any>(this.baseUrl + '/Comment', data);
   }
@@ -101,6 +105,10 @@ export class ApiService {
 
   getReplyByCommentId(commentId: string) {
     return this.http.get<any>(this.baseUrl + '/Comment/reply/' + commentId);
+  }
+
+  updateComment(commentId: string, data: any) {
+    return this.http.put<any>(this.baseUrl + '/Comment/' + commentId, data);
   }
 
   getCommentsPagination(
@@ -145,8 +153,20 @@ export class ApiService {
       .pipe(delay(0));
   }
 
-  addAdvertise(advertise: any, file: any) {
-    return this.http.post<any>(this.baseUrl + '/Advertise', advertise, file);
+  getRandomAdvertise() {
+    return this.http.get<any>(this.baseUrl + '/Advertise/Random');
+  }
+
+  addAdvertise(data: any) {
+    return this.http.post<any>(this.baseUrl + '/Advertise', data);
+  }
+
+  updateAdvertise(advertiseId: string, data: any) {
+    return this.http.put<any>(this.baseUrl + '/Advertise/' + advertiseId, data);
+  }
+
+  deleteAdvertise(advertiseId: string) {
+    return this.http.delete<any>(this.baseUrl + '/Advertise/' + advertiseId);
   }
 
   addRole(role: Role) {

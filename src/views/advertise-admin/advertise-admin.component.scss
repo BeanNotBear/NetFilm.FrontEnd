@@ -4,9 +4,19 @@
 button i {
   margin-right: 1px;
 }
-h3 {
-  color: var(--black) !important;
+
+* {
+  color: var(--white);
 }
+
+button {
+  color: var(--white) !important;
+}
+
+.image {
+  width: 150px;
+}
+
 .header-table {
   display: flex;
   justify-content: space-between;

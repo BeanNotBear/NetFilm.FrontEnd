@@ -12,9 +12,15 @@ import { HeaderDirective } from '../table/components/header.directive';
 import { DialogAdminComponent } from '../dialog-admin/dialog-admin.component';
 import { DialogDirective } from '../../directives/dialog.directive';
 import { DialogContentDirective } from '../../directives/dialog-content.directive';
-import { FormsModule } from '@angular/forms';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { CategoryDto } from '../../models/categoryDtos/categoryDto.model';
 import { AddCategoryDto } from '../../models/categoryDtos/addCategoryDto.model';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, FormGroup, FormControl } from '@angular/forms';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-category-admin',
@@ -31,18 +37,31 @@ import { AddCategoryDto } from '../../models/categoryDtos/addCategoryDto.model';
     DialogDirective,
     DialogContentDirective,
     FormsModule,
+    NzInputModule,
+    NzFormModule,
+    ReactiveFormsModule,
+    NzModalModule,
   ],
   templateUrl: './category-admin.component.html',
   styleUrl: './category-admin.component.scss',
 })
 export class CategoryAdminComponent {
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private message: NzMessageService
+  ) {}
 
   COL_DATA_TYPE = COL_DATA_TYPE;
 
+  isVisible = false;
+  isOkLoading = false;
+  isUpdate = false;
+  categoryUpdateId: string = '';
+  title: string = '';
   loading = false;
-  isVisibleDialog = false;
-  isLoandingDialod = false;
+  Form: FormGroup = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+  });
 
   pageIndex: number = 1;
   pageSize: number = 10;
@@ -108,19 +127,91 @@ export class CategoryAdminComponent {
   }
 
   onOpenAdd() {
-    this.isVisibleDialog = true;
+    this.isVisible = true;
+    this.isUpdate = false;
+    this.title = 'Create Category';
   }
 
   onClose() {
-    this.isVisibleDialog = false;
+    this.isVisible = false;
   }
 
   onSubmit() {
-    const newCategory: AddCategoryDto = {
-      name: this.nameCategory,
-    };
-    this.apiService.addCategory(newCategory).subscribe(() => {
-      this.loadCategory();
+    if (this.Form.valid) {
+      const newCategory: AddCategoryDto = {
+        name: this.Form.value.name,
+      };
+      this.apiService.addCategory(newCategory).subscribe(
+        (reponse) => {
+          Swal.fire({
+            title: 'Created!',
+            text: 'Category has been created.',
+            icon: 'success',
+          }).then(() => {
+            this.loadCategory();
+            this.Form.value.name = '';
+          });
+        },
+        (error) => {
+          this.message.error(error.error.detail);
+        }
+      );
+    } else {
+      ('Please input name of category');
+    }
+  }
+
+  handleOk(): void {
+    this.isOkLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isOkLoading = false;
+      if (this.isUpdate == true) {
+        this.updateAdvertise();
+      } else {
+        this.onSubmit();
+      }
+    }, 100);
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
+  }
+
+  onOpenUpdate(category: any) {
+    this.title = 'Update Category';
+    this.isUpdate = true;
+    this.isVisible = true;
+    this.Form.setValue({
+      name: category.name,
     });
+    this.categoryUpdateId = category.id;
+  }
+
+  updateAdvertise() {
+    if (this.Form.valid) {
+      const updateCategory: AddCategoryDto = {
+        name: this.Form.value.name,
+      };
+      this.apiService
+        .updateCategory(this.categoryUpdateId, updateCategory)
+        .subscribe(
+          (reponse) => {
+            Swal.fire({
+              title: 'Updated!',
+              text: 'Category has been updated.',
+              icon: 'success',
+            }).then(() => {
+              this.loadCategory();
+              this.Form.value.name = '';
+            });
+          },
+          (error) => {
+            this.message.error(error.error.detail);
+          }
+        );
+    } else {
+      ('Please input name of category');
+    }
   }
 }

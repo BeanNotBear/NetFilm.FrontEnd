@@ -22,7 +22,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { AddAdvertiseDto } from '../../models/advertiseDtos/addAdvertiseDto.model';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { AddFileAdvertiseDto } from '../../models/advertiseDtos/addAdvertiseFileDto.model';
+import { AuthService } from '../../service/auth.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-advertise-admin',
@@ -51,15 +53,26 @@ import { AddFileAdvertiseDto } from '../../models/advertiseDtos/addAdvertiseFile
   styleUrl: './advertise-admin.component.scss',
 })
 export class AdvertiseAdminComponent {
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private authService: AuthService,
+    private message: NzMessageService
+  ) {
+    this.userId = this.authService.parseJwt(
+      localStorage.getItem('token') ?? ''
+    ).id;
+  }
 
+  userId: string = '';
   COL_DATA_TYPE = COL_DATA_TYPE;
 
   loading = false;
 
   isVisible = false;
   isOkLoading = false;
-
+  isUpdate = false;
+  advertiseUpdateId: string = '';
+  title: string = '';
   pageIndex: number = 1;
   pageSize: number = 10;
   sort: { key: string; order: SortOrder } = { key: '', order: null };
@@ -130,29 +143,61 @@ export class AdvertiseAdminComponent {
 
   onOpenAdd() {
     this.isVisible = true;
+    this.isUpdate = false;
+    this.title = 'Create Advertise';
   }
 
   onSubmit() {
-    if (this.createForm.valid) {
-      const advertiseFile: AddFileAdvertiseDto = {
-        file: this.fileList[0].originFileObj,
-      };
+    if (this.createForm.valid && this.fileList.length > 0) {
+      const formData = new FormData();
+      const file = this.fileList[0].originFileObj;
       const advertise: AddAdvertiseDto = {
         title: this.createForm.value.title,
         content: this.createForm.value.content,
-        createBy: '919C241A-E503-4133-BB71-3AE9F5A19ECD',
+        userId: this.userId,
       };
 
-      this.apiService.addAdvertise(advertise, advertiseFile).subscribe(() => {
-        this.loadAdvertise();
-        this.createForm.value.title = '';
-        this.createForm.value.content = '';
-        this.fileList = [];
+      formData.append('File', file!);
+      formData.append('Title', advertise.title);
+      formData.append('Content', advertise.content);
+      formData.append('UserId', advertise.userId);
+
+      this.apiService.addAdvertise(formData).subscribe(() => {
+        Swal.fire({
+          title: 'Created!',
+          text: 'Advertise has been created.',
+          icon: 'success',
+        }).then(() => {
+          this.loadAdvertise();
+          this.createForm.value.title = '';
+          this.createForm.value.content = '';
+          this.fileList = [];
+        });
       });
+    } else {
+      this.message.error(
+        'Please fill in all data fields completely and correctly.'
+      );
     }
   }
 
   beforeUpload = (file: any): boolean => {
+    if (file.size === 0) {
+      this.message.error('Please choose a image file!');
+    }
+    const isJpgOrPng =
+      file.type === 'image/jpeg' ||
+      file.type === 'image/png' ||
+      file.type === 'image/jpg';
+    if (!isJpgOrPng) {
+      this.message.error('You can only upload JPG/PNG/JPEG file!');
+      return false;
+    }
+    const isLt20M = file.size / 1024 / 1024 < 20;
+    if (!isLt20M) {
+      this.message.error('Image must smaller than 20MB!');
+      return false;
+    }
     this.fileList.push(file);
     const reader = new FileReader();
     reader.onload = (e: any) => {
@@ -162,6 +207,7 @@ export class AdvertiseAdminComponent {
           name: file.name,
           status: 'done',
           url: e.target.result,
+          originFileObj: file,
         },
       ];
     };
@@ -183,11 +229,89 @@ export class AdvertiseAdminComponent {
     setTimeout(() => {
       this.isVisible = false;
       this.isOkLoading = false;
-      this.onSubmit();
+      if (this.isUpdate == true) {
+        this.updateAdvertise();
+      } else {
+        this.onSubmit();
+      }
     }, 100);
   }
 
   handleCancel(): void {
     this.isVisible = false;
+  }
+
+  deleteAdvertise(advertiseId: string) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to delete this advertise!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.apiService.deleteAdvertise(advertiseId).subscribe(() => {
+          Swal.fire({
+            title: 'Deleted!',
+            text: 'Your file has been deleted.',
+            icon: 'success',
+          }).then(() => {
+            this.loadAdvertise();
+          });
+        });
+      }
+    });
+  }
+
+  onOpenUpdate(advertise: any) {
+    this.title = 'Update Advertise';
+    this.isUpdate = true;
+    this.isVisible = true;
+    this.createForm.setValue({
+      title: advertise.title,
+      content: advertise.content,
+    });
+    this.advertiseUpdateId = advertise.id;
+  }
+
+  updateAdvertise() {
+    if (this.createForm.valid) {
+      const formData = new FormData();
+      let file = null;
+      if (this.fileList.length != 0) {
+        file = this.fileList[0].originFileObj;
+      } else {
+        file = null;
+      }
+      const advertise: AddAdvertiseDto = {
+        title: this.createForm.value.title,
+        content: this.createForm.value.content,
+        userId: this.userId,
+      };
+
+      formData.append('imageFile', file!);
+      formData.append('Title', advertise.title);
+      formData.append('Content', advertise.content);
+      formData.append('UserId', advertise.userId);
+
+      this.apiService
+        .updateAdvertise(this.advertiseUpdateId, formData)
+        .subscribe(() => {
+          Swal.fire({
+            title: 'Updated!',
+            text: 'Advertise has been updated.',
+            icon: 'success',
+          }).then(() => {
+            this.loadAdvertise();
+            this.createForm.value.title = '';
+            this.createForm.value.content = '';
+            this.fileList = [];
+          });
+        });
+    } else {
+      this.message.error('Please fill in title and content field.');
+    }
   }
 }
