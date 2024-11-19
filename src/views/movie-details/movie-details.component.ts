@@ -129,7 +129,7 @@ export class MovieDetailsComponent {
     this.isVotePopupVisible = true;
 
     // Fetch the user's current vote
-    this.http.get<any[]>(`http://localhost:5042/api/Vote`).subscribe({
+    this.http.get<any[]>(`https://localhost:7027/api/Vote`).subscribe({
       next: (votes) => {
         const userVote = votes.find(
           (vote) => vote.movieId === this.movieId && vote.userId === this.currentUserId
@@ -151,7 +151,7 @@ export class MovieDetailsComponent {
   }
 
   submitVote() {
-    const apiUrl = 'http://localhost:5042/api/Vote';
+    const apiUrl = 'https://localhost:7027/api/Vote';
   
     const votePayload = {
       movieId: this.movieId,
