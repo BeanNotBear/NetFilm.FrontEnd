@@ -212,31 +212,14 @@ export class MovieAdminComponent {
 
   onSubmit() {
     let isValidData = false;
-    if (
-      this.movie.name &&
-      this.movie.description &&
-      this.movie.quality &&
-      this.movie.allowing_Age &&
-      this.movie.release_Date &&
-      this.movie.duration &&
-      this.movie.country.id &&
-      this.movie.categories &&
-      this.movie.participants
-    ) {
-      isValidData = true;
-    }
-    if (isValidData) {
-      this.movieService.updateMovieDetails(this.movie).subscribe({
-        next: (data) => {
-          this.isVisibleSubmit = false;
-        },
-        error: (err) => {
-          console.error(err);
-        },
-      });
-    } else {
-      console.error('Fail');
-    }
+    this.movieService.updateMovieDetails(this.movie).subscribe({
+      next: (data) => {
+        this.isVisibleSubmit = false;
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
   }
 
   onUploadPoster(file: NzUploadFile) {

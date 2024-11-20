@@ -6,45 +6,45 @@ import {
   HttpHeaders,
   HttpParams,
   HttpRequest,
-  HttpResponse
-} from "@angular/common/http";
-import {PageResult} from "../models/common/pageResult.model";
-import {delay, filter, map, Observable} from "rxjs";
-import {UserDto} from "../models/userDtos/userDto.model";
-import {Role, RoleResponse} from "../models/roleDtos/role";
+  HttpResponse,
+} from '@angular/common/http';
+import { PageResult } from '../models/common/pageResult.model';
+import { delay, filter, map, Observable } from 'rxjs';
+import { UserDto } from '../models/userDtos/userDto.model';
+import { Role, RoleResponse } from '../models/roleDtos/role';
 import { Participant } from '../models/participantDtos/participant';
-import {MovieResponseDto} from "../models/movieDtos/movie.response.dto";
-import {CountryDto} from "../models/countryDtos/country.dto";
-import {ParticipantDto} from "../models/participantDtos/participant.dto";
-import {CategoryDto} from "../models/categoryDtos/category.dto";
-import {MovieDto} from "../models/movieDtos/movie.dto";
-import {MovieViewerDto} from "../models/movieDtos/movie.viewer.dto";
-import {MovieManageDto} from "../models/movieDtos/movie.manage.dto";
-import {Login} from "../models/authDtos/login.model";
-import {Register} from "../models/authDtos/register.model";
-import {VerifyEmail} from "../models/authDtos/verifyEmail.model";
-import {ResendEmail} from "../models/authDtos/resendEmail.model";
-import {UpdateUserRequestDto} from "../models/userDtos/updateUserRequestDto.model";
-import {PasswordUpdate} from "../models/userDtos/passwordUpdate.model";
-import {RequestForgotPasswordDto} from "../models/authDtos/requestForgotPasswordDto.model";
-import {ResetPasswordRequestDto} from "../models/authDtos/resetPasswordRequestDto";
-import {MovieUpdateDetails} from "../models/movieDtos/movie.update.details";
-import {AddUser} from "../models/userDtos/addUser.model";
-import {UpdateUser} from "../models/userDtos/updateUser.model";
+import { MovieResponseDto } from '../models/movieDtos/movie.response.dto';
+import { CountryDto } from '../models/countryDtos/country.dto';
+import { ParticipantDto } from '../models/participantDtos/participant.dto';
+import { CategoryDto } from '../models/categoryDtos/category.dto';
+import { MovieDto } from '../models/movieDtos/movie.dto';
+import { MovieViewerDto } from '../models/movieDtos/movie.viewer.dto';
+import { MovieManageDto } from '../models/movieDtos/movie.manage.dto';
+import { Login } from '../models/authDtos/login.model';
+import { Register } from '../models/authDtos/register.model';
+import { VerifyEmail } from '../models/authDtos/verifyEmail.model';
+import { ResendEmail } from '../models/authDtos/resendEmail.model';
+import { UpdateUserRequestDto } from '../models/userDtos/updateUserRequestDto.model';
+import { PasswordUpdate } from '../models/userDtos/passwordUpdate.model';
+import { RequestForgotPasswordDto } from '../models/authDtos/requestForgotPasswordDto.model';
+import { ResetPasswordRequestDto } from '../models/authDtos/resetPasswordRequestDto';
+import { voteFilmDto } from '../models/voteDtos/voteFilmDto.model';
+import { MovieUpdateDetails } from '../models/movieDtos/movie.update.details';
+import { AddUser } from '../models/userDtos/addUser.model';
+import { UpdateUser } from '../models/userDtos/updateUser.model';
 import { CommentDto } from '../models/commentDtos/commentDto.model';
 import { AdvertiseDto } from '../models/advertiseDtos/advertiseDto.model';
-import { voteFilmDto } from '../models/voteDtos/voteFilmDto.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private baseUrl = "https://localhost:7027/api";
-  private headers = {'Authorization' : `Bearer ${localStorage.getItem("token")}`};
+  private baseUrl = 'https://localhost:7027/api';
+  private headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
 
-  constructor(private http: HttpClient) {
-
-  }
+  constructor(private http: HttpClient) {}
 
   getUsersPagination(
     pageIndex: number,
@@ -54,17 +54,14 @@ export class ApiService {
     ascending: boolean
   ) {
     return this.http
-      .get<PageResult<UserDto>>(
-        `${this.baseUrl}/Users/PageResult`,
-        {
-          params: new HttpParams()
-            .set('pageIndex', pageIndex)
-            .set('pageSize', pageSize)
-            .set('searchTerm', searchTerm)
-            .set('sortBy', sortBy)
-            .set('ascending', ascending),
-        }
-      )
+      .get<PageResult<UserDto>>(`${this.baseUrl}/Users/PageResult`, {
+        params: new HttpParams()
+          .set('pageIndex', pageIndex)
+          .set('pageSize', pageSize)
+          .set('searchTerm', searchTerm)
+          .set('sortBy', sortBy)
+          .set('ascending', ascending),
+      })
       .pipe(delay(0));
   }
 
@@ -187,15 +184,24 @@ export class ApiService {
   }
 
   addParticipant(participant: Participant): Observable<Participant> {
-    return this.http.post<Participant>(`${this.baseUrl}/Participants`, participant);
+    return this.http.post<Participant>(
+      `${this.baseUrl}/Participants`,
+      participant
+    );
   }
 
   getAllParticipants(): Observable<Participant[]> {
     return this.http.get<Participant[]>(`${this.baseUrl}/Participants`);
   }
 
-  putParticipant(participant: Participant, id: Number): Observable<Participant> {
-    return this.http.put<Participant>(`${this.baseUrl}/Participants/${id}`, participant);
+  putParticipant(
+    participant: Participant,
+    id: Number
+  ): Observable<Participant> {
+    return this.http.put<Participant>(
+      `${this.baseUrl}/Participants/${id}`,
+      participant
+    );
   }
 
   deleteParticipant(id: Number): Observable<Participant> {
@@ -203,9 +209,14 @@ export class ApiService {
   }
   // used to upload movie
   uploadFile(formData: FormData, method: string): Observable<MovieResponseDto> {
-    const req = new HttpRequest(method, `${this.baseUrl}/Movies/Upload`, formData, {
-      headers: new HttpHeaders(this.headers)
-    });
+    const req = new HttpRequest(
+      method,
+      `${this.baseUrl}/Movies/Upload`,
+      formData,
+      {
+        headers: new HttpHeaders(this.headers),
+      }
+    );
 
     return this.http.request(req).pipe(
       filter((event: HttpEvent<any>) => event.type === HttpEventType.Response),
@@ -228,16 +239,32 @@ export class ApiService {
     return this.http.get<ParticipantDto[]>(url);
   }
 
-  uploadMovieDetails(id: string, movie: MovieDto): Observable<MovieResponseDto> {
-    return this.http.put<MovieResponseDto>(`${this.baseUrl}/Movies/${id}/Add/Details`, movie, {
-      headers: new HttpHeaders(this.headers)
-    });
+  uploadMovieDetails(
+    id: string,
+    movie: MovieDto
+  ): Observable<MovieResponseDto> {
+    return this.http.put<MovieResponseDto>(
+      `${this.baseUrl}/Movies/${id}/Add/Details`,
+      movie,
+      {
+        headers: new HttpHeaders(this.headers),
+      }
+    );
   }
 
-  uploadSubtitle(id: string, formData: FormData, method: string): Observable<MovieResponseDto> {
-    const req = new HttpRequest(method, `${this.baseUrl}/Subtitles/Upload`, formData, {
-      headers: new HttpHeaders(this.headers)
-    });
+  uploadSubtitle(
+    id: string,
+    formData: FormData,
+    method: string
+  ): Observable<MovieResponseDto> {
+    const req = new HttpRequest(
+      method,
+      `${this.baseUrl}/Subtitles/Upload`,
+      formData,
+      {
+        headers: new HttpHeaders(this.headers),
+      }
+    );
 
     return this.http.request(req).pipe(
       filter((event: HttpEvent<any>) => event.type === HttpEventType.Response),
@@ -255,10 +282,13 @@ export class ApiService {
   }
 
   getMoviesManagement(httpParam: HttpParams) {
-    return this.http.get<PageResult<MovieManageDto>>(`${this.baseUrl}/Movies/admin/spec`, {
-      params: httpParam,
-      headers: new HttpHeaders(this.headers)
-    });
+    return this.http.get<PageResult<MovieManageDto>>(
+      `${this.baseUrl}/Movies/admin/spec`,
+      {
+        params: httpParam,
+        headers: new HttpHeaders(this.headers),
+      }
+    );
   }
 
   getMovieDetails(id: string) {
@@ -273,15 +303,24 @@ export class ApiService {
   }
 
   updateMovieInformation(id: string, movie: MovieUpdateDetails) {
-    return this.http.patch<MovieResponseDto>(`${this.baseUrl}/Movies/${id}/update/information`, movie, {
-      headers: new HttpHeaders(this.headers)
-    })
+    return this.http.patch<MovieResponseDto>(
+      `${this.baseUrl}/Movies/${id}/update/information`,
+      movie,
+      {
+        headers: new HttpHeaders(this.headers),
+      }
+    );
   }
 
   uploadPoster(id: string, formData: FormData): Observable<MovieResponseDto> {
-    const req = new HttpRequest('PATCH', `${this.baseUrl}/Movies/${id}/update/poster`, formData, {
-      headers: new HttpHeaders(this.headers)
-    });
+    const req = new HttpRequest(
+      'PATCH',
+      `${this.baseUrl}/Movies/${id}/update/poster`,
+      formData,
+      {
+        headers: new HttpHeaders(this.headers),
+      }
+    );
 
     return this.http.request(req).pipe(
       filter((event: HttpEvent<any>) => event.type === HttpEventType.Response),
@@ -291,7 +330,7 @@ export class ApiService {
 
   deleteSubtitle(id: string) {
     return this.http.delete<any>(`${this.baseUrl}/Subtitles/${id}`, {
-      headers: new HttpHeaders(this.headers)
+      headers: new HttpHeaders(this.headers),
     });
   }
 
@@ -319,7 +358,10 @@ export class ApiService {
 
   getUserByEmail(email: string): Observable<any> {
     const params = new HttpParams().set('email', email);
-    return this.http.get(`http://localhost:5042/api/Users`, { headers: this.headers, params });
+    return this.http.get(`https://localhost:7027/api/Users/Email`, {
+      headers: this.headers,
+      params,
+    });
   }
 
   updateUser(
@@ -348,6 +390,9 @@ export class ApiService {
     return this.http.post(url, resetPasswordRequestDto);
   }
 
+  voteFilm(body: voteFilmDto): Observable<voteFilmDto> {
+    return this.http.post<voteFilmDto>(`${this.baseUrl}/Vote`, body);
+  }
   createUser(addUserRequestDto: AddUser): Observable<UserDto> {
     const url = `${this.baseUrl}/Users`;
     return this.http.post<UserDto>(url, addUserRequestDto);
@@ -358,11 +403,11 @@ export class ApiService {
     return this.http.get(url);
   }
 
-  updateUserAdmin(id: string, updateUserRequestDto: UpdateUser): Observable<any> {
+  updateUserAdmin(
+    id: string,
+    updateUserRequestDto: UpdateUser
+  ): Observable<any> {
     const url = `${this.baseUrl}/Users/${id}`;
     return this.http.put(url, updateUserRequestDto);
-  }
-  voteFilm(body: voteFilmDto): Observable<voteFilmDto> {
-    return this.http.post<voteFilmDto>(`${this.baseUrl}/Vote`, body);
   }
 }

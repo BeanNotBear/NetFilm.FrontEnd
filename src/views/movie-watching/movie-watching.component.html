@@ -40,8 +40,10 @@
     </div>
     <div class="flex">
       <span>Your Rate:</span>
-      <app-rate [disable]="false" [rate]="userCurrentRating" (rateChange)="onRateChange($event)">
-      </app-rate>
+      <app-rate [disable]="false"
+          [rate]="userCurrentRating"
+          (rateChange)="onRateChange($event)">
+</app-rate>
     </div>
     <!-- Inline Confirmation Dialog -->
     <div *ngIf="isDialogOpen" class="dialog-overlay">

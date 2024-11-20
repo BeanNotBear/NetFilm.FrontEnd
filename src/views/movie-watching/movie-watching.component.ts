@@ -133,8 +133,8 @@ export class MovieWatchingComponent {
     await this.authService.getUserByEmail(userEmail).subscribe({
       next: (data) => {
         console.log('User data:', data);
-        console.log({ 'data[0].id': data[0].id })
-        this.currentUserId = data[0].id;
+        console.log({ 'data.id': data.id })
+        this.currentUserId = data.id;
       },
       error: (err) => {
         console.error('Error fetching user:', err);
@@ -223,7 +223,7 @@ export class MovieWatchingComponent {
   }
   
   getCurrentStarByUser() {
-    this.http.get<any[]>(`http://localhost:5042/api/Vote`).subscribe({
+    this.http.get<any[]>(`https://localhost:7027/api/Vote`).subscribe({
       next: (votes) => {
         const userVote = votes.find(
           (vote) => vote.movieId === this.movieId && vote.userId === this.currentUserId
@@ -262,7 +262,7 @@ export class MovieWatchingComponent {
     this.userCurrentRating = 0;
   }
   submitVote() {
-    const apiUrl = 'http://localhost:5042/api/Vote';
+    const apiUrl = 'https://localhost:7027/api/Vote';
 
     const votePayload = {
       movieId: this.movieId,

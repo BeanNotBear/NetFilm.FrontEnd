@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Observable, Observer} from 'rxjs';
 
 import {NzIconModule} from 'ng-zorro-antd/icon';
@@ -15,12 +15,16 @@ import {ApiService} from "../../api/api.service";
   templateUrl: './movie-update-poster.component.html',
   styleUrl: './movie-update-poster.component.scss'
 })
-export class MovieUpdatePosterComponent {
+export class MovieUpdatePosterComponent implements OnInit{
   loading = false;
   avatarUrl?: string;
   @Input() movie!: MovieResponseDto;
 
   constructor(private apiService: ApiService, private messageService: NzMessageService) {
+  }
+
+  ngOnInit() {
+    this.avatarUrl = this.movie.thumbnail;
   }
 
   api = () => {
