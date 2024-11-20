@@ -25,22 +25,10 @@
         <vg-fullscreen></vg-fullscreen>
       </vg-controls>
 
-      <video
-        [vgMedia]="$any(media)"
-        #media
-        id="singleVideo"
-        preload="auto"
-        crossorigin="anonymous"
-        (play)="onAddView(movie.id)"
-        [src]="movie.movie_Url"
-      >
+      <video [vgMedia]="$any(media)" #media id="singleVideo" preload="auto" crossorigin="anonymous"
+        (play)="onAddView(movie.id)" [src]="movie.movie_Url">
         @for (track of movie.subtitles; track track) {
-        <track
-          kind="subtitles"
-          [label]="track.subtitleName"
-          [src]="track.subtitleUrl"
-          [srclang]="track.subtitleName"
-        />
+        <track kind="subtitles" [label]="track.subtitleName" [src]="track.subtitleUrl" [srclang]="track.subtitleName" />
         }
       </video>
     </vg-player>
@@ -48,11 +36,7 @@
     <p>View: {{ movie.totalViews }} <i class="fa-solid fa-eye"></i></p>
     <div class="flex">
       <span>Average Rate:</span>
-      <app-rate
-        [rate]="movie.average_Star"
-        [totalRate]="movie.average_Star"
-        [allowHalf]="true"
-      ></app-rate>
+      <app-rate [rate]="movie.average_Star" [totalRate]="movie.average_Star" [allowHalf]="true"></app-rate>
     </div>
     <div class="flex">
       <span>Your Rate:</span>
@@ -61,17 +45,18 @@
           (rateChange)="onRateChange($event)">
 </app-rate>
     </div>
-   <!-- Inline Confirmation Dialog -->
-   <div *ngIf="isDialogOpen" class="dialog-overlay">
-    <div class="dialog-content">
-      <h3 style="color: black;">Confirm Your Rating</h3>
-      <p style="color: black;">You are about to rate <strong>{{ movie.name }}</strong> with {{ userCurrentRating }} stars.</p>
-      <div class="dialog-buttons">
-        <button class="btn btn-primary" (click)="onConfirmVote()">Confirm</button>
-        <button class="btn btn-primary" (click)="onCancelVote()">Cancel</button>
+    <!-- Inline Confirmation Dialog -->
+    <div *ngIf="isDialogOpen" class="dialog-overlay">
+      <div class="dialog-content">
+        <h3 style="color: black;">Confirm Your Rating</h3>
+        <p style="color: black;">You are about to rate <strong>{{ movie.name }}</strong> with {{ userCurrentRating }}
+          stars.</p>
+        <div class="dialog-buttons">
+          <button class="btn btn-primary" (click)="onConfirmVote()">Confirm</button>
+          <button class="btn btn-primary" (click)="onCancelVote()">Cancel</button>
+        </div>
       </div>
     </div>
-  </div>
     <app-tab>
       <ngvn-tab tabName="Comment">
         <ng-template appContent>
@@ -94,23 +79,11 @@
         </ng-template>
       </ngvn-tab>
     </app-tab>
-    <app-movie-area
-      (selectMovie)="onOpenDialog($event)"
-      [movies]="topviews"
-      areaName="Top Views"
-    ></app-movie-area>
-    <app-movie-area
-      (selectMovie)="onOpenDialog($event)"
-      [movies]="mostRates"
-      areaName="Most Rate"
-    ></app-movie-area>
+    <app-movie-area (selectMovie)="onOpenDialog($event)" [movies]="topviews" areaName="Top Views"></app-movie-area>
+    <app-movie-area (selectMovie)="onOpenDialog($event)" [movies]="mostRates" areaName="Most Rate"></app-movie-area>
   </div>
 </div>
 @if(isOpen) {
-<app-dialog
-  [movie]="movieDetails"
-  (closeDialog)="onCloseDialog($event)"
-  [class.app-dialog-backdrop]="isOpen"
-  [isOpen]="isOpen"
-></app-dialog>
+<app-dialog [movie]="movieDetails" (closeDialog)="onCloseDialog($event)" [class.app-dialog-backdrop]="isOpen"
+  [isOpen]="isOpen"></app-dialog>
 }
