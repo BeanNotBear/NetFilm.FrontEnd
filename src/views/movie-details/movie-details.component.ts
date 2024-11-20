@@ -60,7 +60,9 @@ export class MovieDetailsComponent {
     });
     this.fetchMovies();
     const token = localStorage.getItem('token') ?? '';
-
+    if(token === '') {
+      return;
+    }
     const decodedToken = this.authService.parseJwt(token);
 
     const userEmail = decodedToken?.email;
@@ -152,13 +154,13 @@ export class MovieDetailsComponent {
 
   submitVote() {
     const apiUrl = 'https://localhost:7027/api/Vote';
-  
+
     const votePayload = {
       movieId: this.movieId,
       userId: this.currentUserId,
       star: this.userCurrentRating,
     };
-  
+
     if (this.hasUserVoted) {
       // User đã vote -> Gọi PUT
       this.http.put(apiUrl, votePayload).subscribe({
@@ -181,6 +183,6 @@ export class MovieDetailsComponent {
       });
     }
   }
-  
+
 
 }
